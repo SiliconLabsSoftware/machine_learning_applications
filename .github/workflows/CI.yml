@@ -1,0 +1,91 @@
+name: Create and publish machine_learning package
+on: [push]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  checkout:
+    runs-on: silabs-internal
+    steps:
+      - name: Setup GitHub app token for SiliconLabsInternal
+        uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ vars.SILABS_SVC_DEVOPS_GITHUB_APP_ID }}
+          private-key: ${{ secrets.SILABS_SVC_DEVOPS_GITHUB_PRIVATE_KEY }}
+          owner: SiliconLabsInternal
+          repositories: |
+            machine_learning
+            cmake
+            tflite-micro
+
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+        with:
+          submodules: recursive
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Upload repo as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: machine_learning-source-repo
+          path: .
+          include-hidden-files: true
+
+  build:
+    needs: checkout
+    strategy:
+      matrix:
+        target: [cortex-m33, cortex-m4]
+    runs-on: silabs-internal
+    container:
+      image: artifactory-local.silabs.net/gsdk-docker-production/gsdk_nomad_containers/slt_build_env
+      options: --user root
+      env:
+        CONAN_HOME: ~/.silabs/slt/installs/conan
+    steps:
+      - name: Download source
+        uses: actions/download-artifact@v4
+        with:
+          name: machine_learning-source-repo
+          path: .
+
+      - name: Setup Conan and SLT
+        shell: bash
+        run: |
+          conan config install -t dir .github/conan-config
+          slt update --self
+
+      - name: Install tools using SLT
+        shell: bash
+        run: |
+          slt install gcc-arm-none-eabi cmake ninja slc-cli -e conan
+
+      - name: Setup tool paths
+        shell: bash
+        run: |
+          ARM_GCC_DIR="$(slt where gcc-arm-none-eabi)"
+          echo "ARM_GCC_DIR=$ARM_GCC_DIR" >> "$GITHUB_ENV"
+          echo "$(slt where ninja)" >> "$GITHUB_PATH"
+          echo "$(slt where cmake)/bin" >> "$GITHUB_PATH"
+          echo "$ARM_GCC_DIR/bin" >> "$GITHUB_PATH"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Setup Python virtual environment
+        shell: bash
+        run: uv venv
+
+      - name: Install SLED
+        shell: bash
+        run: |
+          uv pip install \
+            --no-cache \
+            --allow-insecure-host artifactory.silabs.net \
+            --index https://artifactory.silabs.net/artifactory/api/pypi/gsdk-pypi/simple \
+            --no-python-downloads \
+            --no-managed-python \
+            silabs-sled
