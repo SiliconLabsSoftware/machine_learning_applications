@@ -22,9 +22,7 @@ include:
       - path: mlx90640/mlx90640_i2c.h
 sdk_extension:
   - id: machine_learning_applications
-    version: "1.1.0"
-  - id: aiml
-    version: 2.1.2
+    version: "1.0.0"
 component:
   - id: sl_system
   - id: device_init
@@ -34,7 +32,6 @@ component:
   - id: simple_led
     instance: [led0, led1]
   - id: iostream_recommended_stream
-  - id: cmsis_dsp
   - id: iostream_eusart
     instance: [vcom]
   - id: iostream_retarget_stdio
@@ -43,27 +40,7 @@ component:
   - id: app_assert
   - id: app_log
   - id: device_init_dpll
-  - id: bluetooth_stack
-  - id: gatt_configuration
-  - id: bluetooth_feature_legacy_advertiser
-  - id: bluetooth_feature_connection
-  - id: bluetooth_feature_gatt_server
-  - id: bluetooth_feature_legacy_scanner
-  - id: bluetooth_feature_sm
-  - id: bluetooth_feature_system
   - id: tensorflow_lite_micro
-    from: aiml
-  - id: tensorflow_debug_log_iostream
-    from: aiml
-  - id: tensorflow_lite_micro_accelerated_kernels
-    from: aiml
-    condition: [device_has_mvp]
-  - id: tensorflow_lite_micro_optimized_kernels
-    from: aiml
-    condition: [device_has_mvp]
-  - id: tensorflow_lite_micro_optimized_kernels
-    from: aiml
-    condition: [device_compute_basic]
   - id: bt_fp_soc_default
   - id: vision
     from: machine_learning_applications

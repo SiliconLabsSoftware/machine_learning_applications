@@ -16,7 +16,7 @@ include:
       - path: accelerometer.h
 sdk_extension:
   - id: machine_learning_applications
-    version: "1.1.0"
+    version: "1.0.0"
 component:
   - id: sl_system
   - id: device_init
@@ -44,9 +44,7 @@ configuration:
   - name: SL_BOARD_ENABLE_SENSOR_IMU
     value: "1"
   - name: SL_STACK_SIZE
-    value: "50000"
-  - name: SL_HEAP_SIZE
-    value: "50000"
+    value: "200000"
 
 toolchain_settings:
   - option: gcc_compiler_option
