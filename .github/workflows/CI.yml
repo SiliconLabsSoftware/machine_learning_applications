@@ -6,6 +6,11 @@ permissions:
   contents: read
 
 jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Actions wiring is good ✅"
+
   checkout:
     runs-on: silabs-internal
     steps:
