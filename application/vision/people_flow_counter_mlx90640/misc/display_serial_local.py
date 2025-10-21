@@ -2,6 +2,7 @@ import display_serial_core
 import argparse
 import serial
 import serial.tools.list_ports
+import os
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -13,6 +14,6 @@ if __name__ == "__main__":
         print(p.name)
     port_id = input("Select port to connect to: ")
     port_id = int(port_id)
-    ser = serial.Serial(port="/dev/" + ports[port_id].name)
+    ser = serial.Serial(port=ports[port_id].device, timeout=0.1)
 
     display_serial_core.display_serial(ser, args)

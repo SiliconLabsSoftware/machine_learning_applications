@@ -2,15 +2,18 @@ import argparse
 import serial
 import serial.tools.list_ports
 import matplotlib.pyplot as plt
+import os
+
+
 def display(ser):
     buffer_len = 50
-    buffer = [0]*buffer_len
+    buffer = [0] * buffer_len
     fig, axs = plt.subplots(1, 1)
     while True:
         raw_line = ser.readline()
         line = raw_line.decode("utf-8").strip()
         print(line)
-        if(line.startswith("anom_score")):
+        if line.startswith("anom_score"):
             line_info = line.split(":")
             anomaly_score = float(line_info[1])
             # Add anomaly score to buffer
@@ -30,9 +33,6 @@ def display(ser):
             axs.clear()
 
 
-
-
-
 if __name__ == "__main__":
     ports = list(serial.tools.list_ports.comports())
     for i, p in enumerate(ports):
@@ -40,8 +40,7 @@ if __name__ == "__main__":
         print(p.name)
     port_id = input("Select port to connect to: ")
     port_id = int(port_id)
-    ser = serial.Serial(port="/dev/" + ports[port_id].name)
 
-    
+    ser = serial.Serial(port=ports[port_id].device, timeout=0.1)
+
     display(ser)
-

@@ -11,7 +11,7 @@ To use, assuming this extension is already installed, simply add the following i
 ```yaml
 sdk_extension:
   - id: machine_learning_applications
-    version: "1.0.0"
+    version: "1.1.0"
 component:
     # ... other components
   - id: vision

@@ -1,10 +1,10 @@
 id: machine_learning_applications
 label: Machine Learning Applications
 description: SDK extension for applications that leverage machine learning.
-version: "1.0.0"
+version: "1.1.0"
 sdk:
-  id: gecko_sdk
-  version: "4.1.0"
+  id: simplicity_sdk
+  version: 2025.6.2
 component_path:
   - path: "component/vision"
   - path: "component/htm"

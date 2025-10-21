@@ -1,0 +1,14 @@
+# Properties file for Simplicity Studio metadata
+id=com.silabs.sdk.ml.applications
+version=1.1.0
+label=Machine Learning Applications
+description=This extension provides machine learning example applications and demos.
+
+# Files referenced by Studio
+prop.file.templatesFile=templates.xml
+prop.file.demosFile=demos.xml
+
+# Compatibility hints (optional)
+prop.subLabel=Machine\ Learning\ Applications\ 1.2.0
+prop.boardCompatibility=.*
+prop.partCompatibility=.*
