@@ -137,21 +137,19 @@ jobs:
           pip install --upgrade pip
 
       # ---------- SLC (Step 16) ----------
-      - name: 🧩 Clone SLC CLI over SSH (internal)
+      - name: 🧩 Download and extract SLC CLI (public zip)
         shell: bash
-        env:
-          HAVE_SSH: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           set -e
-          if [ -n "$HAVE_SSH" ]; then
-            echo "==> Attempting SSH clone of slc_cli from stash-mirror.silabs.com"
-            cd "$HOME/tools"
-            git clone ssh://git@stash-mirror.silabs.com/simplicity_studio/slc_cli.git || { echo "!! slc_cli clone failed"; exit 1; }
-            echo "==> slc_cli cloned."
-          else
-            echo "!! SSH key not provided; cannot clone slc_cli over SSH. Skipping SLC clone."
-            exit 0
-          fi
+          cd "$HOME/tools"
+          echo "==> Downloading SLC CLI public release zip"
+          wget -q https://www.silabs.com/documents/public/software/slc_cli_linux.zip -O slc_cli_linux.zip
+          echo "==> Extracting slc_cli"
+          unzip -q slc_cli_linux.zip -d slc_cli
+          rm slc_cli_linux.zip
+          echo "==> Listing contents"
+          ls -la slc_cli
+          echo "==> SLC CLI downloaded & extracted successfully."
 
       - name: 📜 Install SLC CLI Python deps (via Artifactory creds if provided)
         shell: bash
