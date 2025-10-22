@@ -73,39 +73,40 @@ jobs:
           cmake --version || true
           ninja --version || true
 
-      - name: ☕ Install OpenJDK 17 + set JAVA_HOME
+      - name: ☕ Install OpenJDK 21 + set JAVA_HOME
         shell: bash
         run: |
           set -e
-          echo "==> Installing OpenJDK 17"; sudo apt install -y openjdk-17-jdk
+          echo "==> Installing OpenJDK 21"; sudo apt install -y openjdk-21-jdk
           echo "==> java -version"; java -version
           echo "==> Setting JAVA_HOME"
-          echo 'export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64' >> "$HOME/.bashrc"
+          echo 'export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64' >> "$HOME/.bashrc"
           source "$HOME/.bashrc" || true
           echo "JAVA_HOME=$JAVA_HOME"
-
-      - name: ☕ Ensure Java env (auto-detect JAVA_HOME for SLC)
+          
+      - name: ☕ Ensure Java env (prefer JDK 21 for SLC)
         shell: bash
         run: |
           set -e
-          echo "==> java -version"
-          java -version
 
-          # Derive JAVA_HOME from the java binary symlink chain
-          JAVA_BIN="$(readlink -f "$(command -v java)")"
-          JAVA_HOME="$(dirname "$(dirname "$JAVA_BIN")")"
+          # Prefer OpenJDK 21 if present; else Temurin 21; else fall back to whatever `java` points to.
+          if [ -d /usr/lib/jvm/java-21-openjdk-amd64 ]; then
+            JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+          elif [ -d /usr/lib/jvm/temurin-21-jdk-amd64 ]; then
+            JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64
+          else
+            # Fallback to whatever java is on PATH (may still be 17)
+            JAVA_BIN="$(readlink -f "$(command -v java)")"
+            JAVA_HOME="$(dirname "$(dirname "$JAVA_BIN")")"
+          fi
 
-          echo "==> Detected JAVA_BIN: $JAVA_BIN"
-          echo "==> Detected JAVA_HOME: $JAVA_HOME"
+          echo "==> Using JAVA_HOME: $JAVA_HOME"
+          "$JAVA_HOME/bin/java" -version
 
           # Persist for later steps
           echo "JAVA_HOME=$JAVA_HOME"     >> "$GITHUB_ENV"
           echo "SLC_JAVA_HOME=$JAVA_HOME" >> "$GITHUB_ENV"
           echo "$JAVA_HOME/bin"           >> "$GITHUB_PATH"
-
-          # Also export here so we can use it immediately in this job
-          export JAVA_HOME SLC_JAVA_HOME
-          echo "==> Effective JAVA_HOME: $JAVA_HOME"
 
       - name: 🛠️ ARM GCC toolchain (12.2.rel1)
         shell: bash
