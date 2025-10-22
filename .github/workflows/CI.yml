@@ -81,7 +81,6 @@ jobs:
           echo "==> Upgrading pip"
           pip install --upgrade pip
 
-      # ---------- SLC (Step 16) ----------
       - name: SLC setup
         shell: bash
         run: |
@@ -98,7 +97,10 @@ jobs:
           ln -sf "$SLC_DIR/slc-cli" "$SLC_DIR/slc"
           echo "UC_CLI_DIR=$SLC_DIR" >> "$GITHUB_ENV"
           echo "$SLC_DIR" >> "$GITHUB_PATH"
-          
+
+      - name: Configure and trust SDK
+        shell: bash
+        run: |
           slc configuration --sdk ~/src/gsdk
           slc signature trust --sdk ~/src/gsdk
           slc signature trust --extension-path ~/src/gsdk/extension/aiml-extension
