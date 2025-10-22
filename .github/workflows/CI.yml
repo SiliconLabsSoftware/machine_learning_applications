@@ -151,6 +151,18 @@ jobs:
           ls -la slc_cli
           echo "==> SLC CLI downloaded & extracted successfully."
 
+      - name: 🧩 Make SLC CLI executable and update PATH
+        shell: bash
+        run: |
+          set -e
+          echo "==> Making SLC CLI executable and adding to PATH"
+          chmod +x "$HOME/tools/slc_cli/slc" || true
+          echo 'export UC_CLI_DIR="$HOME/tools/slc_cli"' >> "$HOME/.bashrc"
+          echo 'export PATH="$PATH:$UC_CLI_DIR"' >> "$HOME/.bashrc"
+          source "$HOME/.bashrc" || true
+          echo "UC_CLI_DIR=$UC_CLI_DIR"
+          which slc || echo "!! slc not yet in PATH; will retry at env export step"
+
       - name: 📜 Install SLC CLI Python deps (via Artifactory creds if provided)
         shell: bash
         env:
