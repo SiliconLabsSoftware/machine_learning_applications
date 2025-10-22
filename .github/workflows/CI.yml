@@ -1,11 +1,8 @@
 name: Ubuntu env -> SLC setup (uses SSH & Artifactory secrets) latestrere
-
-on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
+on: [push]
 
 permissions:
+  id-token: write
   contents: read
 
 jobs:
