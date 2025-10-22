@@ -83,7 +83,7 @@ jobs:
           echo 'export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64' >> "$HOME/.bashrc"
           source "$HOME/.bashrc" || true
           echo "JAVA_HOME=$JAVA_HOME"
-          
+
       - name: ☕ Ensure Java env (prefer JDK 21 for SLC)
         shell: bash
         run: |
@@ -338,6 +338,110 @@ jobs:
 
           # Do not fail the job on non-zero; logs above will capture the root cause
           exit 0
+          
+      # --- Install SLED (tries Artifactory first, falls back to PyPI) ---
+      - name: 📦 Install SLED Build System
+        shell: bash
+        env:
+          ARTI_URL:  ${{ vars.ARTIFACTORY_PYPI_URL }}
+          ARTI_USER: ${{ secrets.ARTIFACTORY_USERNAME }}
+          ARTI_KEY:  ${{ secrets.ARTIFACTORY_API_KEY }}
+        run: |
+          set -e
+          source "$HOME/venvs/sisdk/bin/activate"
+
+          if [ -z "$ARTI_URL" ]; then
+            ARTI_URL="https://artifactory.silabs.net/artifactory/api/pypi/gsdk-pypi/simple"
+          fi
+          echo "==> Using PIP index (preferred): $ARTI_URL"
+
+          if [ -n "$ARTI_USER" ] && [ -n "$ARTI_KEY" ]; then
+            hostpath="${ARTI_URL#https://}"
+            PIP_INDEX_URL="https://${ARTI_USER}:${ARTI_KEY}@${hostpath}"
+            python -m pip install --upgrade pip
+            PIP_INDEX_URL="$PIP_INDEX_URL" pip install --index-url "$PIP_INDEX_URL" "silabs-sled[full]"
+          else
+            echo "!! No Artifactory creds provided; trying public PyPI (may fail if internal)"
+            python -m pip install --upgrade pip
+            pip install "silabs-sled[full]" || true
+          fi
+
+          echo "==> sled -h"
+          sled -h || { echo "!! sled failed to run"; exit 1; }
+
+          echo "==> sled version"
+          sled --version
+
+      # --- Generate the ml_blink example for brd2601b ---
+      - name: 🧩 Generate ml_blink (brd2601b)
+        shell: bash
+        run: |
+          set -e
+          EX_DIR="$HOME/src/gsdk/extension/aiml-extension/examples/ml_blink"
+          TGT_DIR="$EX_DIR/target/brd2601b"
+
+          echo "==> Example dir: $EX_DIR"
+          test -d "$EX_DIR" || { echo "!! Example dir not found"; exit 1; }
+
+          SLC_BIN="${UC_CLI_DIR}/slc"
+          test -x "$SLC_BIN" || { echo "!! slc not found at $SLC_BIN"; exit 1; }
+
+          VM_ARG=()
+          if [ -n "${JAVA_HOME:-}" ] && [ -x "${JAVA_HOME}/bin/java" ]; then
+            VM_ARG=( -vm "${JAVA_HOME}/bin/java" )
+          fi
+
+          echo "==> slc ${VM_ARG[*]} generate"
+          cd "$EX_DIR"
+          "$SLC_BIN" "${VM_ARG[@]}" generate -d "$TGT_DIR" -p ml_blink.slcp --with brd2601b -s "$HOME/src/gsdk"
+
+          echo "==> Generation complete."
+          ls -la "$TGT_DIR" || true
+
+      # --- Build with SLED ---
+      - name: 🛠️ Build ml_blink with SLED
+        shell: bash
+        run: |
+          set -e
+          source "$HOME/venvs/sisdk/bin/activate"
+          EX_DIR="$HOME/src/gsdk/extension/aiml-extension/examples/ml_blink"
+          TGT_DIR="$EX_DIR/target/brd2601b"
+
+          echo "==> sled slc build $TGT_DIR"
+          sled slc build "$TGT_DIR"
+
+          echo "==> Build tree:"
+          find "$TGT_DIR" -maxdepth 4 -type d -name build -print -exec ls -la {} \; || true
+
+      # --- Verify expected outputs exist ---
+      - name: ✅ Verify output files
+        shell: bash
+        run: |
+          set -e
+          OUT_DIR="$HOME/src/gsdk/extension/aiml-extension/examples/ml_blink/target/brd2601b/cmake_gcc/build/base"
+          echo "==> Checking outputs in: $OUT_DIR"
+          ls -la "$OUT_DIR" || { echo "!! Output dir missing"; exit 1; }
+
+          required=("ml_blink.out" "ml_blink.bin" "ml_blink.hex" "ml_blink.s37" "ml_blink.map")
+          missing=0
+          for f in "${required[@]}"; do
+            if [ ! -f "$OUT_DIR/$f" ]; then
+              echo "!! Missing: $f"; missing=1
+            else
+              echo "✔ Found: $f ($(stat -c %s "$OUT_DIR/$f") bytes)"
+            fi
+          done
+          [ $missing -eq 0 ] || { echo "!! One or more build outputs are missing"; exit 1; }
+
+      # --- Upload artifacts so you can download from the run page ---
+      - name: 📤 Upload ml_blink artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ml_blink-brd2601b-artifacts
+          path: |
+            ${{ env.HOME }}/src/gsdk/extension/aiml-extension/examples/ml_blink/target/brd2601b/cmake_gcc/build/base/ml_blink.*
+          if-no-files-found: error
+          retention-days: 7
 
       - name: 🏁 Done (stop after SLC setup)
         shell: bash
