@@ -123,6 +123,10 @@ jobs:
           cd "$HOME/src/gsdk"
           echo "==> Init core submodules"
           git checkout v2025.6.2
+          cd "$HOME/src/gsdk"
+          mkdir extension
+          cd "$HOME/src/gsdk/extension"
+          git clone https://github.com/SiliconLabsSoftware/aiml-extension.git aiml-extension
           echo "==> LFS pull (best effort)"
           git lfs pull || true
 
@@ -155,13 +159,38 @@ jobs:
         shell: bash
         run: |
           set -e
-          echo "==> Making SLC CLI executable and adding to PATH"
-          chmod +x "$HOME/tools/slc_cli/slc" || true
-          echo 'export UC_CLI_DIR="$HOME/tools/slc_cli"' >> "$HOME/.bashrc"
-          echo 'export PATH="$PATH:$UC_CLI_DIR"' >> "$HOME/.bashrc"
+          echo "==> Searching for SLC executable..."
+          SLC_BIN=$(find "$HOME/tools/slc_cli" -type f \( -name slc -o -name slc-cli \) -print -quit || true)
+
+          if [ -z "$SLC_BIN" ]; then
+            echo "!! Could not find 'slc' or 'slc-cli' under $HOME/tools/slc_cli"
+            echo "Directory tree for debugging:"
+            ls -R "$HOME/tools/slc_cli" || true
+            exit 1
+          fi
+
+          echo "==> Found SLC binary at: $SLC_BIN"
+          chmod +x "$SLC_BIN"
+
+          # dir that contains the executable
+          SLC_DIR="$(dirname "$SLC_BIN")"
+          echo "==> SLC_DIR: $SLC_DIR"
+
+          # If binary is 'slc-cli', create a convenience alias named 'slc'
+          if [ "$(basename "$SLC_BIN")" = "slc-cli" ]; then
+            echo "==> Creating 'slc' shim pointing to slc-cli"
+            ln -sf "$SLC_BIN" "$SLC_DIR/slc"
+          fi
+
+          # Persist env and PATH
+          echo "export UC_CLI_DIR=\"$SLC_DIR\"" >> "$HOME/.bashrc"
+          echo "export PATH=\"\$PATH:\$UC_CLI_DIR\"" >> "$HOME/.bashrc"
+          # Load it for this job step and print
           source "$HOME/.bashrc" || true
           echo "UC_CLI_DIR=$UC_CLI_DIR"
-          which slc || echo "!! slc not yet in PATH; will retry at env export step"
+          echo "==> which slc"; which slc || true
+          echo "==> Test: slc -h (non-fatal)"
+          slc -h || true
 
       - name: 📜 Install SLC CLI Python deps (via Artifactory creds if provided)
         shell: bash
@@ -225,19 +254,39 @@ jobs:
         shell: bash
         run: |
           set -e
-          if [ -d "$HOME/tools/slc_cli" ]; then
+          source "$HOME/.bashrc" || true
+
+          if [ -z "$UC_CLI_DIR" ]; then
+            echo "!! UC_CLI_DIR not set; cannot run SLC."
+            exit 1
+          fi
+
+          SLC_BIN="$UC_CLI_DIR/slc"
+          if [ ! -x "$SLC_BIN" ]; then
+            echo "!! $SLC_BIN not found or not executable."
+            ls -la "$UC_CLI_DIR" || true
+            exit 1
+          fi
+
+          # venv is optional for running slc; activate if you’re using Python deps elsewhere
+          if [ -d "$HOME/venvs/sisdk" ]; then
             source "$HOME/venvs/sisdk/bin/activate"
-            echo "==> slc -h"; slc -h || true
-            echo "==> slc configuration --sdk"; slc configuration --sdk "$HOME/src/gsdk" || true
-            echo "==> slc signature trust --sdk"; slc signature trust --sdk "$HOME/src/gsdk" || true
-            if [ -d "$HOME/src/gsdk/extension/aiml-extension" ]; then
-              echo "==> slc signature trust --extension-path (aiml-extension)"
-              slc signature trust --extension-path "$HOME/src/gsdk/extension/aiml-extension" || true
-            else
-              echo "==> aiml-extension not present; skipping extension trust."
-            fi
+          fi
+
+          echo "==> $SLC_BIN -h"
+          "$SLC_BIN" -h || true
+
+          echo "==> Configure SDK"
+          "$SLC_BIN" configuration --sdk "$HOME/src/gsdk" || true
+
+          echo "==> Trust SDK signatures"
+          "$SLC_BIN" signature trust --sdk "$HOME/src/gsdk" || true
+
+          if [ -d "$HOME/src/gsdk/extension/aiml-extension" ]; then
+            echo "==> Trust AIML extension"
+            "$SLC_BIN" signature trust --extension-path "$HOME/src/gsdk/extension/aiml-extension" || true
           else
-            echo "!! slc_cli not present; skipping SLC init/config."
+            echo "==> aiml-extension not present; skipping extension trust."
           fi
 
       - name: 🏁 Done (stop after SLC setup)
