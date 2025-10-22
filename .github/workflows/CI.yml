@@ -1,4 +1,4 @@
-name: Ubuntu env -> SLC setup (uses SSH & Artifactory secrets) latestrere
+name: Ubuntu env 
 on: [push]
 
 permissions:
@@ -9,47 +9,18 @@ jobs:
   setup-to-slc:
     runs-on: ubuntu-latest
     steps:
-      - name: 🧾 Start
+      - name:  Start
         shell: bash
         run: |
           echo "==> Workflow: Ubuntu env -> SLC setup (through step 16)"
           echo "==> Repo: $GITHUB_REPOSITORY | Ref: $GITHUB_REF | SHA: $GITHUB_SHA"
 
-      - name: 📥 Checkout (public)
+      - name:  Checkout (public)
         uses: actions/checkout@v5
         with:
           submodules: recursive
 
-      # ------- SSH KEY SETUP (no expressions inside the script) -------
-      - name: 🔑 SSH key setup (for internal git over SSH)
-        shell: bash
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}   # may be empty
-        run: |
-          set -e
-          if [ -n "$SSH_PRIVATE_KEY" ]; then
-            echo "==> SSH key provided: configuring ~/.ssh"
-            mkdir -p ~/.ssh
-            printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-            chmod 600 ~/.ssh/id_rsa
-            touch ~/.ssh/known_hosts
-            echo "==> Preloading known_hosts for stash-mirror.silabs.com & github.com"
-            ssh-keyscan -T 5 stash-mirror.silabs.com 2>/dev/null >> ~/.ssh/known_hosts || true
-            ssh-keyscan -T 5 github.com 2>/dev/null >> ~/.ssh/known_hosts || true
-            echo "==> SSH ready."
-          else
-            echo "!! No SSH_PRIVATE_KEY secret found. Internal SSH clones will be skipped."
-          fi
-
-      - name: 🖥️ System info
-        shell: bash
-        run: |
-          echo "==> uname -a"; uname -a
-          echo "==> /etc/os-release"; cat /etc/os-release
-          echo "==> whoami: $(whoami) | home: $HOME | workdir: $(pwd)"
-          echo "==> Disk usage:"; df -h .
-
-      - name: 📂 Create ~/src ~/venvs ~/tools
+      - name:  Create ~/src ~/venvs ~/tools
         shell: bash
         run: |
           set -e
@@ -57,87 +28,41 @@ jobs:
           mkdir -p "$HOME/src" "$HOME/venvs" "$HOME/tools"
           ls -la "$HOME" | sed -n '1,120p'
 
-      - name: 📦 Apt update & essentials
+      - name:  Apt update & essentials
         shell: bash
         run: |
           set -e
-          echo "==> apt update"; sudo apt update -y
-          echo "==> install essentials"
+          sudo apt update -y
           sudo apt install -y git curl wget unzip build-essential cmake make \
                                python3 python3-pip python3-venv pkg-config \
                                libssl-dev libffi-dev python3-dev ninja-build \
                                telnet netcat-openbsd
-          echo "==> Versions:"
-          python3 --version || true
-          pip3 --version || true
-          cmake --version || true
-          ninja --version || true
 
-      - name: ☕ Install OpenJDK 21 + set JAVA_HOME
+      - name:  Install OpenJDK 21 + set JAVA_HOME
         shell: bash
         run: |
           set -e
           echo "==> Installing OpenJDK 21"; sudo apt install -y openjdk-21-jdk
           echo "==> java -version"; java -version
-          echo "==> Setting JAVA_HOME"
           echo 'export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64' >> "$HOME/.bashrc"
           source "$HOME/.bashrc" || true
-          echo "JAVA_HOME=$JAVA_HOME"
-
-      - name: ☕ Ensure Java env (prefer JDK 21 for SLC)
-        shell: bash
-        run: |
-          set -e
-
-          # Prefer OpenJDK 21 if present; else Temurin 21; else fall back to whatever `java` points to.
-          if [ -d /usr/lib/jvm/java-21-openjdk-amd64 ]; then
-            JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
-          elif [ -d /usr/lib/jvm/temurin-21-jdk-amd64 ]; then
-            JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64
-          else
-            # Fallback to whatever java is on PATH (may still be 17)
-            JAVA_BIN="$(readlink -f "$(command -v java)")"
-            JAVA_HOME="$(dirname "$(dirname "$JAVA_BIN")")"
-          fi
-
-          echo "==> Using JAVA_HOME: $JAVA_HOME"
-          "$JAVA_HOME/bin/java" -version
-
-          # Persist for later steps
           echo "JAVA_HOME=$JAVA_HOME"     >> "$GITHUB_ENV"
           echo "SLC_JAVA_HOME=$JAVA_HOME" >> "$GITHUB_ENV"
           echo "$JAVA_HOME/bin"           >> "$GITHUB_PATH"
 
-      - name: 🛠️ ARM GCC toolchain (12.2.rel1)
+      - name:  ARM GCC toolchain (12.2.rel1)
         shell: bash
         run: |
           set -e
           cd "$HOME/tools"
           echo "==> Download ARM toolchain 12.2.rel1"
           wget -q https://developer.arm.com/-/media/Files/downloads/gnu/12.2.rel1/binrel/arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz
-          echo "==> Extract"
           tar xf arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz
           rm arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz
           echo "==> GCC version"
           "$HOME/tools/arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi/bin/arm-none-eabi-gcc" --version | head -n 1
 
-      - name: 🧱 CMake & 🪄 Ninja versions
-        shell: bash
-        run: |
-          echo "==> CMake version"; cmake --version || true
-          echo "==> Ninja version"; ninja --version || true
-
-      - name: 📦 Git LFS install & init
-        shell: bash
-        run: |
-          set -e
-          echo "==> Install Git LFS"
-          curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
-          sudo apt install -y git-lfs
-          echo "==> git lfs install"
-          git lfs install
-
-      - name: 📚 Clone GSDK (public)
+      - name:  Clone GSDK and ai-ml app
         shell: bash
         run: |
           set -e
@@ -145,16 +70,14 @@ jobs:
           echo "==> Cloning public GSDK"
           git clone https://github.com/SiliconLabs/simplicity_sdk.git gsdk
           cd "$HOME/src/gsdk"
-          echo "==> Init core submodules"
           git checkout v2025.6.2
           cd "$HOME/src/gsdk"
           mkdir extension
           cd "$HOME/src/gsdk/extension"
           git clone https://github.com/SiliconLabsSoftware/aiml-extension.git aiml-extension
-          echo "==> LFS pull (best effort)"
           git lfs pull || true
 
-      - name: 🌱 Create Python venv (sisdk)
+      - name:  Create Python venv (sisdk)
         shell: bash
         run: |
           set -e
@@ -165,227 +88,24 @@ jobs:
           pip install --upgrade pip
 
       # ---------- SLC (Step 16) ----------
-      - name: 🧩 Download and extract SLC CLI (public zip)
+      - name: SLC setup
         shell: bash
         run: |
           set -e
+          mkdir -p "$HOME/tools"
           cd "$HOME/tools"
-          echo "==> Downloading SLC CLI public release zip"
-          wget -q https://www.silabs.com/documents/public/software/slc_cli_linux.zip -O slc_cli_linux.zip
-          echo "==> Extracting slc_cli"
+          curl -fsSL -o slc_cli_linux.zip https://www.silabs.com/documents/public/software/slc_cli_linux.zip
+          rm -rf slc_cli
           unzip -q slc_cli_linux.zip -d slc_cli
           rm slc_cli_linux.zip
-          echo "==> Listing contents"
-          ls -la slc_cli
-          echo "==> SLC CLI downloaded & extracted successfully."
-
-      - name: 🧩 Make SLC CLI executable and update PATH
-        shell: bash
-        run: |
-          set -e
-          echo "==> Searching for SLC executable..."
-          SLC_BIN=$(find "$HOME/tools/slc_cli" -type f \( -name slc -o -name slc-cli \) -print -quit || true)
-
-          if [ -z "$SLC_BIN" ]; then
-            echo "!! Could not find 'slc' or 'slc-cli' under $HOME/tools/slc_cli"
-            ls -R "$HOME/tools/slc_cli" || true
-            exit 1
-          fi
-
-          echo "==> Found SLC binary at: $SLC_BIN"
-          chmod +x "$SLC_BIN"
-
-          # Directory containing the executable
-          SLC_DIR="$(dirname "$SLC_BIN")"
-          echo "==> SLC_DIR: $SLC_DIR"
-
-          # If binary is 'slc-cli', create a 'slc' shim for consistency
-          if [ "$(basename "$SLC_BIN")" = "slc-cli" ]; then
-            echo "==> Creating 'slc' shim pointing to slc-cli"
-            ln -sf "$SLC_BIN" "$SLC_DIR/slc"
-          fi
-
-          # Persist to next steps
+          SLC_DIR="$HOME/tools/slc_cli/slc_cli/bin/slc-cli"
+          chmod +x "$SLC_DIR/slc-cli"
+          ln -sf "$SLC_DIR/slc-cli" "$SLC_DIR/slc"
           echo "UC_CLI_DIR=$SLC_DIR" >> "$GITHUB_ENV"
           echo "$SLC_DIR" >> "$GITHUB_PATH"
 
-          # Also export for THIS step so we can test
-          export UC_CLI_DIR="$SLC_DIR"
-          export PATH="$PATH:$UC_CLI_DIR"
-
-          echo "UC_CLI_DIR=$UC_CLI_DIR"
-          echo "==> which slc"; which slc || true
-          echo "==> Test: slc -h (non-fatal)"; slc -h || true
-
-      - name: 📜 Install SLC CLI Python deps (via Artifactory creds if provided)
-        shell: bash
-        env:
-          ARTI_URL: ${{ vars.ARTIFACTORY_PYPI_URL }}         # may be empty
-          ARTI_USER: ${{ secrets.ARTIFACTORY_USERNAME }}     # may be empty
-          ARTI_KEY:  ${{ secrets.ARTIFACTORY_API_KEY }}      # may be empty
-        run: |
-          set -e
-          if [ ! -d "$HOME/tools/slc_cli" ]; then
-            echo "!! slc_cli directory not found (clone likely skipped). Skipping deps install."
-            exit 0
-          fi
-
-          source "$HOME/venvs/sisdk/bin/activate"
-
-          # bash-side fallback for URL (no expressions)
-          if [ -z "$ARTI_URL" ]; then
-            ARTI_URL="https://artifactory.silabs.net/artifactory/api/pypi/gsdk-pypi/simple"
-          fi
-          echo "==> Using Artifactory URL: $ARTI_URL"
-
-          python -m pip install --upgrade setuptools
-
-          if [ -f "$HOME/tools/slc_cli/requirements.txt" ]; then
-            if [ -n "$ARTI_USER" ] && [ -n "$ARTI_KEY" ]; then
-              echo "==> Artifactory creds present; using authenticated index (credentials masked)"
-              hostpath="${ARTI_URL#https://}"
-              PIP_INDEX_URL="https://${ARTI_USER}:${ARTI_KEY}@${hostpath}"
-              PIP_INDEX_URL="$PIP_INDEX_URL" pip install --index-url "$PIP_INDEX_URL" -r "$HOME/tools/slc_cli/requirements.txt"
-            else
-              echo "!! No Artifactory creds provided; trying default pip index (may fail if deps are internal)"
-              pip install -r "$HOME/tools/slc_cli/requirements.txt" || true
-            fi
-          else
-            echo "requirements.txt not found; skipping SLC deps install."
-          fi
-
-          echo "==> SLC deps install step complete."
-
-      - name: 🐚 Export SLC env & PATH
-        shell: bash
-        run: |
-          set -e
-          echo "==> Exporting env vars for SLC"
-          echo "UC_CLI_DIR=${UC_CLI_DIR:-<unset>}"
-          echo "SLC_JAVA_HOME=${SLC_JAVA_HOME:-<unset>}"
-          echo "==> which slc"; which slc || echo "!! slc not on PATH yet"
-
-      - name: 🚀 Initialize SLC & configure SDK (use detected JVM, dump logs on error)
-        shell: bash
-        run: |
-          set -e
-
-          echo "==> JAVA_HOME: ${JAVA_HOME:-<unset>}"
-          echo "==> SLC_JAVA_HOME: ${SLC_JAVA_HOME:-<unset>}"
-          echo "==> UC_CLI_DIR: ${UC_CLI_DIR:-<unset>}"
-          which java || true
-          which slc  || true
-
-          if [ -z "${UC_CLI_DIR:-}" ]; then
-            echo "!! UC_CLI_DIR not set; cannot run SLC."
-            exit 1
-          fi
-
-          SLC_BIN="$UC_CLI_DIR/slc"
-          if [ ! -x "$SLC_BIN" ]; then
-            echo "!! $SLC_BIN not found or not executable."
-            ls -la "$UC_CLI_DIR" || true
-            exit 1
-          fi
-
-          # Helper to show the latest Eclipse/OSGi log near the SLC install
-          dump_latest_log() {
-            # Walk up from UC_CLI_DIR to find a nearby "configuration/*.log"
-            CONF_DIR="$(dirname "$UC_CLI_DIR")/configuration"
-            if [ ! -d "$CONF_DIR" ]; then
-              # Some zips place configuration deeper. Search a couple levels around UC_CLI_DIR.
-              CONF_DIR="$(find "$(dirname "$UC_CLI_DIR")" -maxdepth 3 -type d -name configuration -print -quit 2>/dev/null || true)"
-            fi
-            echo "==> Checking logs under: ${CONF_DIR:-<none>}"
-            if [ -n "$CONF_DIR" ] && [ -d "$CONF_DIR" ]; then
-              LOG_FILE="$(ls -1t "$CONF_DIR"/*.log 2>/dev/null | head -n1 || true)"
-              if [ -n "$LOG_FILE" ]; then
-                echo "==> ---- Begin SLC log: $LOG_FILE ----"
-                sed -n '1,300p' "$LOG_FILE" || true
-                echo "==> ---- End SLC log ----"
-              else
-                echo "==> No .log files found."
-              fi
-            fi
-          }
-
-          # Always pass the JVM explicitly
-          VM_ARG=()
-          if [ -n "${JAVA_HOME:-}" ] && [ -x "${JAVA_HOME}/bin/java" ]; then
-            VM_ARG=( -vm "${JAVA_HOME}/bin/java" )
-          fi
-
-          set +e
-          echo "==> $SLC_BIN ${VM_ARG[*]} -h"
-          "$SLC_BIN" "${VM_ARG[@]}" -h
-          rc=$?; if [ $rc -ne 0 ]; then echo "!! slc -h failed ($rc)"; dump_latest_log; fi
-
-          echo "==> Configure SDK"
-          "$SLC_BIN" "${VM_ARG[@]}" configuration --sdk "$HOME/src/gsdk"
-          rc=$?; if [ $rc -ne 0 ]; then echo "!! slc configuration failed ($rc)"; dump_latest_log; fi
-
-          echo "==> Trust SDK signatures"
-          "$SLC_BIN" "${VM_ARG[@]}" signature trust --sdk "$HOME/src/gsdk"
-          rc=$?; if [ $rc -ne 0 ]; then echo "!! slc signature trust failed ($rc)"; dump_latest_log; fi
-
-          if [ -d "$HOME/src/gsdk/extension/aiml-extension" ]; then
-            echo "==> Trust AIML extension"
-            "$SLC_BIN" "${VM_ARG[@]}" signature trust --extension-path "$HOME/src/gsdk/extension/aiml-extension"
-            rc=$?; if [ $rc -ne 0 ]; then echo "!! slc signature trust (aiml-extension) failed ($rc)"; dump_latest_log; fi
-          else
-            echo "==> aiml-extension not present; skipping extension trust."
-          fi
-
-          # Do not fail the job on non-zero; logs above will capture the root cause
-          exit 0
-          
-      # --- Install SLED (tries Artifactory first, falls back to PyPI) ---
-      - name: 📦 Install SLED Build System (PyPI first, Artifactory fallback)
-        shell: bash
-        env:
-          ARTI_URL:  ${{ vars.ARTIFACTORY_PYPI_URL }}                         # optional
-          ARTI_USER: ${{ secrets.ARTIFACTORY_USERNAME }}                       # optional
-          ARTI_KEY:  ${{ secrets.ARTIFACTORY_API_KEY }}                        # optional
-        run: |
-          set -e
-          source "$HOME/venvs/sisdk/bin/activate"
-          python -m pip install --upgrade pip wheel
-
-          echo "==> Attempting PyPI install: silabs-sled[full]"
-          if pip install "silabs-sled[full]"; then
-            echo "SLED_AVAILABLE=1" >> "$GITHUB_ENV"
-            sled --version
-            exit 0
-          fi
-
-          echo "!! PyPI install failed (package may be private)."
-          # Try Artifactory only if URL + creds are present AND reachable
-          if [ -z "$ARTI_URL" ] || [ -z "$ARTI_USER" ] || [ -z "$ARTI_KEY" ]; then
-            echo "!! Artifactory URL/creds not fully configured; cannot use internal index."
-            echo "SLED_AVAILABLE=0" >> "$GITHUB_ENV"
-            exit 0
-          fi
-
-          echo "==> Checking Artifactory reachability: $ARTI_URL"
-          if ! curl -fsSIL --connect-timeout 8 "$ARTI_URL" > /dev/null; then
-            echo "!! Artifactory not reachable from GitHub-hosted runner (network/firewall)."
-            echo "SLED_AVAILABLE=0" >> "$GITHUB_ENV"
-            exit 0
-          fi
-
-          echo "==> Installing from Artifactory with auth"
-          hostpath="${ARTI_URL#https://}"
-          PIP_INDEX_URL="https://${ARTI_USER}:${ARTI_KEY}@${hostpath}"
-          if PIP_INDEX_URL="$PIP_INDEX_URL" pip install --index-url "$PIP_INDEX_URL" "silabs-sled[full]"; then
-            echo "SLED_AVAILABLE=1" >> "$GITHUB_ENV"
-            sled --version
-          else
-            echo "!! Artifactory install failed. Likely network ACLs from GitHub to artifactory.silabs.net."
-            echo "SLED_AVAILABLE=0" >> "$GITHUB_ENV"
-          fi
-
       # --- Generate the ml_blink example for brd2601b ---
-      - name: 🧩 Generate ml_blink (brd2601b)
+      - name: Generate ml_blink (brd2601b)
         shell: bash
         run: |
           set -e
@@ -411,7 +131,7 @@ jobs:
           ls -la "$TGT_DIR" || true
 
       # --- Build with SLED ---
-      - name: 🛠️ Build ml_blink with SLED
+      - name:  Build ml_blink with SLED
         shell: bash
         run: |
           set -e
@@ -426,7 +146,7 @@ jobs:
           find "$TGT_DIR" -maxdepth 4 -type d -name build -print -exec ls -la {} \; || true
 
       # --- Verify expected outputs exist ---
-      - name: ✅ Verify output files
+      - name: Verify output files
         shell: bash
         run: |
           set -e
@@ -445,19 +165,7 @@ jobs:
           done
           [ $missing -eq 0 ] || { echo "!! One or more build outputs are missing"; exit 1; }
 
-      # --- Upload artifacts so you can download from the run page ---
-      - name: 📤 Upload ml_blink artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: ml_blink-brd2601b-artifacts
-          path: |
-            ${{ env.HOME }}/src/gsdk/extension/aiml-extension/examples/ml_blink/target/brd2601b/cmake_gcc/build/base/ml_blink.*
-          if-no-files-found: error
-          retention-days: 7
-
-      - name: 🏁 Done (stop after SLC setup)
+      - name: Done (stop after SLC setup)
         shell: bash
         run: |
           echo "==> Finished through step 16 (SLC setup)."
-          echo "==> If SLC clone failed, confirm SSH_PRIVATE_KEY is added as a secret."
-          echo "==> If deps failed, confirm ARTIFACTORY_USERNAME/API_KEY and (optionally) ARTIFACTORY_PYPI_URL."
