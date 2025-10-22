@@ -340,37 +340,49 @@ jobs:
           exit 0
           
       # --- Install SLED (tries Artifactory first, falls back to PyPI) ---
-      - name: 📦 Install SLED Build System
+      - name: 📦 Install SLED Build System (PyPI first, Artifactory fallback)
         shell: bash
         env:
-          ARTI_URL:  ${{ vars.ARTIFACTORY_PYPI_URL }}
-          ARTI_USER: ${{ secrets.ARTIFACTORY_USERNAME }}
-          ARTI_KEY:  ${{ secrets.ARTIFACTORY_API_KEY }}
+          ARTI_URL:  ${{ vars.ARTIFACTORY_PYPI_URL }}                         # optional
+          ARTI_USER: ${{ secrets.ARTIFACTORY_USERNAME }}                       # optional
+          ARTI_KEY:  ${{ secrets.ARTIFACTORY_API_KEY }}                        # optional
         run: |
           set -e
           source "$HOME/venvs/sisdk/bin/activate"
+          python -m pip install --upgrade pip wheel
 
-          if [ -z "$ARTI_URL" ]; then
-            ARTI_URL="https://artifactory.silabs.net/artifactory/api/pypi/gsdk-pypi/simple"
+          echo "==> Attempting PyPI install: silabs-sled[full]"
+          if pip install "silabs-sled[full]"; then
+            echo "SLED_AVAILABLE=1" >> "$GITHUB_ENV"
+            sled --version
+            exit 0
           fi
-          echo "==> Using PIP index (preferred): $ARTI_URL"
 
-          if [ -n "$ARTI_USER" ] && [ -n "$ARTI_KEY" ]; then
-            hostpath="${ARTI_URL#https://}"
-            PIP_INDEX_URL="https://${ARTI_USER}:${ARTI_KEY}@${hostpath}"
-            python -m pip install --upgrade pip
-            PIP_INDEX_URL="$PIP_INDEX_URL" pip install --index-url "$PIP_INDEX_URL" "silabs-sled[full]"
+          echo "!! PyPI install failed (package may be private)."
+          # Try Artifactory only if URL + creds are present AND reachable
+          if [ -z "$ARTI_URL" ] || [ -z "$ARTI_USER" ] || [ -z "$ARTI_KEY" ]; then
+            echo "!! Artifactory URL/creds not fully configured; cannot use internal index."
+            echo "SLED_AVAILABLE=0" >> "$GITHUB_ENV"
+            exit 0
+          fi
+
+          echo "==> Checking Artifactory reachability: $ARTI_URL"
+          if ! curl -fsSIL --connect-timeout 8 "$ARTI_URL" > /dev/null; then
+            echo "!! Artifactory not reachable from GitHub-hosted runner (network/firewall)."
+            echo "SLED_AVAILABLE=0" >> "$GITHUB_ENV"
+            exit 0
+          fi
+
+          echo "==> Installing from Artifactory with auth"
+          hostpath="${ARTI_URL#https://}"
+          PIP_INDEX_URL="https://${ARTI_USER}:${ARTI_KEY}@${hostpath}"
+          if PIP_INDEX_URL="$PIP_INDEX_URL" pip install --index-url "$PIP_INDEX_URL" "silabs-sled[full]"; then
+            echo "SLED_AVAILABLE=1" >> "$GITHUB_ENV"
+            sled --version
           else
-            echo "!! No Artifactory creds provided; trying public PyPI (may fail if internal)"
-            python -m pip install --upgrade pip
-            pip install "silabs-sled[full]" || true
+            echo "!! Artifactory install failed. Likely network ACLs from GitHub to artifactory.silabs.net."
+            echo "SLED_AVAILABLE=0" >> "$GITHUB_ENV"
           fi
-
-          echo "==> sled -h"
-          sled -h || { echo "!! sled failed to run"; exit 1; }
-
-          echo "==> sled version"
-          sled --version
 
       # --- Generate the ml_blink example for brd2601b ---
       - name: 🧩 Generate ml_blink (brd2601b)
