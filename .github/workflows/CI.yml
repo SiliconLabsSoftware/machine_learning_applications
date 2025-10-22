@@ -1,11 +1,9 @@
 name: Ubuntu env -> SLC setup (uses SSH & Artifactory secrets)
 
-on:
-  workflow_dispatch:
-  push:
-    branches: [ main ]
+on: [push]
 
 permissions:
+  id-token: write
   contents: read
 
 env:
@@ -160,23 +158,28 @@ jobs:
           fi
 
           source "$HOME/venvs/sisdk/bin/activate"
-          echo "==> Using Artifactory URL: $ARTIFACTORY_PYPI_URL"
-          if [ -n "${{ secrets.ARTIFACTORY_USERNAME }}" ] && [ -n "${{ secrets.ARTIFACTORY_API_KEY }}" ]; then
-            echo "==> Artifactory creds present; installing via authenticated index (credentials are masked)"
-            PIP_INDEX_URL="https://${{ secrets.ARTIFACTORY_USERNAME }}:${{ secrets.ARTIFACTORY_API_KEY }}@${{ env.ARTIFACTORY_PYPI_URL#https:// }}"
-            python -m pip install --upgrade setuptools
-            if [ -f "$HOME/tools/slc_cli/requirements.txt" ]; then
+
+          # Fallback the URL in bash (NOT in ${{ }})
+          ARTI_URL="${ARTIFACTORY_PYPI_URL:-https://artifactory.silabs.net/artifactory/api/pypi/gsdk-pypi/simple}"
+          echo "==> Using Artifactory URL: $ARTI_URL"
+
+          python -m pip install --upgrade setuptools
+
+          if [ -f "$HOME/tools/slc_cli/requirements.txt" ]; then
+            if [ -n "${{ secrets.ARTIFACTORY_USERNAME }}" ] && [ -n "${{ secrets.ARTIFACTORY_API_KEY }}" ]; then
+              echo "==> Artifactory creds present; using authenticated index (credentials masked)"
+              # Build https://user:pass@host/path by stripping scheme in BASH, not in ${{ }}
+              hostpath="${ARTI_URL#https://}"
+              PIP_INDEX_URL="https://${{ secrets.ARTIFACTORY_USERNAME }}:${{ secrets.ARTIFACTORY_API_KEY }}@${hostpath}"
               PIP_INDEX_URL="$PIP_INDEX_URL" pip install --index-url "$PIP_INDEX_URL" -r "$HOME/tools/slc_cli/requirements.txt"
             else
-              echo "requirements.txt not found; attempting bare install (may be no-op)"
-            fi
-          else
-            echo "!! No Artifactory creds provided. Trying public/pip default (may fail if deps are internal)"
-            python -m pip install --upgrade setuptools || true
-            if [ -f "$HOME/tools/slc_cli/requirements.txt" ]; then
+              echo "!! No Artifactory creds provided; trying default pip index (may fail if deps are internal)"
               pip install -r "$HOME/tools/slc_cli/requirements.txt" || true
             fi
+          else
+            echo "requirements.txt not found; skipping SLC deps install."
           fi
+
           echo "==> SLC deps install step complete."
 
       - name: 🔧 Export SLC env & PATH
