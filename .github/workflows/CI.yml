@@ -84,6 +84,29 @@ jobs:
           source "$HOME/.bashrc" || true
           echo "JAVA_HOME=$JAVA_HOME"
 
+      - name: ☕ Ensure Java env (auto-detect JAVA_HOME for SLC)
+        shell: bash
+        run: |
+          set -e
+          echo "==> java -version"
+          java -version
+
+          # Derive JAVA_HOME from the java binary symlink chain
+          JAVA_BIN="$(readlink -f "$(command -v java)")"
+          JAVA_HOME="$(dirname "$(dirname "$JAVA_BIN")")"
+
+          echo "==> Detected JAVA_BIN: $JAVA_BIN"
+          echo "==> Detected JAVA_HOME: $JAVA_HOME"
+
+          # Persist for later steps
+          echo "JAVA_HOME=$JAVA_HOME"     >> "$GITHUB_ENV"
+          echo "SLC_JAVA_HOME=$JAVA_HOME" >> "$GITHUB_ENV"
+          echo "$JAVA_HOME/bin"           >> "$GITHUB_PATH"
+
+          # Also export here so we can use it immediately in this job
+          export JAVA_HOME SLC_JAVA_HOME
+          echo "==> Effective JAVA_HOME: $JAVA_HOME"
+
       - name: 🛠️ ARM GCC toolchain (12.2.rel1)
         shell: bash
         run: |
@@ -241,13 +264,18 @@ jobs:
           echo "SLC_JAVA_HOME=${SLC_JAVA_HOME:-<unset>}"
           echo "==> which slc"; which slc || echo "!! slc not on PATH yet"
 
-      - name: 🚀 Initialize SLC & configure SDK
+      - name: 🚀 Initialize SLC & configure SDK (use detected JVM, dump logs on error)
         shell: bash
         run: |
           set -e
-          source "$HOME/.bashrc" || true
 
-          if [ -z "$UC_CLI_DIR" ]; then
+          echo "==> JAVA_HOME: ${JAVA_HOME:-<unset>}"
+          echo "==> SLC_JAVA_HOME: ${SLC_JAVA_HOME:-<unset>}"
+          echo "==> UC_CLI_DIR: ${UC_CLI_DIR:-<unset>}"
+          which java || true
+          which slc  || true
+
+          if [ -z "${UC_CLI_DIR:-}" ]; then
             echo "!! UC_CLI_DIR not set; cannot run SLC."
             exit 1
           fi
@@ -259,26 +287,56 @@ jobs:
             exit 1
           fi
 
-          # venv is optional for running slc; activate if you’re using Python deps elsewhere
-          if [ -d "$HOME/venvs/sisdk" ]; then
-            source "$HOME/venvs/sisdk/bin/activate"
+          # Helper to show the latest Eclipse/OSGi log near the SLC install
+          dump_latest_log() {
+            # Walk up from UC_CLI_DIR to find a nearby "configuration/*.log"
+            CONF_DIR="$(dirname "$UC_CLI_DIR")/configuration"
+            if [ ! -d "$CONF_DIR" ]; then
+              # Some zips place configuration deeper. Search a couple levels around UC_CLI_DIR.
+              CONF_DIR="$(find "$(dirname "$UC_CLI_DIR")" -maxdepth 3 -type d -name configuration -print -quit 2>/dev/null || true)"
+            fi
+            echo "==> Checking logs under: ${CONF_DIR:-<none>}"
+            if [ -n "$CONF_DIR" ] && [ -d "$CONF_DIR" ]; then
+              LOG_FILE="$(ls -1t "$CONF_DIR"/*.log 2>/dev/null | head -n1 || true)"
+              if [ -n "$LOG_FILE" ]; then
+                echo "==> ---- Begin SLC log: $LOG_FILE ----"
+                sed -n '1,300p' "$LOG_FILE" || true
+                echo "==> ---- End SLC log ----"
+              else
+                echo "==> No .log files found."
+              fi
+            fi
+          }
+
+          # Always pass the JVM explicitly
+          VM_ARG=()
+          if [ -n "${JAVA_HOME:-}" ] && [ -x "${JAVA_HOME}/bin/java" ]; then
+            VM_ARG=( -vm "${JAVA_HOME}/bin/java" )
           fi
 
-          echo "==> $SLC_BIN -h"
-          "$SLC_BIN" -h || true
+          set +e
+          echo "==> $SLC_BIN ${VM_ARG[*]} -h"
+          "$SLC_BIN" "${VM_ARG[@]}" -h
+          rc=$?; if [ $rc -ne 0 ]; then echo "!! slc -h failed ($rc)"; dump_latest_log; fi
 
           echo "==> Configure SDK"
-          "$SLC_BIN" configuration --sdk "$HOME/src/gsdk" || true
+          "$SLC_BIN" "${VM_ARG[@]}" configuration --sdk "$HOME/src/gsdk"
+          rc=$?; if [ $rc -ne 0 ]; then echo "!! slc configuration failed ($rc)"; dump_latest_log; fi
 
           echo "==> Trust SDK signatures"
-          "$SLC_BIN" signature trust --sdk "$HOME/src/gsdk" || true
+          "$SLC_BIN" "${VM_ARG[@]}" signature trust --sdk "$HOME/src/gsdk"
+          rc=$?; if [ $rc -ne 0 ]; then echo "!! slc signature trust failed ($rc)"; dump_latest_log; fi
 
           if [ -d "$HOME/src/gsdk/extension/aiml-extension" ]; then
             echo "==> Trust AIML extension"
-            "$SLC_BIN" signature trust --extension-path "$HOME/src/gsdk/extension/aiml-extension" || true
+            "$SLC_BIN" "${VM_ARG[@]}" signature trust --extension-path "$HOME/src/gsdk/extension/aiml-extension"
+            rc=$?; if [ $rc -ne 0 ]; then echo "!! slc signature trust (aiml-extension) failed ($rc)"; dump_latest_log; fi
           else
             echo "==> aiml-extension not present; skipping extension trust."
           fi
+
+          # Do not fail the job on non-zero; logs above will capture the root cause
+          exit 0
 
       - name: 🏁 Done (stop after SLC setup)
         shell: bash
