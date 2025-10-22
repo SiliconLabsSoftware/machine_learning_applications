@@ -8,10 +8,6 @@ on:
 permissions:
   contents: read
 
-env:
-  # May be empty; we’ll fall back in bash if not set
-  ARTIFACTORY_PYPI_URL: ${{ vars.ARTIFACTORY_PYPI_URL }}
-
 jobs:
   setup-to-slc:
     runs-on: ubuntu-latest
@@ -27,14 +23,17 @@ jobs:
         with:
           submodules: recursive
 
+      # ------- SSH KEY SETUP (no expressions inside the script) -------
       - name: 🔑 SSH key setup (for internal git over SSH)
         shell: bash
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}   # may be empty
         run: |
           set -e
-          if [ -n "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
+          if [ -n "$SSH_PRIVATE_KEY" ]; then
             echo "==> SSH key provided: configuring ~/.ssh"
             mkdir -p ~/.ssh
-            printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+            printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
             chmod 600 ~/.ssh/id_rsa
             touch ~/.ssh/known_hosts
             echo "==> Preloading known_hosts for stash-mirror.silabs.com & github.com"
@@ -145,9 +144,11 @@ jobs:
       # ---------- SLC (Step 16) ----------
       - name: 🧩 Clone SLC CLI over SSH (internal)
         shell: bash
+        env:
+          HAVE_SSH: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           set -e
-          if [ -n "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
+          if [ -n "$HAVE_SSH" ]; then
             echo "==> Attempting SSH clone of slc_cli from stash-mirror.silabs.com"
             cd "$HOME/tools"
             git clone ssh://git@stash-mirror.silabs.com/simplicity_studio/slc_cli.git || { echo "!! slc_cli clone failed"; exit 1; }
@@ -159,6 +160,10 @@ jobs:
 
       - name: 📜 Install SLC CLI Python deps (via Artifactory creds if provided)
         shell: bash
+        env:
+          ARTI_URL: ${{ vars.ARTIFACTORY_PYPI_URL }}         # may be empty
+          ARTI_USER: ${{ secrets.ARTIFACTORY_USERNAME }}     # may be empty
+          ARTI_KEY:  ${{ secrets.ARTIFACTORY_API_KEY }}      # may be empty
         run: |
           set -e
           if [ ! -d "$HOME/tools/slc_cli" ]; then
@@ -168,18 +173,19 @@ jobs:
 
           source "$HOME/venvs/sisdk/bin/activate"
 
-          # Fallback the URL in bash (NOT in ${{ }})
-          ARTI_URL="${ARTIFACTORY_PYPI_URL:-https://artifactory.silabs.net/artifactory/api/pypi/gsdk-pypi/simple}"
+          # bash-side fallback for URL (no expressions)
+          if [ -z "$ARTI_URL" ]; then
+            ARTI_URL="https://artifactory.silabs.net/artifactory/api/pypi/gsdk-pypi/simple"
+          fi
           echo "==> Using Artifactory URL: $ARTI_URL"
 
           python -m pip install --upgrade setuptools
 
           if [ -f "$HOME/tools/slc_cli/requirements.txt" ]; then
-            if [ -n "${{ secrets.ARTIFACTORY_USERNAME }}" ] && [ -n "${{ secrets.ARTIFACTORY_API_KEY }}" ]; then
+            if [ -n "$ARTI_USER" ] && [ -n "$ARTI_KEY" ]; then
               echo "==> Artifactory creds present; using authenticated index (credentials masked)"
-              # Build https://user:pass@host/path using bash (no ${{ ... }} tricks)
               hostpath="${ARTI_URL#https://}"
-              PIP_INDEX_URL="https://${{ secrets.ARTIFACTORY_USERNAME }}:${{ secrets.ARTIFACTORY_API_KEY }}@${hostpath}"
+              PIP_INDEX_URL="https://${ARTI_USER}:${ARTI_KEY}@${hostpath}"
               PIP_INDEX_URL="$PIP_INDEX_URL" pip install --index-url "$PIP_INDEX_URL" -r "$HOME/tools/slc_cli/requirements.txt"
             else
               echo "!! No Artifactory creds provided; trying default pip index (may fail if deps are internal)"
