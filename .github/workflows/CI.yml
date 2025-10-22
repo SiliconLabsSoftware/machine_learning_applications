@@ -1,4 +1,4 @@
-name: Ubuntu env -> SLC setup (uses SSH & Artifactory secrets) latest
+name: Ubuntu env -> SLC setup (uses SSH & Artifactory secrets) latestrere
 
 on:
   push:
