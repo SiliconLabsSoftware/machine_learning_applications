@@ -98,6 +98,10 @@ jobs:
           ln -sf "$SLC_DIR/slc-cli" "$SLC_DIR/slc"
           echo "UC_CLI_DIR=$SLC_DIR" >> "$GITHUB_ENV"
           echo "$SLC_DIR" >> "$GITHUB_PATH"
+          
+          slc configuration --sdk ~/src/gsdk
+          slc signature trust --sdk ~/src/gsdk
+          slc signature trust --extension-path ~/src/gsdk/extension/aiml-extension
 
       # --- Generate the ml_blink example for brd2601b ---
       - name: Generate ml_blink (brd2601b)
