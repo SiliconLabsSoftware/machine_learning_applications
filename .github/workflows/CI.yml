@@ -164,7 +164,6 @@ jobs:
 
           if [ -z "$SLC_BIN" ]; then
             echo "!! Could not find 'slc' or 'slc-cli' under $HOME/tools/slc_cli"
-            echo "Directory tree for debugging:"
             ls -R "$HOME/tools/slc_cli" || true
             exit 1
           fi
@@ -172,25 +171,27 @@ jobs:
           echo "==> Found SLC binary at: $SLC_BIN"
           chmod +x "$SLC_BIN"
 
-          # dir that contains the executable
+          # Directory containing the executable
           SLC_DIR="$(dirname "$SLC_BIN")"
           echo "==> SLC_DIR: $SLC_DIR"
 
-          # If binary is 'slc-cli', create a convenience alias named 'slc'
+          # If binary is 'slc-cli', create a 'slc' shim for consistency
           if [ "$(basename "$SLC_BIN")" = "slc-cli" ]; then
             echo "==> Creating 'slc' shim pointing to slc-cli"
             ln -sf "$SLC_BIN" "$SLC_DIR/slc"
           fi
 
-          # Persist env and PATH
-          echo "export UC_CLI_DIR=\"$SLC_DIR\"" >> "$HOME/.bashrc"
-          echo "export PATH=\"\$PATH:\$UC_CLI_DIR\"" >> "$HOME/.bashrc"
-          # Load it for this job step and print
-          source "$HOME/.bashrc" || true
+          # Persist to next steps
+          echo "UC_CLI_DIR=$SLC_DIR" >> "$GITHUB_ENV"
+          echo "$SLC_DIR" >> "$GITHUB_PATH"
+
+          # Also export for THIS step so we can test
+          export UC_CLI_DIR="$SLC_DIR"
+          export PATH="$PATH:$UC_CLI_DIR"
+
           echo "UC_CLI_DIR=$UC_CLI_DIR"
           echo "==> which slc"; which slc || true
-          echo "==> Test: slc -h (non-fatal)"
-          slc -h || true
+          echo "==> Test: slc -h (non-fatal)"; slc -h || true
 
       - name: 📜 Install SLC CLI Python deps (via Artifactory creds if provided)
         shell: bash
@@ -231,24 +232,14 @@ jobs:
 
           echo "==> SLC deps install step complete."
 
-      - name: 🔧 Export SLC env & PATH
+      - name: 🐚 Export SLC env & PATH
         shell: bash
         run: |
           set -e
-          if [ -d "$HOME/tools/slc_cli" ]; then
-            echo "==> Exporting env vars for SLC"
-            {
-              echo 'export UC_CLI_DIR="$HOME/tools/slc_cli"'
-              echo 'export SLC_JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"'
-              echo 'export PATH="$PATH:$UC_CLI_DIR"'
-            } >> "$HOME/.bashrc"
-            source "$HOME/.bashrc" || true
-            echo "UC_CLI_DIR=$UC_CLI_DIR"
-            echo "SLC_JAVA_HOME=$SLC_JAVA_HOME"
-            which slc || true
-          else
-            echo "!! slc_cli not present; skipping env PATH export."
-          fi
+          echo "==> Exporting env vars for SLC"
+          echo "UC_CLI_DIR=${UC_CLI_DIR:-<unset>}"
+          echo "SLC_JAVA_HOME=${SLC_JAVA_HOME:-<unset>}"
+          echo "==> which slc"; which slc || echo "!! slc not on PATH yet"
 
       - name: 🚀 Initialize SLC & configure SDK
         shell: bash
