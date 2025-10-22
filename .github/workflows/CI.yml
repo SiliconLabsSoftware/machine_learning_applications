@@ -1,9 +1,16 @@
-name: Ubuntu env -> SLC setup (uses SSH & Artifactory secrets) latestrere
-on: [push]
+name: Ubuntu env -> SLC setup (uses SSH & Artifactory secrets)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
 
 permissions:
-  id-token: write
   contents: read
+
+env:
+  # May be empty; we’ll fall back in bash if not set
+  ARTIFACTORY_PYPI_URL: ${{ vars.ARTIFACTORY_PYPI_URL }}
 
 jobs:
   setup-to-slc:
@@ -20,17 +27,14 @@ jobs:
         with:
           submodules: recursive
 
-      # ------- SSH KEY SETUP (no expressions inside the script) -------
       - name: 🔑 SSH key setup (for internal git over SSH)
         shell: bash
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}   # may be empty
         run: |
           set -e
-          if [ -n "$SSH_PRIVATE_KEY" ]; then
+          if [ -n "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
             echo "==> SSH key provided: configuring ~/.ssh"
             mkdir -p ~/.ssh
-            printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+            printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
             chmod 600 ~/.ssh/id_rsa
             touch ~/.ssh/known_hosts
             echo "==> Preloading known_hosts for stash-mirror.silabs.com & github.com"
@@ -141,11 +145,9 @@ jobs:
       # ---------- SLC (Step 16) ----------
       - name: 🧩 Clone SLC CLI over SSH (internal)
         shell: bash
-        env:
-          HAVE_SSH: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           set -e
-          if [ -n "$HAVE_SSH" ]; then
+          if [ -n "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
             echo "==> Attempting SSH clone of slc_cli from stash-mirror.silabs.com"
             cd "$HOME/tools"
             git clone ssh://git@stash-mirror.silabs.com/simplicity_studio/slc_cli.git || { echo "!! slc_cli clone failed"; exit 1; }
@@ -154,87 +156,3 @@ jobs:
             echo "!! SSH key not provided; cannot clone slc_cli over SSH. Skipping SLC clone."
             exit 0
           fi
-
-      - name: 📜 Install SLC CLI Python deps (via Artifactory creds if provided)
-        shell: bash
-        env:
-          ARTI_URL: ${{ vars.ARTIFACTORY_PYPI_URL }}         # may be empty
-          ARTI_USER: ${{ secrets.ARTIFACTORY_USERNAME }}     # may be empty
-          ARTI_KEY:  ${{ secrets.ARTIFACTORY_API_KEY }}      # may be empty
-        run: |
-          set -e
-          if [ ! -d "$HOME/tools/slc_cli" ]; then
-            echo "!! slc_cli directory not found (clone likely skipped). Skipping deps install."
-            exit 0
-          fi
-
-          source "$HOME/venvs/sisdk/bin/activate"
-
-          # bash-side fallback for URL (no expressions)
-          if [ -z "$ARTI_URL" ]; then
-            ARTI_URL="https://artifactory.silabs.net/artifactory/api/pypi/gsdk-pypi/simple"
-          fi
-          echo "==> Using Artifactory URL: $ARTI_URL"
-
-          python -m pip install --upgrade setuptools
-
-          if [ -f "$HOME/tools/slc_cli/requirements.txt" ]; then
-            if [ -n "$ARTI_USER" ] && [ -n "$ARTI_KEY" ]; then
-              echo "==> Artifactory creds present; using authenticated index (credentials masked)"
-              hostpath="${ARTI_URL#https://}"
-              PIP_INDEX_URL="https://${ARTI_USER}:${ARTI_KEY}@${hostpath}"
-              PIP_INDEX_URL="$PIP_INDEX_URL" pip install --index-url "$PIP_INDEX_URL" -r "$HOME/tools/slc_cli/requirements.txt"
-            else
-              echo "!! No Artifactory creds provided; trying default pip index (may fail if deps are internal)"
-              pip install -r "$HOME/tools/slc_cli/requirements.txt" || true
-            fi
-          else
-            echo "requirements.txt not found; skipping SLC deps install."
-          fi
-
-          echo "==> SLC deps install step complete."
-
-      - name: 🔧 Export SLC env & PATH
-        shell: bash
-        run: |
-          set -e
-          if [ -d "$HOME/tools/slc_cli" ]; then
-            echo "==> Exporting env vars for SLC"
-            {
-              echo 'export UC_CLI_DIR="$HOME/tools/slc_cli"'
-              echo 'export SLC_JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"'
-              echo 'export PATH="$PATH:$UC_CLI_DIR"'
-            } >> "$HOME/.bashrc"
-            source "$HOME/.bashrc" || true
-            echo "UC_CLI_DIR=$UC_CLI_DIR"
-            echo "SLC_JAVA_HOME=$SLC_JAVA_HOME"
-            which slc || true
-          else
-            echo "!! slc_cli not present; skipping env PATH export."
-          fi
-
-      - name: 🚀 Initialize SLC & configure SDK
-        shell: bash
-        run: |
-          set -e
-          if [ -d "$HOME/tools/slc_cli" ]; then
-            source "$HOME/venvs/sisdk/bin/activate"
-            echo "==> slc -h"; slc -h || true
-            echo "==> slc configuration --sdk"; slc configuration --sdk "$HOME/src/gsdk" || true
-            echo "==> slc signature trust --sdk"; slc signature trust --sdk "$HOME/src/gsdk" || true
-            if [ -d "$HOME/src/gsdk/extension/aiml-extension" ]; then
-              echo "==> slc signature trust --extension-path (aiml-extension)"
-              slc signature trust --extension-path "$HOME/src/gsdk/extension/aiml-extension" || true
-            else
-              echo "==> aiml-extension not present; skipping extension trust."
-            fi
-          else
-            echo "!! slc_cli not present; skipping SLC init/config."
-          fi
-
-      - name: 🏁 Done (stop after SLC setup)
-        shell: bash
-        run: |
-          echo "==> Finished through step 16 (SLC setup)."
-          echo "==> If SLC clone failed, confirm SSH_PRIVATE_KEY is added as a secret."
-          echo "==> If deps failed, confirm ARTIFACTORY_USERNAME/API_KEY and (optionally) ARTIFACTORY_PYPI_URL."
