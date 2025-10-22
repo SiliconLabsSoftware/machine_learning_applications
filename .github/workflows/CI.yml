@@ -12,7 +12,7 @@ jobs:
       - run: echo "Actions wiring is good ✅"
 
   checkout:
-    runs-on: silabs-internal
+    runs-on: ubuntu-latest
     steps:
       - name: Setup GitHub app token for SiliconLabsInternal
         uses: actions/create-github-app-token@v2
