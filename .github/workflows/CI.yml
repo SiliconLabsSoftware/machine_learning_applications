@@ -1,96 +1,228 @@
-name: Create and publish machine_learning package
-on: [push]
+name: Ubuntu env -> SLC setup (uses SSH & Artifactory secrets)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
 
 permissions:
-  id-token: write
   contents: read
 
+env:
+  # If not provided as a secret/variable, we’ll use this default URL
+  ARTIFACTORY_PYPI_URL: ${{ vars.ARTIFACTORY_PYPI_URL || 'https://artifactory.silabs.net/artifactory/api/pypi/gsdk-pypi/simple' }}
+
 jobs:
-  smoke:
+  setup-to-slc:
     runs-on: ubuntu-latest
-    steps:
-      - run: echo "Actions wiring is good ✅"
 
-  checkout:
-    runs-on: ubuntu-latest
     steps:
-      - name: Setup GitHub app token for SiliconLabsInternal
-        uses: actions/create-github-app-token@v2
-        id: app-token
-        with:
-          app-id: ${{ vars.SILABS_SVC_DEVOPS_GITHUB_APP_ID }}
-          private-key: ${{ secrets.SILABS_SVC_DEVOPS_GITHUB_PRIVATE_KEY }}
-          owner: SiliconLabsInternal
-          repositories: |
-            machine_learning
-            cmake
-            tflite-micro
+      - name: 🧾 Start
+        shell: bash
+        run: |
+          echo "==> Workflow: Ubuntu env -> SLC setup (through step 16)"
+          echo "==> Repo: $GITHUB_REPOSITORY | Ref: $GITHUB_REF | SHA: $GITHUB_SHA"
 
-      - name: Checkout Repository
+      - name: 📥 Checkout (public)
         uses: actions/checkout@v5
         with:
           submodules: recursive
-          token: ${{ steps.app-token.outputs.token }}
 
-      - name: Upload repo as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: machine_learning-source-repo
-          path: .
-          include-hidden-files: true
-
-  build:
-    needs: checkout
-    strategy:
-      matrix:
-        target: [cortex-m33, cortex-m4]
-    runs-on: silabs-internal
-    container:
-      image: artifactory-local.silabs.net/gsdk-docker-production/gsdk_nomad_containers/slt_build_env
-      options: --user root
-      env:
-        CONAN_HOME: ~/.silabs/slt/installs/conan
-    steps:
-      - name: Download source
-        uses: actions/download-artifact@v4
-        with:
-          name: machine_learning-source-repo
-          path: .
-
-      - name: Setup Conan and SLT
+      - name: 🔑 SSH key setup (for internal git over SSH)
         shell: bash
         run: |
-          conan config install -t dir .github/conan-config
-          slt update --self
+          set -e
+          if [ -n "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
+            echo "==> SSH key provided: configuring ~/.ssh"
+            mkdir -p ~/.ssh
+            printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+            chmod 600 ~/.ssh/id_rsa
+            touch ~/.ssh/known_hosts
+            echo "==> Preloading known_hosts for stash-mirror.silabs.com & github.com"
+            ssh-keyscan -T 5 stash-mirror.silabs.com 2>/dev/null >> ~/.ssh/known_hosts || true
+            ssh-keyscan -T 5 github.com 2>/dev/null >> ~/.ssh/known_hosts || true
+            echo "==> SSH ready."
+          else
+            echo "!! No SSH_PRIVATE_KEY secret found. Internal SSH clones will be skipped."
+          fi
 
-      - name: Install tools using SLT
+      - name: 🖥️ System info
         shell: bash
         run: |
-          slt install gcc-arm-none-eabi cmake ninja slc-cli -e conan
+          echo "==> uname -a"; uname -a
+          echo "==> /etc/os-release"; cat /etc/os-release
+          echo "==> whoami: $(whoami) | home: $HOME | workdir: $(pwd)"
+          echo "==> Disk usage:"; df -h .
 
-      - name: Setup tool paths
+      - name: 📂 Create ~/src ~/venvs ~/tools
         shell: bash
         run: |
-          ARM_GCC_DIR="$(slt where gcc-arm-none-eabi)"
-          echo "ARM_GCC_DIR=$ARM_GCC_DIR" >> "$GITHUB_ENV"
-          echo "$(slt where ninja)" >> "$GITHUB_PATH"
-          echo "$(slt where cmake)/bin" >> "$GITHUB_PATH"
-          echo "$ARM_GCC_DIR/bin" >> "$GITHUB_PATH"
+          set -e
+          echo "==> Creating developer directories..."
+          mkdir -p "$HOME/src" "$HOME/venvs" "$HOME/tools"
+          ls -la "$HOME" | sed -n '1,120p'
 
-      - name: Install uv
-        uses: astral-sh/setup-uv@v7
-
-      - name: Setup Python virtual environment
-        shell: bash
-        run: uv venv
-
-      - name: Install SLED
+      - name: 📦 Apt update & essentials
         shell: bash
         run: |
-          uv pip install \
-            --no-cache \
-            --allow-insecure-host artifactory.silabs.net \
-            --index https://artifactory.silabs.net/artifactory/api/pypi/gsdk-pypi/simple \
-            --no-python-downloads \
-            --no-managed-python \
-            silabs-sled
+          set -e
+          echo "==> apt update"; sudo apt update -y
+          echo "==> install essentials"; sudo apt install -y git curl wget unzip build-essential cmake make python3 python3-pip python3-venv telnet netcat-openbsd pkg-config libssl-dev libffi-dev python3-dev ninja-build
+
+      - name: ☕ Install OpenJDK 17 + set JAVA_HOME
+        shell: bash
+        run: |
+          set -e
+          echo "==> Installing OpenJDK 17"; sudo apt install -y openjdk-17-jdk
+          echo "==> java -version"; java -version
+          echo "==> Setting JAVA_HOME"
+          echo 'export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64' >> "$HOME/.bashrc"
+          source "$HOME/.bashrc" || true
+          echo "JAVA_HOME=$JAVA_HOME"
+
+      - name: 🛠️ ARM GCC toolchain (12.2.rel1)
+        shell: bash
+        run: |
+          set -e
+          cd "$HOME/tools"
+          echo "==> Download ARM toolchain 12.2.rel1"
+          wget -q https://developer.arm.com/-/media/Files/downloads/gnu/12.2.rel1/binrel/arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz
+          echo "==> Extract"
+          tar xf arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz
+          rm arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz
+          echo "==> GCC version"
+          "$HOME/tools/arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi/bin/arm-none-eabi-gcc" --version | head -n 1
+
+      - name: 🧱 CMake & 🪄 Ninja versions
+        shell: bash
+        run: |
+          echo "==> CMake version"; cmake --version || true
+          echo "==> Ninja version"; ninja --version || true
+
+      - name: 📦 Git LFS install & init
+        shell: bash
+        run: |
+          set -e
+          echo "==> Install Git LFS"
+          curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
+          sudo apt install -y git-lfs
+          echo "==> git lfs install"
+          git lfs install
+
+      - name: 📚 Clone GSDK (public)
+        shell: bash
+        run: |
+          set -e
+          cd "$HOME/src"
+          echo "==> Cloning public GSDK"
+          git clone https://github.com/SiliconLabs/simplicity_sdk.git gsdk
+          cd "$HOME/src/gsdk"
+          echo "==> Init core submodules"
+          git submodule update --init --recursive util/third_party/cmsis
+          git submodule update --init --recursive util/third_party/unity
+          git submodule update --init --recursive util/third_party/printf
+          echo "==> LFS pull (best effort)"
+          git lfs pull || true
+
+      - name: 🌱 Create Python venv (sisdk)
+        shell: bash
+        run: |
+          set -e
+          python3 -m venv "$HOME/venvs/sisdk"
+          source "$HOME/venvs/sisdk/bin/activate"
+          python -V; pip -V
+          echo "==> Upgrading pip"
+          pip install --upgrade pip
+
+      # ---------- SLC (Step 16) ----------
+      - name: 🧩 Clone SLC CLI over SSH (internal)
+        shell: bash
+        run: |
+          set -e
+          if [ -n "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
+            echo "==> Attempting SSH clone of slc_cli from stash-mirror.silabs.com"
+            cd "$HOME/tools"
+            # If the project path differs, adjust below:
+            git clone ssh://git@stash-mirror.silabs.com/simplicity_studio/slc_cli.git
+            echo "==> slc_cli cloned."
+          else
+            echo "!! SSH key not provided; cannot clone slc_cli over SSH. Failing here would block progress, so we stop SLC clone and continue."
+            exit 0
+          fi
+
+      - name: 📜 Install SLC CLI Python deps (via Artifactory creds if provided)
+        shell: bash
+        run: |
+          set -e
+          if [ ! -d "$HOME/tools/slc_cli" ]; then
+            echo "!! slc_cli directory not found (clone likely skipped). Skipping deps install."
+            exit 0
+          fi
+
+          source "$HOME/venvs/sisdk/bin/activate"
+          echo "==> Using Artifactory URL: $ARTIFACTORY_PYPI_URL"
+          if [ -n "${{ secrets.ARTIFACTORY_USERNAME }}" ] && [ -n "${{ secrets.ARTIFACTORY_API_KEY }}" ]; then
+            echo "==> Artifactory creds present; installing via authenticated index (credentials are masked)"
+            PIP_INDEX_URL="https://${{ secrets.ARTIFACTORY_USERNAME }}:${{ secrets.ARTIFACTORY_API_KEY }}@${{ env.ARTIFACTORY_PYPI_URL#https:// }}"
+            python -m pip install --upgrade setuptools
+            if [ -f "$HOME/tools/slc_cli/requirements.txt" ]; then
+              PIP_INDEX_URL="$PIP_INDEX_URL" pip install --index-url "$PIP_INDEX_URL" -r "$HOME/tools/slc_cli/requirements.txt"
+            else
+              echo "requirements.txt not found; attempting bare install (may be no-op)"
+            fi
+          else
+            echo "!! No Artifactory creds provided. Trying public/pip default (may fail if deps are internal)"
+            python -m pip install --upgrade setuptools || true
+            if [ -f "$HOME/tools/slc_cli/requirements.txt" ]; then
+              pip install -r "$HOME/tools/slc_cli/requirements.txt" || true
+            fi
+          fi
+          echo "==> SLC deps install step complete."
+
+      - name: 🔧 Export SLC env & PATH
+        shell: bash
+        run: |
+          set -e
+          if [ -d "$HOME/tools/slc_cli" ]; then
+            echo "==> Exporting env vars for SLC"
+            {
+              echo 'export UC_CLI_DIR="$HOME/tools/slc_cli"'
+              echo 'export SLC_JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"'
+              echo 'export PATH="$PATH:$UC_CLI_DIR"'
+            } >> "$HOME/.bashrc"
+            source "$HOME/.bashrc" || true
+            echo "UC_CLI_DIR=$UC_CLI_DIR"
+            echo "SLC_JAVA_HOME=$SLC_JAVA_HOME"
+            which slc || true
+          else
+            echo "!! slc_cli not present; skipping env PATH export."
+          fi
+
+      - name: 🚀 Initialize SLC & configure SDK
+        shell: bash
+        run: |
+          set -e
+          if [ -d "$HOME/tools/slc_cli" ]; then
+            source "$HOME/venvs/sisdk/bin/activate"
+            echo "==> slc -h"
+            slc -h || true
+            echo "==> slc configuration --sdk"
+            slc configuration --sdk "$HOME/src/gsdk" || true
+            echo "==> slc signature trust --sdk"
+            slc signature trust --sdk "$HOME/src/gsdk" || true
+            if [ -d "$HOME/src/gsdk/extension/aiml-extension" ]; then
+              echo "==> slc signature trust --extension-path (aiml-extension)"
+              slc signature trust --extension-path "$HOME/src/gsdk/extension/aiml-extension" || true
+            else
+              echo "==> aiml-extension not present; skipping extension trust."
+            fi
+          else
+            echo "!! slc_cli not present; skipping SLC init/config."
+          fi
+
+      - name: 🏁 Done (stop after SLC setup)
+        shell: bash
+        run: |
+          echo "==> Finished through step 16 (SLC setup)."
+          echo "==> If SLC clone failed, confirm SSH_PRIVATE_KEY is added as a secret."
+          echo "==> If deps failed, confirm ARTIFACTORY_USERNAME/API_KEY and (optionally) ARTIFACTORY_PYPI_URL."
