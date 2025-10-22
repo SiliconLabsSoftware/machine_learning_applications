@@ -1,19 +1,20 @@
 name: Ubuntu env -> SLC setup (uses SSH & Artifactory secrets)
 
-on: [push]
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
 
 permissions:
-  id-token: write
   contents: read
 
 env:
-  # If not provided as a secret/variable, we’ll use this default URL
-  ARTIFACTORY_PYPI_URL: ${{ vars.ARTIFACTORY_PYPI_URL || 'https://artifactory.silabs.net/artifactory/api/pypi/gsdk-pypi/simple' }}
+  # May be empty; we’ll fall back in bash if not set
+  ARTIFACTORY_PYPI_URL: ${{ vars.ARTIFACTORY_PYPI_URL }}
 
 jobs:
   setup-to-slc:
     runs-on: ubuntu-latest
-
     steps:
       - name: 🧾 Start
         shell: bash
@@ -65,7 +66,16 @@ jobs:
         run: |
           set -e
           echo "==> apt update"; sudo apt update -y
-          echo "==> install essentials"; sudo apt install -y git curl wget unzip build-essential cmake make python3 python3-pip python3-venv telnet netcat-openbsd pkg-config libssl-dev libffi-dev python3-dev ninja-build
+          echo "==> install essentials"
+          sudo apt install -y git curl wget unzip build-essential cmake make \
+                               python3 python3-pip python3-venv pkg-config \
+                               libssl-dev libffi-dev python3-dev ninja-build \
+                               telnet netcat-openbsd
+          echo "==> Versions:"
+          python3 --version || true
+          pip3 --version || true
+          cmake --version || true
+          ninja --version || true
 
       - name: ☕ Install OpenJDK 17 + set JAVA_HOME
         shell: bash
@@ -140,11 +150,10 @@ jobs:
           if [ -n "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
             echo "==> Attempting SSH clone of slc_cli from stash-mirror.silabs.com"
             cd "$HOME/tools"
-            # If the project path differs, adjust below:
-            git clone ssh://git@stash-mirror.silabs.com/simplicity_studio/slc_cli.git
+            git clone ssh://git@stash-mirror.silabs.com/simplicity_studio/slc_cli.git || { echo "!! slc_cli clone failed"; exit 1; }
             echo "==> slc_cli cloned."
           else
-            echo "!! SSH key not provided; cannot clone slc_cli over SSH. Failing here would block progress, so we stop SLC clone and continue."
+            echo "!! SSH key not provided; cannot clone slc_cli over SSH. Skipping SLC clone."
             exit 0
           fi
 
@@ -168,7 +177,7 @@ jobs:
           if [ -f "$HOME/tools/slc_cli/requirements.txt" ]; then
             if [ -n "${{ secrets.ARTIFACTORY_USERNAME }}" ] && [ -n "${{ secrets.ARTIFACTORY_API_KEY }}" ]; then
               echo "==> Artifactory creds present; using authenticated index (credentials masked)"
-              # Build https://user:pass@host/path by stripping scheme in BASH, not in ${{ }}
+              # Build https://user:pass@host/path using bash (no ${{ ... }} tricks)
               hostpath="${ARTI_URL#https://}"
               PIP_INDEX_URL="https://${{ secrets.ARTIFACTORY_USERNAME }}:${{ secrets.ARTIFACTORY_API_KEY }}@${hostpath}"
               PIP_INDEX_URL="$PIP_INDEX_URL" pip install --index-url "$PIP_INDEX_URL" -r "$HOME/tools/slc_cli/requirements.txt"
@@ -207,12 +216,9 @@ jobs:
           set -e
           if [ -d "$HOME/tools/slc_cli" ]; then
             source "$HOME/venvs/sisdk/bin/activate"
-            echo "==> slc -h"
-            slc -h || true
-            echo "==> slc configuration --sdk"
-            slc configuration --sdk "$HOME/src/gsdk" || true
-            echo "==> slc signature trust --sdk"
-            slc signature trust --sdk "$HOME/src/gsdk" || true
+            echo "==> slc -h"; slc -h || true
+            echo "==> slc configuration --sdk"; slc configuration --sdk "$HOME/src/gsdk" || true
+            echo "==> slc signature trust --sdk"; slc signature trust --sdk "$HOME/src/gsdk" || true
             if [ -d "$HOME/src/gsdk/extension/aiml-extension" ]; then
               echo "==> slc signature trust --extension-path (aiml-extension)"
               slc signature trust --extension-path "$HOME/src/gsdk/extension/aiml-extension" || true
