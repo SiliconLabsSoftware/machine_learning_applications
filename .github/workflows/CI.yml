@@ -65,12 +65,12 @@ jobs:
           git clone https://github.com/SiliconLabs/simplicity_sdk.git gsdk
           cd "$HOME/src/gsdk"
           git checkout v2025.6.2
-          cd "$HOME/src/gsdk"
           mkdir extension
-          cd "$HOME/src/gsdk/extension"
-          git clone https://github.com/SiliconLabsSoftware/aiml-extension.git aiml-extension
-          cd "$HOME/src/gsdk/extension/aiml-extension"
-          git checkout v2.1.2
+          cd extension
+          git clone --recurse-submodules https://github.com/SiliconLabsSoftware/aiml-extension.git aiml-extension
+          cd aiml-extension
+          git checkout v2.1.2      
+          git submodule update --init --recursive
           git lfs pull || true
 
       - name:  Create Python venv (sisdk)
