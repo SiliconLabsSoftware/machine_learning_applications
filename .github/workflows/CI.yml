@@ -112,49 +112,26 @@ jobs:
           slc signature trust --sdk ~/src/gsdk
           slc signature trust --extension-path ~/src/gsdk/extension/aiml-extension
 
+      - name: Print SLC version
+        shell: bash
+        run: |
+          set -e
+          echo "SLC version:"
+          "$UC_CLI_DIR/slc" -vm "$JAVA_HOME/bin/java" -h | head -n 1
+
       # --- Generate the ml_blink example for brd2601b ---
       - name: Generate ml_blink (brd2601b)
         shell: bash
         run: |
           set -e
-          EX_DIR="$HOME/src/gsdk/extension/aiml-extension/examples/ml_blink"
-          TGT_DIR="$EX_DIR/target/brd2601b"
-
-          echo "==> Example dir: $EX_DIR"
-          test -d "$EX_DIR" || { echo "!! Example dir not found"; exit 1; }
+          cd "$HOME/src/gsdk/extension/aiml-extension/examples/ml_blink"
 
           SLC_BIN="${UC_CLI_DIR}/slc"
-          test -x "$SLC_BIN" || { echo "!! slc not found at $SLC_BIN"; exit 1; }
 
-          VM_ARG=()
-          if [ -n "${JAVA_HOME:-}" ] && [ -x "${JAVA_HOME}/bin/java" ]; then
-            VM_ARG=( -vm "${JAVA_HOME}/bin/java" )
-          fi
-
-          echo "==> slc ${VM_ARG[*]} generate"
-          cd "$EX_DIR"
-          "$SLC_BIN" "${VM_ARG[@]}" generate -d "$TGT_DIR" -p ml_blink.slcp --with brd2601b -s "$HOME/src/gsdk"
+          "$SLC_BIN" generate -d target/brd2601b -p ml_blink.slcp --with brd2601b -s "$HOME/src/gsdk"
 
           echo "==> Generation complete."
-          ls -la "$TGT_DIR" || true
-          
-      # Verify ARM toolchain is available
-      - name: Verify ARM GCC on PATH
-        shell: bash
-        run: |
-          set -e
-          echo "PATH=$PATH"
-          which arm-none-eabi-gcc
-          arm-none-eabi-gcc --version | head -n1
 
-      # Clean any CMake cache that captured /usr/bin/cc
-      - name: Clean CMake cache for ml_blink
-        shell: bash
-        run: |
-          set -e
-          EX_DIR="$HOME/src/gsdk/extension/aiml-extension/examples/ml_blink"
-          rm -rf "$EX_DIR/target/brd2601b/ml_blink_cmake/build" || true
-          rm -f  "$EX_DIR/target/brd2601b/ml_blink_cmake/CMakeCache.txt" || true
 
       # Reconfigure and build with the ARM toolchain
       # Reconfigure and build with the ARM toolchain
@@ -162,41 +139,11 @@ jobs:
         shell: bash
         run: |
           set -e
+          cd "$HOME/src/gsdk/extension/aiml-extension/examples/ml_blink"
+          cmake --preset project -S target/brd2601b/ml_blink_cmake
+          cmake --build target/brd2601b/ml_blink_cmake/build
 
-          # Directories
-          EX_DIR="$HOME/src/gsdk/extension/aiml-extension/examples/ml_blink"
-          BDIR="$EX_DIR/target/brd2601b/ml_blink_cmake/build"
 
-          # Ensure ARM_GCC_ROOT is set
-          : "${ARM_GCC_ROOT:?ARM_GCC_ROOT must be set}"
-
-          echo "==> ARM_GCC_ROOT = $ARM_GCC_ROOT"
-          ls -l "$ARM_GCC_ROOT/bin/arm-none-eabi-gcc"
-          ls -l "$ARM_GCC_ROOT/bin/arm-none-eabi-g++"
-
-          # Clean any stale CMake cache or previous builds
-          echo "==> Cleaning previous build directories"
-          rm -rf "$BDIR" \
-                "$EX_DIR/target/brd2601b/ml_blink_cmake/CMakeCache.txt" \
-                "$EX_DIR/target/brd2601b/ml_blink_cmake/CMakeFiles" || true
-          mkdir -p "$BDIR"
-
-          # Configure with correct compilers
-          echo "==> Running CMake configuration"
-          cmake -S "$EX_DIR/target/brd2601b/ml_blink_cmake" \
-                -B "$BDIR" \
-                -G Ninja \
-                -DCMAKE_TOOLCHAIN_FILE="$EX_DIR/target/brd2601b/ml_blink_cmake/toolchain.cmake" \
-                -DCMAKE_C_COMPILER:FILEPATH="$ARM_GCC_ROOT/bin/arm-none-eabi-gcc" \
-                -DCMAKE_CXX_COMPILER:FILEPATH="$ARM_GCC_ROOT/bin/arm-none-eabi-g++" \
-                -DCMAKE_ASM_COMPILER:FILEPATH="$ARM_GCC_ROOT/bin/arm-none-eabi-gcc" \
-                -DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY
-
-          # Build
-          echo "==> Building project"
-          cmake --build "$BDIR" -- -v
-
-          echo "==> Build complete ✅"
 
       # --- Verify expected outputs exist ---
       - name: Verify output files
