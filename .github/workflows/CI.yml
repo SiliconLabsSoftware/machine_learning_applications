@@ -55,8 +55,8 @@ jobs:
           rm arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz
           mv arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi armgnu
           TOOLROOT="$HOME/tools/armgnu"
-          echo "ARM_GCC_ROOT=$TOOLROOT" >> "$GITHUB_ENV"
-          echo "$TOOLROOT/bin"          >> "$GITHUB_PATH"
+          echo "ARM_GCC_DIR=$TOOLROOT" >> "$GITHUB_ENV"
+          echo "$TOOLROOT/bin/"          >> "$GITHUB_PATH"
 
           echo "==> GCC version"
           "$TOOLROOT/bin/arm-none-eabi-gcc" --version | head -n 1
@@ -131,6 +131,7 @@ jobs:
         run: |
           set -e
           cd "$HOME/src/gsdk/extension/aiml-extension/examples/ml_blink"
+          echo "$ARM_GCC_DIR"
           cmake --preset project -S target/brd2601b/ml_blink_cmake
           cmake --build target/brd2601b/ml_blink_cmake/build
 
