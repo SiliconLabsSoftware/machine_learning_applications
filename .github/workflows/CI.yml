@@ -53,7 +53,8 @@ jobs:
           wget -q https://developer.arm.com/-/media/Files/downloads/gnu/12.2.rel1/binrel/arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz
           tar xf arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz
           rm arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz
-          TOOLROOT="$HOME/tools/arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi"
+          mv arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi armgnu
+          TOOLROOT="$HOME/tools/armgnu"
           echo "ARM_GCC_ROOT=$TOOLROOT" >> "$GITHUB_ENV"
           echo "$TOOLROOT/bin"          >> "$GITHUB_PATH"
 
@@ -156,26 +157,46 @@ jobs:
           rm -f  "$EX_DIR/target/brd2601b/ml_blink_cmake/CMakeCache.txt" || true
 
       # Reconfigure and build with the ARM toolchain
+      # Reconfigure and build with the ARM toolchain
       - name: Build ml_blink (ARM toolchain)
         shell: bash
         run: |
           set -e
+
+          # Directories
           EX_DIR="$HOME/src/gsdk/extension/aiml-extension/examples/ml_blink"
           BDIR="$EX_DIR/target/brd2601b/ml_blink_cmake/build"
 
+          # Ensure ARM_GCC_ROOT is set
           : "${ARM_GCC_ROOT:?ARM_GCC_ROOT must be set}"
 
-          echo "ARM_GCC_ROOT = $ARM_GCC_ROOT"
+          echo "==> ARM_GCC_ROOT = $ARM_GCC_ROOT"
           ls -l "$ARM_GCC_ROOT/bin/arm-none-eabi-gcc"
           ls -l "$ARM_GCC_ROOT/bin/arm-none-eabi-g++"
-          rm -rf "$BDIR" "$EX_DIR/target/brd2601b/ml_blink_cmake/CMakeCache.txt" \
+
+          # Clean any stale CMake cache or previous builds
+          echo "==> Cleaning previous build directories"
+          rm -rf "$BDIR" \
+                "$EX_DIR/target/brd2601b/ml_blink_cmake/CMakeCache.txt" \
                 "$EX_DIR/target/brd2601b/ml_blink_cmake/CMakeFiles" || true
           mkdir -p "$BDIR"
 
-          cmake -S "$EX_DIR/target/brd2601b/ml_blink_cmake" -B "$BDIR" -G Ninja -DCMAKE_TOOLCHAIN_FILE="$EX_DIR/target/brd2601b/ml_blink_cmake/toolchain.cmake" -DCMAKE_C_COMPILER="$ARM_GCC_ROOT/bin/arm-none-eabi-gcc" -DCMAKE_CXX_COMPILER="$ARM_GCC_ROOT/bin/arm-none-eabi-g++" -DCMAKE_ASM_COMPILER="$ARM_GCC_ROOT/bin/arm-none-eabi-gcc" -DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY
+          # Configure with correct compilers
+          echo "==> Running CMake configuration"
+          cmake -S "$EX_DIR/target/brd2601b/ml_blink_cmake" \
+                -B "$BDIR" \
+                -G Ninja \
+                -DCMAKE_TOOLCHAIN_FILE="$EX_DIR/target/brd2601b/ml_blink_cmake/toolchain.cmake" \
+                -DCMAKE_C_COMPILER:FILEPATH="$ARM_GCC_ROOT/bin/arm-none-eabi-gcc" \
+                -DCMAKE_CXX_COMPILER:FILEPATH="$ARM_GCC_ROOT/bin/arm-none-eabi-g++" \
+                -DCMAKE_ASM_COMPILER:FILEPATH="$ARM_GCC_ROOT/bin/arm-none-eabi-gcc" \
+                -DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY
 
+          # Build
+          echo "==> Building project"
           cmake --build "$BDIR" -- -v
 
+          echo "==> Build complete ✅"
 
       # --- Verify expected outputs exist ---
       - name: Verify output files
