@@ -29,10 +29,14 @@ source:
   - path: magic_wand.cc
   - path: accelerometer.cc
   - path: bluetooth.c
+sdk_extension:
+  - id: aiml
+    version: 2.1.2
 component:
   - id: sl_system
   - id: device_init
   - id: tensorflow_lite_micro
+    from: aiml
   - id: imu_driver
   - id: iostream_recommended_stream
   - id: power_manager
@@ -55,6 +59,17 @@ component:
   - id: printf
   - id: simple_button
     instance: [btn0]
+  - id: tensorflow_debug_log_iostream
+    from: aiml
+  - id: tensorflow_lite_micro_accelerated_kernels
+    from: aiml
+    condition: [device_has_mvp]
+  - id: tensorflow_lite_micro_optimized_kernels
+    from: aiml
+    condition: [device_has_mvp]
+  - id: tensorflow_lite_micro_optimized_kernels
+    from: aiml
+    condition: [device_compute_basic]
 define:
   - name: DEBUG_EFM
   - name: TF_LITE_STATIC_MEMORY

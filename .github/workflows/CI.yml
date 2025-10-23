@@ -144,6 +144,28 @@ jobs:
           done
           ((missing == 0)) || { echo "!! One or more build outputs are missing"; exit 1; }
 
+      - name: Copy repo into GSDK extensions folder
+        shell: bash
+        run: |
+          set -e
+          EXT_DIR="$HOME/src/gsdk/extension"
+          cp -r "$GITHUB_WORKSPACE" "$EXT_DIR/machine_learning_applications"
+
+          # Verify placement
+          cd "$EXT_DIR/machine_learning_applications"
+          tree -L 4
+
+      - name: Generate & build ble_magic_wand
+        shell: bash
+        run: |
+          set -e
+          cd "$HOME/src/gsdk/extension/machine_learning_applications/application/imu/ble_magic_wand"
+          slc generate -d target/brd2601b -p ble_magic_wand.slcp --with brd2601b -s "$HOME/src/gsdk"
+          cmake --preset project -S target/brd2601b/ble_magic_wand_cmake
+          cmake --build target/brd2601b/ble_magic_wand_cmake/build
+
+
+
       - name: Done
         shell: bash
         run: |
