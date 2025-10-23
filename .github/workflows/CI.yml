@@ -136,35 +136,37 @@ jobs:
 
           echo "==> Generation complete."
           ls -la "$TGT_DIR" || true
+          
+      # Verify ARM toolchain is available
+      - name: Verify ARM GCC on PATH
+        shell: bash
+        run: |
+          set -e
+          echo "PATH=$PATH"
+          which arm-none-eabi-gcc
+          arm-none-eabi-gcc --version | head -n1
 
-      # --- Build with cmake ---- 
-      - name: Build ml_blink (no SLED)
+      # Clean any CMake cache that captured /usr/bin/cc
+      - name: Clean CMake cache for ml_blink
         shell: bash
         run: |
           set -e
           EX_DIR="$HOME/src/gsdk/extension/aiml-extension/examples/ml_blink"
-          TGT_DIR="$EX_DIR/target/brd2601b"
+          rm -rf "$EX_DIR/target/brd2601b/ml_blink_cmake/build" || true
+          rm -f  "$EX_DIR/target/brd2601b/ml_blink_cmake/CMakeCache.txt" || true
 
-          # Prefer preset if SLC generated it
-          if [ -f "$TGT_DIR/CMakePresets.json" ]; then
-            echo "==> Using CMake preset"
-            cmake --preset project -S "$TGT_DIR"
-            cmake --build "$TGT_DIR/build" --parallel
-          # Otherwise fall back to the classic cmake_gcc structure
-          elif [ -d "$TGT_DIR/cmake_gcc" ]; then
-            echo "==> Using classic cmake_gcc path"
-            cmake -S "$TGT_DIR/cmake_gcc" -B "$TGT_DIR/cmake_gcc/build" -G Ninja
-            cmake --build "$TGT_DIR/cmake_gcc/build" --parallel
-          # Or if your generator created ml_blink_cmake/, handle that too
-          elif [ -d "$TGT_DIR/ml_blink_cmake" ]; then
-            echo "==> Using ml_blink_cmake path"
-            cmake -S "$TGT_DIR/ml_blink_cmake" -B "$TGT_DIR/ml_blink_cmake/build" -G Ninja
-            cmake --build "$TGT_DIR/ml_blink_cmake/build" --parallel
-          else
-            echo "!! No known CMake layout found in $TGT_DIR"
-            ls -la "$TGT_DIR" || true
-            exit 1
-          fi
+      # Reconfigure and build with the ARM toolchain
+      - name: Build ml_blink (ARM toolchain)
+        shell: bash
+        run: |
+          set -e
+          EX_DIR="$HOME/src/gsdk/extension/aiml-extension/examples/ml_blink"
+          cd "$EX_DIR"
+          # Force compilers in case presets/toolchain file don’t do it
+          export CC=arm-none-eabi-gcc
+          export CXX=arm-none-eabi-g++
+          cmake --preset project -S target/brd2601b/ml_blink_cmake
+          cmake --build target/brd2601b/ml_blink_cmake/build
 
 
       # --- Verify expected outputs exist ---
