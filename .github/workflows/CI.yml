@@ -69,6 +69,7 @@ jobs:
           mkdir extension
           cd "$HOME/src/gsdk/extension"
           git clone https://github.com/SiliconLabsSoftware/aiml-extension.git aiml-extension
+          git checkout v2.1.2
           git lfs pull || true
 
       - name:  Create Python venv (sisdk)
