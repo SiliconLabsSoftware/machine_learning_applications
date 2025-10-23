@@ -110,11 +110,42 @@ jobs:
         shell: bash
         run: |
           set -e
+          EX_DIR="$HOME/src/gsdk/extension/aiml-extension/examples/ml_blink"
+          TGT_DIR="$EX_DIR/target/brd2601b"
+
+          echo "==> Example dir: $EX_DIR"
+          test -d "$EX_DIR" || { echo "!! Example dir not found"; exit 1; }
+
+          SLC_BIN="${UC_CLI_DIR}/slc"
+          test -x "$SLC_BIN" || { echo "!! slc not found at $SLC_BIN"; exit 1; }
+
+          VM_ARG=()
+          if [ -n "${JAVA_HOME:-}" ] && [ -x "${JAVA_HOME}/bin/java" ]; then
+            VM_ARG=( -vm "${JAVA_HOME}/bin/java" )
+          fi
+
+          echo "==> slc ${VM_ARG[*]} generate"
+          cd "$EX_DIR"
+          "$SLC_BIN" "${VM_ARG[@]}" generate -d "$TGT_DIR" -p ml_blink.slcp --with brd2601b -s "$HOME/src/gsdk"
+
+          echo "==> Generation complete."
+          ls -la "$TGT_DIR" || true
+
+      # --- Build with SLED ---
+      - name:  Build ml_blink with SLED
+        shell: bash
+        run: |
+          set -e
           source "$HOME/venvs/sisdk/bin/activate"
-          cd "$HOME/src/gsdk/extension/aiml-extension/examples/ml_blink"
-          slc generate -d target/brd2601b -p ml_blink.slcp --with brd2601b -s "$HOME/src/gsdk"
+          EX_DIR="$HOME/src/gsdk/extension/aiml-extension/examples/ml_blink"
+          TGT_DIR="$EX_DIR/target/brd2601b"
+
+          echo "==> sled slc build $TGT_DIR"
           cmake --preset project -S target/brd2601b/ml_blink_cmake
           cmake --build target/brd2601b/ml_blink_cmake/build
+
+          echo "==> Build tree:"
+          find "$TGT_DIR" -maxdepth 4 -type d -name build -print -exec ls -la {} \; || true
 
       # --- Verify expected outputs exist ---
       - name: Verify output files
