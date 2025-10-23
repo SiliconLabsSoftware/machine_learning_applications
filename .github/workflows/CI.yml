@@ -131,7 +131,7 @@ jobs:
           echo "==> Generation complete."
           ls -la "$TGT_DIR" || true
 
-      # --- Build with SLED ---
+      # --- Build with cmake ---
       - name:  Build ml_blink with SLED
         shell: bash
         run: |
@@ -140,9 +140,9 @@ jobs:
           EX_DIR="$HOME/src/gsdk/extension/aiml-extension/examples/ml_blink"
           TGT_DIR="$EX_DIR/target/brd2601b"
 
-          echo "==> sled slc build $TGT_DIR"
-          cmake --preset project -S target/brd2601b/ml_blink_cmake
-          cmake --build target/brd2601b/ml_blink_cmake/build
+          echo "==> cmake build $TGT_DIR"
+          cmake --preset project -S target/brd2601b
+          cmake --build target/brd2601b/build
 
           echo "==> Build tree:"
           find "$TGT_DIR" -maxdepth 4 -type d -name build -print -exec ls -la {} \; || true
