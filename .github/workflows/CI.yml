@@ -124,28 +124,26 @@ jobs:
           cmake --build target/brd2601b/ml_blink_cmake/build
           cd target
           tree
-
-      # --- Verify expected outputs exist ---
-      - name: Verify output files
-        shell: bash
-        run: |
-          set -e
-          OUT_DIR=path=$(find ./target -type f -name "*.s37" -exec dirname {} \; | head -n 1)
-
-          echo "==> Checking outputs in: $OUT_DIR"
           
+          OUT_DIR=path=$(find ./target -type f -name "*.s37" -exec dirname {} \; | head -n 1)
+          echo "==> Checking outputs in: $OUT_DIR"
           ls -la "$OUT_DIR" || { echo "!! Output dir missing"; exit 1; }
-
           required=("*.out" "*.bin" "*.hex" "*.s37" "*.map")
           missing=0
           for f in "${required[@]}"; do
             if [ ! -f "$OUT_DIR/$f" ]; then
               echo "!! Missing: $f"; missing=1
             else
-              echo "✔ Found: $f ($(stat -c %s "$OUT_DIR/$f") bytes)"
+              echo "Found: $f ($(stat -c %s "$OUT_DIR/$f") bytes)"
             fi
           done
           [ $missing -eq 0 ] || { echo "!! One or more build outputs are missing"; exit 1; }
+
+      # --- Verify expected outputs exist ---
+      - name: Verify output files
+        shell: bash
+        run: |
+          set -e
 
       - name: Done (stop after SLC setup)
         shell: bash
