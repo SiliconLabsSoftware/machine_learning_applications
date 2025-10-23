@@ -126,7 +126,7 @@ jobs:
           cd target
           tree
           
-          OUT_DIR=path=$(find . -type f -name "*.s37" -exec dirname {} \; | head -n 1)
+          OUT_DIR=$(find . -type f -name "*.s37" -exec dirname {} \; | head -n 1)
           echo "==> Checking outputs in: $OUT_DIR"
           ls -la "$OUT_DIR" || { echo "!! Output dir missing"; exit 1; }
           required=("*.out" "*.bin" "*.hex" "*.s37" "*.map")
@@ -140,14 +140,7 @@ jobs:
           done
           [ $missing -eq 0 ] || { echo "!! One or more build outputs are missing"; exit 1; }
 
-
-      # --- Verify expected outputs exist ---
-      - name: Verify output files
+      - name: Done
         shell: bash
         run: |
-          set -e
-
-      - name: Done (stop after SLC setup)
-        shell: bash
-        run: |
-          echo "==> Finished through step 16 (SLC setup)."
+          echo "==> Finished ENV setup and ml_blink generation."
