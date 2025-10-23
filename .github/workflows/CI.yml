@@ -163,11 +163,21 @@ jobs:
           EX_DIR="$HOME/src/gsdk/extension/aiml-extension/examples/ml_blink"
           cd "$EX_DIR"
 
-          export CC="$ARM_GCC_ROOT/bin/arm-none-eabi-gcc"
-          export CXX="$ARM_GCC_ROOT/bin/arm-none-eabi-g++"
-          export AS="$ARM_GCC_ROOT/bin/arm-none-eabi-gcc"
+          TC="$EX_DIR/target/brd2601b/ml_blink_cmake/toolchain.cmake"
 
-          cmake --preset project -S target/brd2601b/ml_blink_cmake -DCMAKE_C_COMPILER="$CC" -DCMAKE_CXX_COMPILER="$CXX" -DCMAKE_ASM_COMPILER="$AS"
+          # Sanity: show where the real compiler is
+          echo "ARM_GCC_ROOT=$ARM_GCC_ROOT"
+          ls -l "$ARM_GCC_ROOT/bin/arm-none-eabi-gcc"
+
+          # Replace the hardcoded /bin/... entries in the toolchain file
+          sed -i "s|/bin/arm-none-eabi-gcc|$ARM_GCC_ROOT/bin/arm-none-eabi-gcc|g" "$TC"
+          sed -i "s|/bin/arm-none-eabi-g\+\+|$ARM_GCC_ROOT/bin/arm-none-eabi-g++|g" "$TC"
+
+          # (Optional) show the lines after patch
+          grep -n 'arm-none-eabi' "$TC" || true
+          rm -rf target/brd2601b/ml_blink_cmake/build target/brd2601b/ml_blink_cmake/CMakeCache.txt || true
+
+          cmake --preset project -S target/brd2601b/ml_blink_cmake -DARM_GCC_ROOT="$ARM_GCC_ROOT" -DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY
           cmake --build target/brd2601b/ml_blink_cmake/build
 
 
