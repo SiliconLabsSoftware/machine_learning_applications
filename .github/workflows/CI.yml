@@ -53,8 +53,12 @@ jobs:
           wget -q https://developer.arm.com/-/media/Files/downloads/gnu/12.2.rel1/binrel/arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz
           tar xf arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz
           rm arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz
+          TOOLROOT="$HOME/tools/arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi"
+          echo "ARM_GCC_ROOT=$TOOLROOT" >> "$GITHUB_ENV"
+          echo "$TOOLROOT/bin"          >> "$GITHUB_PATH"
+
           echo "==> GCC version"
-          "$HOME/tools/arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi/bin/arm-none-eabi-gcc" --version | head -n 1
+          "$TOOLROOT/bin/arm-none-eabi-gcc" --version | head -n 1
 
       - name:  Clone GSDK and ai-ml app
         shell: bash
