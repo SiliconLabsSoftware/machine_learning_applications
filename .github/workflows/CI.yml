@@ -128,17 +128,21 @@ jobs:
           
           OUT_DIR=$(find . -type f -name "*.s37" -exec dirname {} \; | head -n 1)
           echo "==> Checking outputs in: $OUT_DIR"
-          ls -la "$OUT_DIR" || { echo "!! Output dir missing"; exit 1; }
+          shopt -s nullglob
           required=("*.out" "*.bin" "*.hex" "*.s37" "*.map")
           missing=0
-          for f in "${required[@]}"; do
-            if [ ! -f "$OUT_DIR/$f" ]; then
-              echo "!! Missing: $f"; missing=1
+          for pattern in "${required[@]}"; do
+            matches=("$OUT_DIR"/$pattern)
+            if ((${#matches[@]} == 0)); then
+              echo "Missing file : $pattern"
+              missing=1
             else
-              echo "Found: $f ($(stat -c %s "$OUT_DIR/$f") bytes)"
+              for f in "${matches[@]}"; do
+                echo "Found: $(basename "$f") ($(stat -c %s "$f") bytes)"
+              done
             fi
           done
-          [ $missing -eq 0 ] || { echo "!! One or more build outputs are missing"; exit 1; }
+          ((missing == 0)) || { echo "!! One or more build outputs are missing"; exit 1; }
 
       - name: Done
         shell: bash
