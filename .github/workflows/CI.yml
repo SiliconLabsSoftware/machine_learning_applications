@@ -122,10 +122,11 @@ jobs:
           echo "==> Generation complete."
           cmake --preset project -S target/brd2601b/ml_blink_cmake
           cmake --build target/brd2601b/ml_blink_cmake/build
+          
           cd target
           tree
           
-          OUT_DIR=path=$(find ./target -type f -name "*.s37" -exec dirname {} \; | head -n 1)
+          OUT_DIR=path=$(find . -type f -name "*.s37" -exec dirname {} \; | head -n 1)
           echo "==> Checking outputs in: $OUT_DIR"
           ls -la "$OUT_DIR" || { echo "!! Output dir missing"; exit 1; }
           required=("*.out" "*.bin" "*.hex" "*.s37" "*.map")
@@ -138,6 +139,7 @@ jobs:
             fi
           done
           [ $missing -eq 0 ] || { echo "!! One or more build outputs are missing"; exit 1; }
+
 
       # --- Verify expected outputs exist ---
       - name: Verify output files
