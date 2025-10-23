@@ -110,6 +110,7 @@ jobs:
         shell: bash
         run: |
           set -e
+          source "$HOME/venvs/sisdk/bin/activate"
           slc --version
           cd "$HOME/src/gsdk/extension/aiml-extension/examples/ml_blink"
           slc generate -d target/brd2601b -p ml_blink.slcp --with brd2601b -s "$HOME/src/gsdk"
