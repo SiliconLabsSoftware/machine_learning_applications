@@ -150,6 +150,7 @@ jobs:
           set -e
           EXT_DIR="$HOME/src/gsdk/extension"
           cp -r "$GITHUB_WORKSPACE" "$EXT_DIR/machine_learning_applications"
+          slc signature trust --extension-path ~/src/gsdk/extension/machine_learning_applications
 
           # Verify placement
           cd "$EXT_DIR/machine_learning_applications"
