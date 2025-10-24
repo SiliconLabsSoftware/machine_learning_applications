@@ -17,7 +17,6 @@ jobs:
         voice/sensory_wakeupword/app/sensory_wakeupword_series_2
       BOARDS: |
         brd2601b
-        # brd2608a
     steps:
       - name:  Checkout (public)
         uses: actions/checkout@v5
