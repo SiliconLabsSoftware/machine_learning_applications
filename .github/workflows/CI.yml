@@ -11,22 +11,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        domain: [
-            imu,
-            people_flow_counter,
-            sensory_wakeupword/app,
-          ]
-        machine_app: [
-            ble_magic_wand,
-            imu_anomaly_detection,
-            people_flow_counter_mlx90640,
-            sensory_wakeupword_series_1,
-            sensory_wakeupword_series_2,
-          ]
         board: [
             "brd2601b",
             # "brd2608a"
           ]
+    env:
+      ML_APPS: |
+        imu/ble_magic_wand
+        imu/imu_anomaly_detection
+        people_flow_counter/people_flow_counter_mlx90640
+        sensory_wakeupword/app/sensory_wakeupword_series_1
+        sensory_wakeupword/app/sensory_wakeupword_series_2
     steps:
       - name:  Start
         shell: bash
@@ -189,13 +184,16 @@ jobs:
         run: |
           set -e
           cd "$HOME/src/gsdk/extension/machine_learning_applications/application"
-          cd ${{ matrix.domain }}/${{ matrix.machine_app }}
-          slc generate -d target/${{ matrix.machine_app }}/${{ matrix.board }} -p ${{ matrix.machine_app }}.slcp --with ${{ matrix.board }} -s "$HOME/src/gsdk"
-          echo "==> Generation complete for  ${{ matrix.machine_app }}"
-          cmake --preset project -S target/${{ matrix.machine_app }}/${{ matrix.board }}/${{ matrix.machine_app }}_cmake
-          cmake --build target/${{ matrix.machine_app }}/${{ matrix.board }}/${{ matrix.machine_app }}_cmake/build
-          echo "==> Building complete for  ${{ matrix.machine_app }}"
-
+          pwd
+          tree -L 3
+          for APP in $ML_APPS; do
+            slc generate -d target/$APP/${{ matrix.board }} -p $APP.slcp --with ${{ matrix.board }} -s "$HOME/src/gsdk"
+            echo "==> Generation complete for  $APP"
+            cmake --preset project -S target/$APP/${{ matrix.board }}/${APP}_cmake
+            cmake --build target/$APP/${{ matrix.board }}/${APP}_cmake/build
+            echo "==> Building complete for  $APP"
+          done 
+          tree
 
 
       - name: Done
