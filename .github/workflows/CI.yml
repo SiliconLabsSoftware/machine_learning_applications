@@ -8,13 +8,6 @@ permissions:
 jobs:
   setup-to-slc:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        board: [
-            "brd2601b",
-            # "brd2608a"
-          ]
     env:
       ML_APPS: |
         imu/ble_magic_wand/ble_magic_wand
@@ -22,6 +15,9 @@ jobs:
         vision/people_flow_counter_mlx90640/people_flow_counter_mlx90640
         voice/sensory_wakeupword/app/sensory_wakeupword_series_1
         voice/sensory_wakeupword/app/sensory_wakeupword_series_2
+      BOARDS: |
+        brd2601b
+        # brd2608a
     steps:
       - name:  Checkout (public)
         uses: actions/checkout@v5
@@ -38,7 +34,7 @@ jobs:
                                libssl-dev libffi-dev python3-dev ninja-build \
                                telnet netcat-openbsd tree
 
-      - name: Use Java 21
+      - name:  Java 21
         uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -122,15 +118,17 @@ jobs:
         run: |
           set -e
           cd "$HOME/src/gsdk/extension/machine_learning_applications/application"
-          pwd
-          for APP in $ML_APPS; do
-            slc generate -d target/$APP/${{ matrix.board }} -p $APP.slcp --with ${{ matrix.board }} -s "$HOME/src/gsdk"
-            echo "==> Generation complete for  $APP"
-            cmake --preset project -S target/$APP/${{ matrix.board }}/${APP##*/}_cmake
-            cmake --build target/$APP/${{ matrix.board }}/${APP##*/}_cmake/build
-            echo "==> Building complete for  $APP"
-          done 
-          find . -name "*.s37"
+          for board in $BOARDS; do
+            for APP in $ML_APPS; do
+              slc generate -d target/$APP/$board -p $APP.slcp --with $board -s "$HOME/src/gsdk"
+              echo "==> Generation complete for  $APP"
+              cmake --preset project -S target/$APP/$board/${APP##*/}_cmake
+              cmake --build target/$APP/$board/${APP##*/}_cmake/build
+              echo "==> Building complete for  $APP"
+            done
+          done
+          echo "==> Listing generated .s37 files" 
+          find ./target -name "*.s37"
 
 
       - name: Done
