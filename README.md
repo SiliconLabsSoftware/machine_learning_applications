@@ -10,6 +10,7 @@ Feel free to open an issue if you have any questions or encounter problems, but 
 
 - [Silicon Labs Machine Learning Applications](#silicon-labs-machine-learning-applications)
   - [About](#about)
+  - [Dependent SDK's](#dependent-sdks)
   - [Building and running](#building-and-running)
     - [Build container](#build-container)
       - [Build container: Installing the prerequisites](#build-container-installing-the-prerequisites)
@@ -37,6 +38,12 @@ Within an application's directory you will generally find,
 
 - Source code for training the ML model and exporting it to Tensorflow Lite or a trained model artifact
 - Documentation on model training and usage
+
+
+
+## Dependent SDK's:
+ 1. Simplicity SDK Suite v2025.6.2
+ 2. Silicon Labs AI/ML v2.1.2
 
 ## Building and running
 
@@ -137,31 +144,38 @@ To build and run an application for your board using the command line tools, you
 2. To generate and build the project, you'll need
 
    - `make` (for Windows we recommend using WSL or Cygwin)
-   - `arm-eabi-none` GNU toolchain ([GNU ARM Embedded Toolchain](https://developer.arm.com/downloads/-/gnu-rm), version 10.3-2021.10 or 10.3-2021.07)
+   - `arm-eabi-none` GNU toolchain ([GNU ARM Embedded Toolchain](https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads/12-2-rel1), version 12.2.Rel1)
    - `slc` ([Silicon Labs Configurator](https://www.silabs.com/documents/public/user-guides/ug520-software-project-generation-configuration-with-slc-cli.pdf), installation instructions can be found under Section 2 in the provided link)
 
 3. After installing the tools, make sure that they are available in your `PATH`.
 
-4. Then, download `Gecko SDK >= v4.1`. You can obtain this from the Github repository [SiliconLabs/gecko_sdk](https://github.com/SiliconLabs/gecko_sdk).
+4. Then, download `Simplicity Sdk >= v2025.6.2` and  `AI/MLrepo >= v2.1.2`. You can obtain this from the Github repository [SiliconLabs/simplicity_sdk](https://github.com/SiliconLabs/simplicity_sdk) and [SiliconLabsSoftware/aiml-extension](https://github.com/SiliconLabsSoftware/aiml-extension/).
 
     ```sh
-    git clone https://github.com/SiliconLabs/gecko_sdk
-    cd gecko_sdk
-    git checkout v4.1.0
+    git clone https://github.com/SiliconLabs/simplicity_sdk.git
+    cd simplicity_sdk
+    git checkout v2025.6.2
+    mkdir extension
+    cd extension
+    git clone https://github.com/SiliconLabsSoftware/aiml-extension.git
+    cd aiml-extension
+    git checkout v2.1.2
     ```
 
-5. After this, configure `slc` to use the Gecko SDK and ARM GNU Embedded Toolchain you downloaded,
-
-    ```sh
-    slc configuration --sdk=<path/to/gecko_sdk>
-    slc configuration --gcc-toolchain=<path/to/arm-gnu-gcc-toolchain>
-    slc signature trust --sdk=<path/to/gecko_sdk>
-    ```
-
-6. Lastly, clone this repository.
+5. Next, clone this repository into extension folder created inside simplicity sdk.
 
     ```sh
     git clone https://github.com/SiliconLabs/machine_learning_applications
+    ```
+
+6. After this, configure `slc` to use the Gecko SDK and ARM GNU Embedded Toolchain you downloaded,
+
+    ```sh
+    slc configuration --sdk=<path/to/simplicity_sdk>
+    slc configuration --gcc-toolchain=<path/to/arm-gnu-gcc-toolchain>
+    slc signature trust --sdk=<path/to/simplicity_sdk>
+    slc signature trust --extension-path ~/src/gsdk/extension/aiml-extension
+    slc signature trust --extension-path ~/src/gsdk/extension/machine_learning_applications
     ```
 
 #### Command line tools: Generating, building and flashing an application
