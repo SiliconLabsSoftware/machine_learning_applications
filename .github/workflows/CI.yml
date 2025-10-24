@@ -8,6 +8,19 @@ permissions:
 jobs:
   setup-to-slc:
     runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        ml_app: [
+            ml_blink,
+            ml_audio_classifier,
+            ml_voice_control_light,
+            ml_model_profiler,
+            ml_image_classifier,
+          ]
+        board: [
+            "brd2601b",
+            # "brd2608a"
+          ]
     steps:
       - name:  Start
         shell: bash
@@ -165,6 +178,18 @@ jobs:
           cmake --preset project -S target/brd2601b/ble_magic_wand_cmake
           cmake --build target/brd2601b/ble_magic_wand_cmake/build
 
+
+      - name: Generate AI-ML repo apps
+        shell: bash
+        run: |
+          set -e
+          cd "$HOME/src/gsdk/extension/aiml-extension/examples"
+          cd ${{ matrix.ml_app }}
+          slc generate -d target/${{ matrix.ml_app }}/${{ matrix.board }} -p ${{ matrix.ml_app }}.slcp --with ${{ matrix.board }} -s "$HOME/src/gsdk"
+          echo "==> Generation complete for  ${{ matrix.ml_app }}"
+          cmake --preset project -S target/${{ matrix.ml_app }}/${{ matrix.board }}/${{ matrix.ml_app }}_cmake
+          cmake --build target/${{ matrix.ml_app }}/${{ matrix.board }}/${{ matrix.ml_app }}_cmake/build
+          echo "==> Building complete for  ${{ matrix.ml_app }}"
 
 
       - name: Done
