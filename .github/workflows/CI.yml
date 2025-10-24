@@ -126,12 +126,11 @@ jobs:
           for APP in $ML_APPS; do
             slc generate -d target/$APP/${{ matrix.board }} -p $APP.slcp --with ${{ matrix.board }} -s "$HOME/src/gsdk"
             echo "==> Generation complete for  $APP"
-            tree 
             cmake --preset project -S target/$APP/${{ matrix.board }}/${APP##*/}_cmake
             cmake --build target/$APP/${{ matrix.board }}/${APP##*/}_cmake/build
             echo "==> Building complete for  $APP"
           done 
-          tree
+          find . -name "*.s37"
 
 
       - name: Done
