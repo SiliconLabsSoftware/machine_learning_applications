@@ -17,11 +17,11 @@ jobs:
           ]
     env:
       ML_APPS: |
-        imu/ble_magic_wand
-        imu/imu_anomaly_detection
-        people_flow_counter/people_flow_counter_mlx90640
-        sensory_wakeupword/app/sensory_wakeupword_series_1
-        sensory_wakeupword/app/sensory_wakeupword_series_2
+        imu/ble_magic_wand/ble_magic_wand
+        imu/imu_anomaly_detection/imu_anomaly_detection
+        vision/people_flow_counter_mlx90640/people_flow_counter_mlx90640
+        voice/sensory_wakeupword/app/sensory_wakeupword_series_1
+        voice/sensory_wakeupword/app/sensory_wakeupword_series_2
     steps:
       - name:  Start
         shell: bash
@@ -51,6 +51,7 @@ jobs:
                                python3 python3-pip python3-venv pkg-config \
                                libssl-dev libffi-dev python3-dev ninja-build \
                                telnet netcat-openbsd tree
+                               
       - name: Use Java 21
         uses: actions/setup-java@v4
         with:
@@ -79,6 +80,8 @@ jobs:
         shell: bash
         run: |
           set -e
+          EXT_DIR="$HOME/src/gsdk/extension"
+          cp -r "$GITHUB_WORKSPACE" "$EXT_DIR/machine_learning_applications"
           cd "$HOME/src"
           echo "==> Cloning public GSDK"
           git clone https://github.com/SiliconLabs/simplicity_sdk.git gsdk
@@ -125,59 +128,7 @@ jobs:
           slc configuration --sdk ~/src/gsdk
           slc signature trust --sdk ~/src/gsdk
           slc signature trust --extension-path ~/src/gsdk/extension/aiml-extension
-
-      # --- Generate the ml_blink example for brd2601b ---
-      - name: Generate ml_blink (brd2601b)
-        shell: bash
-        run: |
-          set -e
-          cd "$HOME/src/gsdk/extension/aiml-extension/examples/ml_blink"
-          slc generate -d target/brd2601b -p ml_blink.slcp --with brd2601b -s "$HOME/src/gsdk"
-          echo "==> Generation complete."
-          cmake --preset project -S target/brd2601b/ml_blink_cmake
-          cmake --build target/brd2601b/ml_blink_cmake/build
-          
-          cd target
-          tree
-          
-          OUT_DIR=$(find . -type f -name "*.s37" -exec dirname {} \; | head -n 1)
-          echo "==> Checking outputs in: $OUT_DIR"
-          shopt -s nullglob
-          required=("*.out" "*.bin" "*.hex" "*.s37" "*.map")
-          missing=0
-          for pattern in "${required[@]}"; do
-            matches=("$OUT_DIR"/$pattern)
-            if ((${#matches[@]} == 0)); then
-              echo "Missing file : $pattern"
-              missing=1
-            else
-              for f in "${matches[@]}"; do
-                echo "Found: $(basename "$f") ($(stat -c %s "$f") bytes)"
-              done
-            fi
-          done
-          ((missing == 0)) || { echo "!! One or more build outputs are missing"; exit 1; }
-
-      - name: Copy repo into GSDK extensions folder
-        shell: bash
-        run: |
-          set -e
-          EXT_DIR="$HOME/src/gsdk/extension"
-          cp -r "$GITHUB_WORKSPACE" "$EXT_DIR/machine_learning_applications"
           slc signature trust --extension-path ~/src/gsdk/extension/machine_learning_applications
-
-          # Verify placement
-          cd "$EXT_DIR/machine_learning_applications"
-          tree -L 4
-
-      - name: Generate & build ble_magic_wand
-        shell: bash
-        run: |
-          set -e
-          cd "$HOME/src/gsdk/extension/machine_learning_applications/application/imu/ble_magic_wand"
-          slc generate -d target/brd2601b -p ble_magic_wand.slcp --with brd2601b -s "$HOME/src/gsdk"
-          cmake --preset project -S target/brd2601b/ble_magic_wand_cmake
-          cmake --build target/brd2601b/ble_magic_wand_cmake/build
 
       - name: Generate Machine Learning Repo apps 
         shell: bash
