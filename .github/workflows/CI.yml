@@ -125,7 +125,7 @@ jobs:
           pwd
           tree -L 3
           for APP in $ML_APPS; do
-            slc generate -d target/$APP/${{ matrix.board }} -p $APP.slcp --with ${{ matrix.board }} -s "$HOME/src/gsdk"
+            slc generate -d target/$APP -p $APP.slcp --with ${{ matrix.board }} -s "$HOME/src/gsdk"
             echo "==> Generation complete for  $APP"
             cmake --preset project -S target/$APP/${{ matrix.board }}_cmake
             cmake --build target/$APP/${{ matrix.board }}_cmake/build
