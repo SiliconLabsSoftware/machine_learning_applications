@@ -23,24 +23,10 @@ jobs:
         voice/sensory_wakeupword/app/sensory_wakeupword_series_1
         voice/sensory_wakeupword/app/sensory_wakeupword_series_2
     steps:
-      - name:  Start
-        shell: bash
-        run: |
-          echo "==> Workflow: Ubuntu env -> SLC setup (through step 16)"
-          echo "==> Repo: $GITHUB_REPOSITORY | Ref: $GITHUB_REF | SHA: $GITHUB_SHA"
-
       - name:  Checkout (public)
         uses: actions/checkout@v5
         with:
           submodules: recursive
-
-      - name:  Create ~/src ~/venvs ~/tools
-        shell: bash
-        run: |
-          set -e
-          echo "==> Creating developer directories..."
-          mkdir -p "$HOME/src" "$HOME/venvs" "$HOME/tools"
-          ls -la "$HOME" | sed -n '1,120p'
 
       - name:  Apt update & essentials
         shell: bash
@@ -51,7 +37,7 @@ jobs:
                                python3 python3-pip python3-venv pkg-config \
                                libssl-dev libffi-dev python3-dev ninja-build \
                                telnet netcat-openbsd tree
-                               
+
       - name: Use Java 21
         uses: actions/setup-java@v4
         with:
@@ -80,8 +66,8 @@ jobs:
         shell: bash
         run: |
           set -e
-          EXT_DIR="$HOME/src/gsdk/extension"
-          cp -r "$GITHUB_WORKSPACE" "$EXT_DIR/machine_learning_applications"
+          echo "==> Creating developer directories..."
+          mkdir -p "$HOME/src" "$HOME/venvs" "$HOME/tools"
           cd "$HOME/src"
           echo "==> Cloning public GSDK"
           git clone https://github.com/SiliconLabs/simplicity_sdk.git gsdk
@@ -93,6 +79,7 @@ jobs:
           cd aiml-extension
           git checkout v2.1.2      
           git submodule update --init --recursive
+          cp -r "$GITHUB_WORKSPACE" "$HOME/src/gsdk/extension/machine_learning_applications"
           git lfs pull || true
 
       - name:  Create Python venv (sisdk)
@@ -150,4 +137,4 @@ jobs:
       - name: Done
         shell: bash
         run: |
-          echo "==> Finished ENV setup and ml_blink generation."
+          echo "==> Finished ENV setup and ML APP's generation."
