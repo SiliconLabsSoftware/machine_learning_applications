@@ -109,7 +109,7 @@ jobs:
       - name: Upload artifacts (.s37)
         uses: actions/upload-artifact@v5
         with:
-          name: $BOARD-${{ matrix.app##*/ }}
+          name: $BOARD-${{ matrix.app }}
           path: |
             ~/src/gsdk/extension/machine_learning_applications/application/target/${{ matrix.app }}/$BOARD/**/*.s37
           if-no-files-found: warn
