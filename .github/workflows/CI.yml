@@ -9,33 +9,28 @@ jobs:
   prepare-sdk-and-tools:
     runs-on: ubuntu-latest
     steps:
-      - name: Prepare folders
-        run:  |
+      - name:  Clone GSDK and ai-ml app
+        shell: bash
+        run: |
           set -e
-          mkdir -p src/gsdk/extension
+          mkdir src
+          echo "==> Creating developer directories..."
+          cd src
+          echo "==> Cloning public GSDK"
+          git clone https://github.com/SiliconLabs/simplicity_sdk.git gsdk
+          cd gsdk
+          git checkout v2025.6.2
+          cd extension
+          git clone --recurse-submodules https://github.com/SiliconLabsSoftware/aiml-extension.git aiml-extension
+          cd aiml-extension
+          git checkout v2.1.2      
+          git submodule update --init --recursive
+          git lfs pull || true
 
-      - name: Checkout Simplicity SDK
-        uses: actions/checkout@v5
-        with:
-          repository: SiliconLabs/simplicity_sdk         
-          ref: v2025.6.2                                 
-          path: src/gsdk
-          submodules: recursive
-          lfs: true
-      
       - name: Checkout machine_learning_applications (this repo)
         uses: actions/checkout@v5
         with:
           path: src/gsdk/extension/machine_learning_applications
-
-      - name: Checkout AI/ML extension
-        uses: actions/checkout@v5
-        with:
-          repository: SiliconLabsSoftware/aiml-extension 
-          ref: v2.1.2
-          path: src/gsdk/extension/aiml-extension
-          submodules: recursive
-          lfs: true
 
       - name: Download ARM-GNU and SLC toolchain  
         run: |
