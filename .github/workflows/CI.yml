@@ -81,11 +81,12 @@ jobs:
         run: |
           set -e
           sudo apt install tree
-          tree -L 6
-          echo "ARM_GCC_DIR=$HOME/tools/armgnu"                  >> "$GITHUB_ENV"
-          echo "$HOME/tools/armgnu/bin/"                         >> "$GITHUB_PATH"
+          pwd
+          tree -L 3
+          echo "ARM_GCC_DIR=${{ github.workspace }}/tools/armgnu"                  >> "$GITHUB_ENV"
+          echo "${{ github.workspace }}/tools/armgnu/bin/"                         >> "$GITHUB_PATH"
           
-          SLC_DIR="$HOME/tools/slc_cli/slc_cli/bin/slc-cli"
+          SLC_DIR="${{ github.workspace }}/tools/slc_cli/slc_cli/bin/slc-cli"
           chmod +x "$SLC_DIR/slc-cli"
           ln -sf "$SLC_DIR/slc-cli" "$SLC_DIR/slc"
           echo "UC_CLI_DIR=$SLC_DIR"                         >> "$GITHUB_ENV"
@@ -93,19 +94,19 @@ jobs:
 
           echo "SLC_JAVA_HOME=$JAVA_HOME"                    >> "$GITHUB_ENV"
 
-          slc configuration --sdk "$HOME/src/gsdk"
-          slc signature trust --sdk     "$HOME/src/gsdk"
-          slc signature trust --extension-path "$HOME/src/gsdk/extension/aiml-extension"
-          slc signature trust --extension-path "$HOME/src/gsdk/extension/machine_learning_applications"
+          slc configuration --sdk "${{ github.workspace }}/src/gsdk"
+          slc signature trust --sdk     "${{ github.workspace }}/src/gsdk"
+          slc signature trust --extension-path "${{ github.workspace }}/src/gsdk/extension/aiml-extension"
+          slc signature trust --extension-path "${{ github.workspace }}/src/gsdk/extension/machine_learning_applications"
 
       - name: Generate + Build
-        working-directory: $HOME/src/gsdk/extension/machine_learning_applications/application
+        working-directory: ${{ github.workspace }}/src/gsdk/extension/machine_learning_applications/application
         env:
           APP: ${{ matrix.app }}                          
           BOARD: ${{ matrix.board }}
         run: |
           set -e
-          slc generate -d target/$APP/$BOARD -p $APP.slcp --with $BOARD -s "$HOME/src/gsdk"
+          slc generate -d target/$APP/$BOARD -p $APP.slcp --with $BOARD -s "${{ github.workspace }}/src/gsdk"
           cmake --preset project -S target/$APP/$BOARD/${APP##*/}_cmake
           cmake --build target/$APP/$BOARD/${APP##*/}_cmake/build --parallel
 
@@ -114,5 +115,5 @@ jobs:
         with:
           name: $BOARD-${{ matrix.app }}
           path: |
-            $HOME/src/gsdk/extension/machine_learning_applications/application/target/${{ matrix.app }}/$BOARD/**/*.s37
+            ${{ github.workspace }}/src/gsdk/extension/machine_learning_applications/application/target/${{ matrix.app }}/$BOARD/**/*.s37
           if-no-files-found: warn
