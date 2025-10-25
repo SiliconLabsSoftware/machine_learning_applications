@@ -21,6 +21,7 @@ jobs:
           ref: v2025.6.2                                 
           path: src/gsdk
           submodules: recursive
+          lfs: true
       
       - name: Checkout machine_learning_applications (this repo)
         uses: actions/checkout@v5
@@ -87,10 +88,6 @@ jobs:
       - name: Configure SLC,ARM-GNU, JAVA paths
         run: |
           set -e
-          pwd 
-          echo ${{ github.workspace }}
-          sudo apt install tree
-          tree -L 3
           chmod -R +x ${{ github.workspace }}/tools/armgnu
           echo "ARM_GCC_DIR=${{ github.workspace }}/tools/armgnu"                  >> "$GITHUB_ENV"
           echo "${{ github.workspace }}/tools/armgnu/bin/"                         >> "$GITHUB_PATH"
@@ -121,11 +118,6 @@ jobs:
           slc generate -d target/$APP/$BOARD -p $APP.slcp --with $BOARD -s "${{ github.workspace }}/src/gsdk"
           cmake --preset project -S target/$APP/$BOARD/${APP##*/}_cmake
           cmake --build target/$APP/$BOARD/${APP##*/}_cmake/build --parallel
+          echo "==> Listing generated .s37 files" 
+          find ./target -name "*.s37"
 
-      - name: Upload artifacts (.s37)
-        uses: actions/upload-artifact@v5
-        with:
-          name: $BOARD-${{ matrix.app }}
-          path: |
-            ${{ github.workspace }}/src/gsdk/extension/machine_learning_applications/application/target/${{ matrix.app }}/$BOARD/**/*.s37
-          if-no-files-found: warn
