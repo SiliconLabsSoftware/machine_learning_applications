@@ -100,8 +100,8 @@ jobs:
         run: |
           set -e
           slc generate -d target/${{ matrix.app }}/${{ matrix.board }} -p ${{ matrix.app }}.slcp --with ${{ matrix.board }} -s "~/src/gsdk"
-          cmake --preset project -S target/${{ matrix.app }}/${{ matrix.board }}/${{ matrix.app##*/}}_cmake
-          cmake --build target/${{ matrix.app }}/${{ matrix.board }}/{{ matrix.app##*/}}_cmake/build --parallel
+          cmake --preset project -S target/${{ matrix.app }}/${{ matrix.board }}/${{ matrix.app }##*/}_cmake
+          cmake --build target/${{ matrix.app }}/${{ matrix.board }}/{{ matrix.app }##*/}_cmake/build --parallel
 
       - name: Upload artifacts (.s37)
         uses: actions/upload-artifact@v5
