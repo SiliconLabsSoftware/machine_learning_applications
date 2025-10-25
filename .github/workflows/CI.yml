@@ -20,6 +20,7 @@ jobs:
           git clone https://github.com/SiliconLabs/simplicity_sdk.git gsdk
           cd gsdk
           git checkout v2025.6.2
+          mkdir extension
           cd extension
           git clone --recurse-submodules https://github.com/SiliconLabsSoftware/aiml-extension.git aiml-extension
           cd aiml-extension
