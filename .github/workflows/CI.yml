@@ -81,7 +81,7 @@ jobs:
         run: |
           set -e
           sudo apt install tree
-          tree -L 3
+          tree -L 6
           echo "ARM_GCC_DIR=$HOME/tools/armgnu"                  >> "$GITHUB_ENV"
           echo "$HOME/tools/armgnu/bin/"                         >> "$GITHUB_PATH"
           
