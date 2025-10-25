@@ -79,6 +79,9 @@ jobs:
 
       - name: Configure SLC,ARM-GNU, JAVA paths and  trust sdk's
         run: |
+          set -e
+          sudo apt install tree
+          tree -L 3
           echo "ARM_GCC_DIR=~/tools/armgnu"                  >> "$GITHUB_ENV"
           echo "~/tools/armgnu/bin/"                         >> "$GITHUB_PATH"
           
