@@ -77,9 +77,20 @@ jobs:
           name: gsdk-and-tools
           path: .
 
+      - name:  Install Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          check-latest: true
+          
       - name: Configure SLC,ARM-GNU, JAVA paths
         run: |
           set -e
+          pwd 
+          echo ${{ github.workspace }}
+          sudo apt install tree
+          tree -L 3
           echo "ARM_GCC_DIR=${{ github.workspace }}/tools/armgnu"                  >> "$GITHUB_ENV"
           echo "${{ github.workspace }}/tools/armgnu/bin/"                         >> "$GITHUB_PATH"
           
