@@ -6,131 +6,107 @@ permissions:
   contents: read
 
 jobs:
-  setup-to-slc:
+  prepare-sdk-and-tools:
     runs-on: ubuntu-latest
-    env:
-      ML_APPS: |
-        imu/ble_magic_wand/ble_magic_wand
-        imu/imu_anomaly_detection/imu_anomaly_detection
-        vision/people_flow_counter_mlx90640/people_flow_counter_mlx90640
-        voice/sensory_wakeupword/app/sensory_wakeupword_series_1
-        voice/sensory_wakeupword/app/sensory_wakeupword_series_2
-      BOARDS: |
-        brd2601b
     steps:
-      - name:  Checkout (public)
+      - name: Prepare folders
+        run:  |
+          set -e
+          mkdir -p src/gsdk/extension
+
+      - name: Checkout Simplicity SDK
         uses: actions/checkout@v5
         with:
+          repository: SiliconLabs/simplicity_sdk         
+          ref: v2025.6.2                                 
+          path: src/gsdk
           submodules: recursive
-
-      - name:  Apt update & essentials
-        shell: bash
-        run: |
-          set -e
-          sudo apt update -y
-          sudo apt install -y git curl wget unzip build-essential cmake make \
-                               python3 python3-pip python3-venv pkg-config \
-                               libssl-dev libffi-dev python3-dev ninja-build \
-                               telnet netcat-openbsd tree
-
-      - name:  Java 21
-        uses: actions/setup-java@v4
+      
+      - name: Checkout machine_learning_applications (this repo)
+        uses: actions/checkout@v5
         with:
-          distribution: temurin
-          java-version: '21'
-          check-latest: true
-          
-      - name:  Clone GSDK and ai-ml app
-        shell: bash
-        run: |
-          set -e
-          echo "==> Creating developer directories..."
-          mkdir -p "$HOME/src" "$HOME/venvs" "$HOME/tools"
-          cd "$HOME/src"
-          echo "==> Cloning public GSDK"
-          git clone https://github.com/SiliconLabs/simplicity_sdk.git gsdk
-          cd "$HOME/src/gsdk"
-          git checkout v2025.6.2
-          mkdir extension
-          cd extension
-          git clone --recurse-submodules https://github.com/SiliconLabsSoftware/aiml-extension.git aiml-extension
-          cd aiml-extension
-          git checkout v2.1.2      
-          git submodule update --init --recursive
-          git lfs pull || true
-          cp -r "$GITHUB_WORKSPACE" "$HOME/src/gsdk/extension/machine_learning_applications"
+          path: src/gsdk/extension/machine_learning_applications
 
-      - name:  ARM GCC toolchain (12.2.rel1)
-        shell: bash
+      - name: Checkout AI/ML extension
+        uses: actions/checkout@v5
+        with:
+          repository: SiliconLabsSoftware/aiml-extension 
+          ref: v2.1.2
+          path: src/gsdk/extension/aiml-extension
+          submodules: recursive
+          lfs: true
+
+      - name: Download ARM-GNU and SLC toolchain  
         run: |
-          set -e
-          cd "$HOME/tools"
-          echo "==> Download ARM toolchain 12.2.rel1"
+          mkdir -p tools && cd tools
           wget -q https://developer.arm.com/-/media/Files/downloads/gnu/12.2.rel1/binrel/arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz
-          tar xf arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz
-          rm arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz
+          tar -xf arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz
           mv arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi armgnu
-          TOOLROOT="$HOME/tools/armgnu"
-          echo "ARM_GCC_DIR=$TOOLROOT" >> "$GITHUB_ENV"
-          echo "$TOOLROOT/bin/"          >> "$GITHUB_PATH"
-
-          echo "==> GCC version"
-          "$TOOLROOT/bin/arm-none-eabi-gcc" --version | head -n 1
-
-      - name:  Create Python venv (sisdk)
-        shell: bash
-        run: |
-          set -e
-          python3 -m venv "$HOME/venvs/sisdk"
-          source "$HOME/venvs/sisdk/bin/activate"
-          python -V; pip -V
-          echo "==> Upgrading pip"
-          pip install --upgrade pip
-
-      - name: SLC setup
-        shell: bash
-        run: |
-          set -e
-          echo "SLC_JAVA_HOME=$JAVA_HOME" >> "$GITHUB_ENV"
-          mkdir -p "$HOME/tools"
-          cd "$HOME/tools"
-          curl -fsSL -o slc_cli_linux.zip https://www.silabs.com/documents/public/software/slc_cli_linux.zip
-          rm -rf slc_cli
+          rm arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz
+          wget -q https://www.silabs.com/documents/public/software/slc_cli_linux.zip
           unzip -q slc_cli_linux.zip -d slc_cli
           rm slc_cli_linux.zip
-          SLC_DIR="$HOME/tools/slc_cli/slc_cli/bin/slc-cli"
+
+      - name: Upload prepared sources
+        uses: actions/upload-artifact@v5
+        with:
+          name: gsdk-and-tools
+          path: |
+            src/
+            tools/
+          include-hidden-files: true
+
+  build-ml:
+    runs-on: ubuntu-latest
+    needs: prepare-sdk-and-tools
+    strategy:
+      fail-fast: false
+      matrix:
+        board: [brd2601b]
+        app:
+          - imu/ble_magic_wand/ble_magic_wand
+          - imu/imu_anomaly_detection/imu_anomaly_detection
+          - vision/people_flow_counter_mlx90640/people_flow_counter_mlx90640
+          - voice/sensory_wakeupword/app/sensory_wakeupword_series_1
+          - voice/sensory_wakeupword/app/sensory_wakeupword_series_2
+
+    steps:
+      - name: Download prepared sources
+        uses: actions/download-artifact@v4
+        with:
+          name: gsdk-and-tools
+          path: .
+
+      - name: Configure SLC,ARM-GNU, JAVA paths and  trust sdk's
+        run: |
+          echo "ARM_GCC_DIR=~/tools/armgnu"                  >> "$GITHUB_ENV"
+          echo "~/tools/armgnu/bin/"                         >> "$GITHUB_PATH"
+          
+          SLC_DIR="~/tools/slc_cli/slc_cli/bin/slc-cli"
           chmod +x "$SLC_DIR/slc-cli"
           ln -sf "$SLC_DIR/slc-cli" "$SLC_DIR/slc"
-          echo "UC_CLI_DIR=$SLC_DIR" >> "$GITHUB_ENV"
-          echo "$SLC_DIR" >> "$GITHUB_PATH"
+          echo "UC_CLI_DIR=$SLC_DIR"                         >> "$GITHUB_ENV"
+          echo "$SLC_DIR"                                    >> "$GITHUB_PATH"
 
-      - name: Configure and trust SDK
-        shell: bash
-        run: |
-          slc configuration --sdk ~/src/gsdk
-          slc signature trust --sdk ~/src/gsdk
-          slc signature trust --extension-path ~/src/gsdk/extension/aiml-extension
-          slc signature trust --extension-path ~/src/gsdk/extension/machine_learning_applications
+          echo "SLC_JAVA_HOME=$JAVA_HOME"                    >> "$GITHUB_ENV"
 
-      - name: Generate Machine Learning Repo apps 
-        shell: bash
+          slc configuration --sdk "~/src/gsdk"
+          slc signature trust --sdk     "~/src/gsdk"
+          slc signature trust --extension-path "~/src/gsdk/extension/aiml-extension"
+          slc signature trust --extension-path "~/src/gsdk/extension/machine_learning_applications"
+
+      - name: Generate + Build
+        working-directory: ~/src/gsdk/extension/machine_learning_applications/application
         run: |
           set -e
-          cd "$HOME/src/gsdk/extension/machine_learning_applications/application"
-          for board in $BOARDS; do
-            for APP in $ML_APPS; do
-              slc generate -d target/$APP/$board -p $APP.slcp --with $board -s "$HOME/src/gsdk"
-              echo "==> Generation complete for  $APP"
-              cmake --preset project -S target/$APP/$board/${APP##*/}_cmake
-              cmake --build target/$APP/$board/${APP##*/}_cmake/build
-              echo "==> Building complete for  $APP"
-            done
-          done
-          echo "==> Listing generated .s37 files" 
-          find ./target -name "*.s37"
+          slc generate -d target/${{ matrix.app }}/${{ matrix.board }} -p ${{ matrix.app }}.slcp --with ${{ matrix.board }} -s "~/src/gsdk"
+          cmake --preset project -S target/${{ matrix.app }}/${{ matrix.board }}/${{ matrix.app##*/}}_cmake
+          cmake --build target/${{ matrix.app }}/${{ matrix.board }}/{{ matrix.app##*/}}_cmake/build --parallel
 
-
-      - name: Done
-        shell: bash
-        run: |
-          echo "==> Finished ENV setup and ML APP's generation."
+      - name: Upload artifacts (.s37)
+        uses: actions/upload-artifact@v5
+        with:
+          name: ${{ matrix.board }}-${{ matrix.app##*/ }}
+          path: |
+            ~/src/gsdk/extension/machine_learning_applications/application/target/${{ matrix.app }}/${{ matrix.board }}/**/*.s37
+          if-no-files-found: warn
