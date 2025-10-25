@@ -77,12 +77,9 @@ jobs:
           name: gsdk-and-tools
           path: .
 
-      - name: Configure SLC,ARM-GNU, JAVA paths and  trust sdk's
+      - name: Configure SLC,ARM-GNU, JAVA paths
         run: |
           set -e
-          sudo apt install tree
-          pwd
-          tree -L 3
           echo "ARM_GCC_DIR=${{ github.workspace }}/tools/armgnu"                  >> "$GITHUB_ENV"
           echo "${{ github.workspace }}/tools/armgnu/bin/"                         >> "$GITHUB_PATH"
           
@@ -94,6 +91,9 @@ jobs:
 
           echo "SLC_JAVA_HOME=$JAVA_HOME"                    >> "$GITHUB_ENV"
 
+      - name: Trust sdk's
+        run: |
+          set -e
           slc configuration --sdk "${{ github.workspace }}/src/gsdk"
           slc signature trust --sdk     "${{ github.workspace }}/src/gsdk"
           slc signature trust --extension-path "${{ github.workspace }}/src/gsdk/extension/aiml-extension"
