@@ -91,6 +91,7 @@ jobs:
           echo ${{ github.workspace }}
           sudo apt install tree
           tree -L 3
+          chmod -R +x ${{ github.workspace }}/tools/armgnu
           echo "ARM_GCC_DIR=${{ github.workspace }}/tools/armgnu"                  >> "$GITHUB_ENV"
           echo "${{ github.workspace }}/tools/armgnu/bin/"                         >> "$GITHUB_PATH"
           
