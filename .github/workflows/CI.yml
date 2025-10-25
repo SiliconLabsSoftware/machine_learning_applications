@@ -97,16 +97,19 @@ jobs:
 
       - name: Generate + Build
         working-directory: ~/src/gsdk/extension/machine_learning_applications/application
+        env:
+          APP: ${{ matrix.app }}                          
+          BOARD: ${{ matrix.board }}
         run: |
           set -e
-          slc generate -d target/${{ matrix.app }}/${{ matrix.board }} -p ${{ matrix.app }}.slcp --with ${{ matrix.board }} -s "~/src/gsdk"
-          cmake --preset project -S target/${{ matrix.app }}/${{ matrix.board }}/${{ matrix.app }##*/}_cmake
-          cmake --build target/${{ matrix.app }}/${{ matrix.board }}/{{ matrix.app }##*/}_cmake/build --parallel
+          slc generate -d target/$APP/$BOARD -p $APP.slcp --with $BOARD -s "~/src/gsdk"
+          cmake --preset project -S target/$APP/$BOARD/${APP##*/}_cmake
+          cmake --build target/$APP/$BOARD/${APP##*/}_cmake/build --parallel
 
       - name: Upload artifacts (.s37)
         uses: actions/upload-artifact@v5
         with:
-          name: ${{ matrix.board }}-${{ matrix.app##*/ }}
+          name: $BOARD-${{ matrix.app##*/ }}
           path: |
-            ~/src/gsdk/extension/machine_learning_applications/application/target/${{ matrix.app }}/${{ matrix.board }}/**/*.s37
+            ~/src/gsdk/extension/machine_learning_applications/application/target/${{ matrix.app }}/$BOARD/**/*.s37
           if-no-files-found: warn
