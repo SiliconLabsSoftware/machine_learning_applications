@@ -174,8 +174,8 @@ To build and run an application for your board using the command line tools, you
     slc configuration --sdk=<path/to/simplicity_sdk>
     slc configuration --gcc-toolchain=<path/to/arm-gnu-gcc-toolchain>
     slc signature trust --sdk=<path/to/simplicity_sdk>
-    slc signature trust --extension-path ~/src/gsdk/extension/aiml-extension
-    slc signature trust --extension-path ~/src/gsdk/extension/machine_learning_applications
+    slc signature trust --extension-path <path/to/simplicity_sdk>/extension/aiml-extension
+    slc signature trust --extension-path <path/to/simplicity_sdk>/extension/machine_learning_applications
     ```
 
 #### Command line tools: Generating, building and flashing an application
