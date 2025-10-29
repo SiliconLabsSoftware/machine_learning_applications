@@ -168,7 +168,7 @@ To build and run an application for your board using the command line tools, you
     git clone https://github.com/SiliconLabs/machine_learning_applications
     ```
 
-6. After this, configure `slc` to use the Gecko SDK and ARM GNU Embedded Toolchain you downloaded,
+6. After this, configure `slc` to use and trust the Simplicity SDK, AI/ML Extension and Machine Learning Applications Extension and ARM GNU Embedded Toolchain you downloaded,
 
     ```sh
     slc configuration --sdk=<path/to/simplicity_sdk>
