@@ -1,4 +1,4 @@
-name: Ubuntu env 
+name: Continuous Integration for Machine Learning Applications
 on: [push]
 
 permissions:
