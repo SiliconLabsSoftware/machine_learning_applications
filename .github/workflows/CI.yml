@@ -50,7 +50,7 @@ jobs:
         uses: actions/upload-artifact@v5
         with:
           name: SDK
-          path: src/
+          path: .
           include-hidden-files: true
   
   get-tools:
@@ -71,7 +71,7 @@ jobs:
         uses: actions/upload-artifact@v5
         with:
           name: ARM_GNU-and-slc-toolchain
-          path: tools/
+          path: .
           include-hidden-files: true
 
   build-ml:
