@@ -4,7 +4,7 @@
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="application/voice/sensory_wakeupword/app/sensory_wakeupword_series_2.slcp"/>
     <properties key="readmeFiles" value="application/voice/sensory_wakeupword/README.md"/>
-    <properties key="boardCompatibility" value="brd2601a brd2601b"/>
+    <properties key="boardCompatibility" value="brd2601b"/>
     <properties key="partCompatibility" value=".*efr32mg24.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
     <properties key="toolchainCompatibility" value="gcc iar segger"/>
@@ -18,7 +18,7 @@
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="application/voice/sensory_wakeupword/app/sensory_wakeupword_series_1.slcp"/>
     <properties key="readmeFiles" value="application/voice/sensory_wakeupword/README.md"/>
-    <properties key="boardCompatibility" value="brd4166a"/>
+    <properties key="boardCompatibility" value="brd2601b"/>
     <properties key="partCompatibility" value=".*efr32mg12p.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
     <properties key="toolchainCompatibility" value="gcc iar segger"/>
