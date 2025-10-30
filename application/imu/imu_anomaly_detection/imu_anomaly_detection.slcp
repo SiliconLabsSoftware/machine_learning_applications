@@ -16,7 +16,7 @@ include:
       - path: accelerometer.h
 sdk_extension:
   - id: machine_learning_applications
-    version: "1.0.0"
+    version: "1.1.0"
 component:
   - id: sl_system
   - id: device_init
