@@ -3,7 +3,7 @@ import os, json
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 TEMPLATES_XML = ROOT / "templates.xml"
 
 def get_prop(desc, key):
