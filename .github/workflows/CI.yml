@@ -9,12 +9,15 @@ jobs:
   generate-matrix:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.mk.outputs.matrix }}
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - uses: actions/checkout@v5
 
       - name: Generate dynamic matrix from templates.xml
-        run: .github\workflows\scripts\generate_matrix.py
+        id: set-matrix
+        run: |
+          matrix=$(python3 .github/workflows/scripts/generate_app_build_matrix.py)
+          echo "matrix=$matrix" >> $GITHUB_OUTPUT
 
   get-sdk:
     runs-on: ubuntu-latest
