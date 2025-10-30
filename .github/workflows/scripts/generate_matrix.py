@@ -32,12 +32,10 @@ def main():
 
     if not rows:
         # Avoid empty matrix which makes Actions error out
-        rows = [{"app":"noop","board":"noop"}]
+        rows = {"app":"noop","board":"noop"}
 
     matrix = {"include": rows}
     print(json.dumps(matrix, indent=2))
-    
-    print(f"Generated {len(rows)} matrix rows from {TEMPLATES_XML}")
 
 if __name__ == "__main__":
     main()
