@@ -35,10 +35,8 @@ def main():
         rows = [{"app":"noop","board":"noop"}]
 
     matrix = {"include": rows}
-    # Emit as a job output
-    with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
-        fh.write(f"matrix={json.dumps(matrix)}\n")
-
+    print(json.dumps(matrix, indent=2))
+    
     print(f"Generated {len(rows)} matrix rows from {TEMPLATES_XML}")
 
 if __name__ == "__main__":
