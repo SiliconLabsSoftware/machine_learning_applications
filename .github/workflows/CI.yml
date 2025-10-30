@@ -16,7 +16,7 @@ jobs:
       - name: Generate dynamic matrix from templates.xml
         id: set-matrix
         run: |
-          matrix=$(python3 ${{ github.workspace }}/.github/workflows/scripts/generate_app_build_matrix.py)
+          matrix=$(python3 .github/workflows/scripts/generate_matrix.py)
           echo "matrix=$matrix" >> $GITHUB_OUTPUT
 
   get-sdk:
