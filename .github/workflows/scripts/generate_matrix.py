@@ -35,7 +35,7 @@ def main():
         rows = [{"app":"noop","board":"noop"}]
 
     matrix = {"include": rows}
-    print(json.dumps(matrix, indent=2))
+    print(json.dumps(matrix))
 
 if __name__ == "__main__":
     main()
