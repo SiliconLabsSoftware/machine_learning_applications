@@ -1,17 +1,6 @@
 name: Continuous Integration for Machine Learning Applications
-on:
-  push:
-    branches:
-      - main
-      - feature/*
-    tags:
-      - v*
-  pull_request:
-    branches:
-      - main
-      - feature/*
-  workflow_dispatch:
-  
+on: [push]
+
 permissions:
   id-token: write
   contents: read
