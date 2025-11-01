@@ -1,17 +1,17 @@
 name: 02-Build-Firmware
 
 on:
-  pull_request:
-    branches:
-      - main
-      - master
-      - "release/**"
+  # pull_request:
+  #   branches:
+  #     - main
+  #     - master
+  #     - "release/**"
   workflow_dispatch:
     inputs:
       branch:
-        description: 'Branches to run the workflow on'
+        description: "Branches to run the workflow on"
         required: true
-        default: 'main'
+        default: "main"
 
 jobs:
   FW_build:
@@ -32,3 +32,4 @@ jobs:
       - name: Clean up workspace
         if: always()
         run: sudo git clean -ffdx
+
