@@ -13,20 +13,6 @@
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
     <properties key="filters" value="Capability|Machine\ Learning Device\ Type|SoC MCU|32-bit\ MCU Project\ Difficulty|Advanced"/>
   </descriptors>
-  <descriptors name="sensory_wakeupword" label="Machine Learning - Sensory Wakeup Word" description="This example project demos wakeup word detection using Sensory's TrulyHandsFree (THF) solution for Series 1 boards. Several models implementing different wake word phrases are included in the provided example projects. You can also create you own wake word model on Sensory's VoiceHub and include it in this demo to try it out.&#xA;">
-    <properties key="namespace" value="template.uc"/>
-    <properties key="keywords" value="universal\ configurator"/>
-    <properties key="projectFilePaths" value="application/voice/sensory_wakeupword/app/sensory_wakeupword_series_1.slcp"/>
-    <properties key="readmeFiles" value="application/voice/sensory_wakeupword/README.md"/>
-    <properties key="boardCompatibility" value="brd4166a"/>
-    <properties key="partCompatibility" value=".*efr32mg12p.*"/>
-    <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
-    <properties key="toolchainCompatibility" value="gcc iar segger"/>
-    <properties key="category" value="Example|Machine Learning"/>
-    <properties key="quality" value="EXPERIMENTAL"/>
-    <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
-    <properties key="filters" value="Capability|Machine\ Learning Device\ Type|SoC MCU|32-bit\ MCU Project\ Difficulty|Advanced"/>
-  </descriptors>
   <descriptors name="people_flow_counter_mlx90640" label="Machine Learning - People Flow Counter" description="A demo displaying how xG24-DK2601B can be used to to gain information about people flow using an IR camera.&#xA;">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>

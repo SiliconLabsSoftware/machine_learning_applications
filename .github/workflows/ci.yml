@@ -1,0 +1,152 @@
+name: Continuous Integration for Machine Learning Applications
+on:
+  push:
+    branches:
+      - main
+      - feature/*
+    tags:
+      - v*
+  pull_request:
+    branches:
+      - main
+      - feature/*
+  workflow_dispatch:
+  
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  generate-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Generate dynamic matrix from templates.xml
+        id: set-matrix
+        run: |
+          matrix=$(python3 .github/workflows/scripts/generate_matrix.py | jq -c .)
+          echo "matrix=$matrix" >> $GITHUB_OUTPUT
+
+  get-sdk:
+    runs-on: ubuntu-latest
+    steps:
+      - name:  Clone GSDK and ai-ml app
+        shell: bash
+        run: |
+          set -e
+          mkdir src
+          echo "==> Creating developer directories..."
+          cd src
+          echo "==> Cloning public GSDK"
+          git clone https://github.com/SiliconLabs/simplicity_sdk.git gsdk
+          cd gsdk
+          git checkout v2025.6.2
+          mkdir extension
+          cd extension
+          git clone --recurse-submodules https://github.com/SiliconLabsSoftware/aiml-extension.git aiml-extension
+          cd aiml-extension
+          git checkout v2.1.2      
+          git submodule update --init --recursive
+          git lfs pull || true
+
+      - name: Checkout machine_learning_applications (this repo)
+        uses: actions/checkout@v5
+        with:
+          path: src/gsdk/extension/machine_learning_applications
+      
+      - name: Upload SDK
+        uses: actions/upload-artifact@v5
+        with:
+          name: sisdk-and-extensions
+          path: .
+          include-hidden-files: true
+  
+  get-tools:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download ARM-GNU and SLC toolchain  
+        run: |
+          mkdir -p tools && cd tools
+          wget -q https://developer.arm.com/-/media/Files/downloads/gnu/12.2.rel1/binrel/arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz
+          tar -xf arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz
+          mv arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi armgnu
+          rm arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz
+          wget -q https://www.silabs.com/documents/public/software/slc_cli_linux.zip
+          unzip -q slc_cli_linux.zip -d slc_cli
+          rm slc_cli_linux.zip
+
+      - name: Upload Tools
+        uses: actions/upload-artifact@v5
+        with:
+          name: arm-gnu-toolchain-and-slc
+          path: .
+          include-hidden-files: true
+
+  build:
+    runs-on: ubuntu-latest
+    needs: [generate-matrix, get-sdk, get-tools]
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.generate-matrix.outputs.matrix) }}
+    steps:
+      - name: Download GSDK
+        uses: actions/download-artifact@v5
+        with:
+          name: sisdk-and-extensions
+          path: .
+
+      - name: Download ARM-GNU and SLC toolchain
+        uses: actions/download-artifact@v5
+        with:
+          name: arm-gnu-toolchain-and-slc
+          path: .
+
+      - name:  Install Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          check-latest: true
+          
+      - name: Configure SLC,ARM-GNU, JAVA paths
+        run: |
+          set -e
+          tree -L 3 
+          chmod -R +x ${{ github.workspace }}/tools/armgnu
+          echo "ARM_GCC_DIR=${{ github.workspace }}/tools/armgnu"                  >> "$GITHUB_ENV"
+          echo "${{ github.workspace }}/tools/armgnu/bin/"                         >> "$GITHUB_PATH"
+          
+          SLC_DIR="${{ github.workspace }}/tools/slc_cli/slc_cli/bin/slc-cli"
+          chmod +x "$SLC_DIR/slc-cli"
+          ln -sf "$SLC_DIR/slc-cli" "$SLC_DIR/slc"
+          echo "UC_CLI_DIR=$SLC_DIR"                         >> "$GITHUB_ENV"
+          echo "$SLC_DIR"                                    >> "$GITHUB_PATH"
+
+          echo "SLC_JAVA_HOME=$JAVA_HOME"                    >> "$GITHUB_ENV"
+
+      - name: Trust sdk's
+        run: |
+          set -e
+          slc configuration --sdk "${{ github.workspace }}/src/gsdk"
+          slc signature trust --sdk "${{ github.workspace }}/src/gsdk"
+          slc signature trust --extension-path "${{ github.workspace }}/src/gsdk/extension/aiml-extension"
+          slc signature trust --extension-path "${{ github.workspace }}/src/gsdk/extension/machine_learning_applications"
+
+      - name: Generate + Build
+        working-directory: ${{ github.workspace }}/src/gsdk/extension/machine_learning_applications
+        env:
+          APP: ${{ matrix.app }}                          
+          BOARD: ${{ matrix.board }}
+        run: |
+          set -e
+          echo "App: $APP"
+          echo "BOARD: $BOARD"
+          slc generate -d target/$APP/$BOARD -p $APP.slcp --with $BOARD -s "${{ github.workspace }}/src/gsdk"
+          cmake --preset project -S target/$APP/$BOARD/${APP##*/}_cmake
+          cmake --build target/$APP/$BOARD/${APP##*/}_cmake/build --parallel
+          echo "==> Listing generated .s37 files" 
+          find ./target -name "*.s37"
+
