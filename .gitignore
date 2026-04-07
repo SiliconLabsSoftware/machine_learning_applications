@@ -20,6 +20,13 @@ tests/build
 **/IAR ARM*
 **/sonar-bw/
 
+# Local SiSDK/SLT generation artifacts
+/generated/
+/autogen/
+pkg.lock
+*.slconf
+tmp_slconf/
+
 ##Enable these if you are not tracking Simplicity studio project
 # **/.cproject
 # **/.project
