@@ -18,8 +18,14 @@ include:
       - path: app.h
       - path: people_counting.h
       - path: bluetooth.h
-      - path: mlx90640/mlx90640.h
-      - path: mlx90640/mlx90640_i2c.h
+  - path: mlx90640
+    file_list:
+      - path: mlx90640.h
+      - path: mlx90640_i2c.h
+sdk_extension:
+  - id: machine_learning_applications
+  - vendor: silabs
+    id: aiml
 component:
   - id: sl_system
   - id: device_init
