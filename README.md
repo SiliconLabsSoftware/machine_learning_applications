@@ -10,11 +10,11 @@ Feel free to open an issue if you have any questions or encounter problems, but 
 
 - [Silicon Labs Machine Learning Applications](#silicon-labs-machine-learning-applications)
   - [About](#about)
-  - [Dependent SDK's](#dependent-sdks)
+  - [Dependent SDKs](#dependent-sdks)
   - [Building and running](#building-and-running)
     - [Build container](#build-container)
       - [Build container: Installing the prerequisites](#build-container-installing-the-prerequisites)
-    - [Build container: Generating, building and flashing an application](#build-container-generating-building-and-flashing-an-application)
+      - [Build container: Generating, building and flashing an application](#build-container-generating-building-and-flashing-an-application)
     - [Command line tools](#command-line-tools)
       - [Command line tools: Installing the prerequisites](#command-line-tools-installing-the-prerequisites)
       - [Command line tools: Generating, building and flashing an application](#command-line-tools-generating-building-and-flashing-an-application)
@@ -32,22 +32,24 @@ ___
 
 ## About
 
-The repository is organized by use case category. All applications are self contained, and include their own documentation.
+The repository is organized by use case category. All applications are self-contained and include their own documentation.
 
-Within an application's directory you will generally find,
+Within an application's directory you will generally find:
 
-- Source code for training the ML model and exporting it to Tensorflow Lite or a trained model artifact
+- Source code for training the ML model and exporting it to TensorFlow Lite or another trained model artifact
 - Documentation on model training and usage
+- Optional host-side tools or scripts for visualization, data collection, or evaluation, when applicable
 
+## Dependent SDKs
 
+This repository is validated with:
 
-## Dependent SDK's:
- 1. Simplicity SDK Suite v2025.6.2
- 2. Silicon Labs AI/ML v2.1.2
+1. Simplicity SDK (SiSDK) v2025.12.2
+2. Silicon Labs AI/ML v2.2.1
 
 ## Building and running
 
-There are multiple demo applications and project templates in this repository. We provide a Dockerfile which defines a build container for building and testing the code. Instructions for building natively using command line tools or Simplicity Studio are located further down.
+There are multiple demo applications and project templates in this repository. A Dockerfile is provided for containerized builds and tests. For SiSDK 2025.12.2, project generation has been validated in Simplicity Studio. Other workflows should be revalidated on the target setup before being treated as equivalent.
 
 ### Build container
 
@@ -61,6 +63,8 @@ To build and run an application for your board using the build container, you wi
 4. Use Simplicity Commander on your host machine to flash the compiled application onto your device
 
 #### Build container: Installing the prerequisites
+
+For this repository, Simplicity Studio project generation has been validated for SiSDK 2025.12.2. If you plan to rely on the build container for project generation and firmware build, validate that workflow separately against the target SDK and tool versions first.
 
 To install the prerequisites and build the build container image,
 
@@ -129,140 +133,107 @@ You can use the build container to generate and compile a project based on proje
 
 ### Command line tools
 
-To build and run an application for your board using the command line tools, you will need to:
+A native command-line workflow can be used for supported applications, but the exact generation and build steps depend on the installed SDK packages, target board, and local toolchain configuration.
 
-1. Install the prerequisites
-2. Generate a project for your board using Silicon Labs Configurator
-3. Build the project using Make and flash it onto your device using Simplicity Commander
+For this repository, Simplicity Studio project generation has been validated for SiSDK 2025.12.2. If you plan to use a CLI workflow as your primary path, validate the full generate, build, and flash sequence on your setup first.
 
 #### Command line tools: Installing the prerequisites
 
-1. To flash binaries onto your device, you'll need
+1. To flash binaries onto your device, install:
 
    - `commander` ([Simplicity Commander](https://www.silabs.com/developers/mcu-programming-options#programming))
 
-2. To generate and build the project, you'll need
+2. To generate and build projects natively, install:
 
-   - `make` (for Windows we recommend using WSL or Cygwin)
-   - `arm-eabi-none` GNU toolchain ([GNU ARM Embedded Toolchain](https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads/12-2-rel1), version 12.2.Rel1)
-   - `slc` ([Silicon Labs Configurator](https://www.silabs.com/documents/public/user-guides/ug520-software-project-generation-configuration-with-slc-cli.pdf), installation instructions can be found under Section 2 in the provided link)
+   - `slt`
+   - `slc`
+   - `cmake`
+   - Arm GNU Embedded Toolchain (`arm-none-eabi`)
 
-3. After installing the tools, make sure that they are available in your `PATH`.
+3. After installing the tools, make sure they are available in your `PATH`.
 
-4. Then, download `Simplicity Sdk >= v2025.6.2` and  `AI/MLrepo >= v2.1.2`. You can obtain this from the Github repository [SiliconLabs/simplicity_sdk](https://github.com/SiliconLabs/simplicity_sdk) and [SiliconLabsSoftware/aiml-extension](https://github.com/SiliconLabsSoftware/aiml-extension/).
+4. Install or make available the SDK packages required by the repository:
 
-    ```sh
-    git clone https://github.com/SiliconLabs/simplicity_sdk.git
-    cd simplicity_sdk
-    git checkout v2025.6.2
-    mkdir extension
-    cd extension
-    git clone https://github.com/SiliconLabsSoftware/aiml-extension.git
-    cd aiml-extension
-    git checkout v2.1.2
-    ```
+   - Simplicity SDK (SiSDK) `2025.12.2`
+   - Silicon Labs AI/ML `2.2.1`
 
-5. Next, clone this repository into extension folder created inside simplicity sdk.
+5. Clone this repository locally:
 
-    ```sh
-    git clone https://github.com/SiliconLabs/machine_learning_applications
-    ```
+   ```sh
+   git clone https://github.com/SiliconLabsSoftware/machine_learning_applications.git
+   ```
 
-6. After this, configure `slc` to use and trust the Simplicity SDK, AI/ML Extension and Machine Learning Applications Extension and ARM GNU Embedded Toolchain you downloaded,
-
-    ```sh
-    slc configuration --sdk=<path/to/simplicity_sdk>
-    slc configuration --gcc-toolchain=<path/to/arm-gnu-gcc-toolchain>
-    slc signature trust --sdk=<path/to/simplicity_sdk>
-    slc signature trust --extension-path <path/to/simplicity_sdk>/extension/aiml-extension
-    slc signature trust --extension-path <path/to/simplicity_sdk>/extension/machine_learning_applications
-    ```
+> Note: This repository does not need to be cloned under an SDK `extension/` directory when using workflows that accept explicit SDK or extension paths.
 
 #### Command line tools: Generating, building and flashing an application
 
-You can use the CLI tools to generate and compile a project based on project templates provided by this repository as follows. The example below demonstrates this for the `sensory_wakeupword_series_2` application, but a similar procedure can be used for other applications.
-
-1. Generate a project targeting your device,
-
-    ```sh
-    # Navigate to the application
-    cd application/voice/sensory_wakeupword
-    # Then generate a project from the template
-    slc generate app/sensory_wakeupword_series_2.slcp --with brd2601b -d target/brd2601b
-    ```
-
-2. Build the project using `make`,
-
-    ```sh
-    # Starting from voice/sensory_wakeupword
-    cd target/brd2601b
-    make -f sensory_wakeupword_series_2.Makefile -j
-    ```
-
-3. The compiled code can then be found under `target/brd2601b/build/debug`. You can flash the firmware onto your device with `commander` using the following command,
-
-    ```sh
-    # Starting from voice/sensory_wakeupword
-    # Assuming you've connected a EFR32xG24 Dev Kit to your machine over USB,
-    commander flash bin/efr32xg24_dev_kit/sensory_wakeupword_series_2.s37
-    # Note: If you encounter issues when flashing, try running `commander device recover` first.
-    ```
+A native CLI workflow typically uses `slc` for project generation and CMake for firmware build. The exact commands depend on the installed SDK packages, selected target board, and local environment.
 
 ### Simplicity Studio
 
 To build and run demos for your board using Simplicity Studio, you will need to:
 
-1. Add this Git repository as a Gecko SDK extension in Simplicity Studio
-2. Create a new project for your board using the Simplicity Studio Launcher
-3. Build the code and flash it onto your device using the Simplicity Studio IDE
+1. Add this repository as an SDK extension in Simplicity Studio
+2. Select a supported demo or project template for your target board
+3. Generate, build, and flash the project from the Studio workspace
 
 #### Simplicity Studio: Adding an external repository
 
-Simplicity Studio supports adding Gecko SDK extensions which provide new project templates, prebuilt demos and software components. To add this repository as an SDK extension,
+Simplicity Studio supports adding Simplicity SDK extensions that provide project templates, prebuilt demos, and software components. To add this repository as an SDK extension:
 
-1. Download the code, either by
-   - Cloning the repository using `git`:
+1. Download the code, either by:
+   - Cloning the repository with `git`:
 
-      ```sh
-      git clone https://github.com/SiliconLabs/machine_learning_applications.git
-      ```
+     ```sh
+     git clone https://github.com/SiliconLabsSoftware/machine_learning_applications.git
+     ```
 
-   - Or navigating to <https://github.com/SiliconLabs/machine_learning_applications.git>, opening the green `Code` dropdown, selecting `Download ZIP`, and extracting the contents.
+   - Or downloading the repository archive and extracting it locally
+
 2. Open Simplicity Studio
-3. Open the Preferences view in Simplicity Studio (the cogwheel at the top of the window)
-4. Select `Simplicity Studio`→`SDKs`
-5. Select your Gecko SDK Suite, then click on `Add Extension...`.
-6. In the menu, click on `Browse` and point to the root directory of the downloaded repository. Select `Machine Learning Applications` and click on `OK` to add the extension, then click on `Trust` to trust the contents.
-7. Click `Apply and Close` to exit the preferences menu.
+3. Open the Preferences view in Simplicity Studio
+4. Select `Simplicity Studio` -> `SDKs`
+5. Select your Simplicity SDK installation, then click `Add Extension...`
+6. Click `Browse`, select the root directory of the downloaded repository, then add and trust the `Machine Learning Applications` extension
+7. Click `Apply and Close`
 
-*Note: If `Simplicity Studio`→`SDKs` doesn't show up, you might be missing the 32-bit and Wireless MCUs package for Studio. You can install this by opening the Install view (the arrow at the top of the window) and selecting `Install by technology type`.*
+> Note: Studio or VS Code schema validation may still report stale `.slce` errors, such as a missing `sdk` property or rejecting `vendor`. Successful project generation is the authoritative check.
 
 #### Simplicity Studio: Flashing prebuilt demos
 
-Some applications in this repository include prebuilt demo binaries which can be flashed onto your device without setting up a local project. To flash the prebuilt demo onto your device,
+Some applications in this repository include prebuilt demo binaries that can be flashed onto your device without creating a local project.
 
-1. Open the Simplicity Studio Launcher (the rocket button in the top right corner of the window)
-2. Connect your device (e.g. an EFR32xG24 Dev Kit)
-3. Choose your device in the Connected Devices dropdown, and click on `Start`
-4. Navigate to `Example Projects & Demos`. Then, in the context menu on the left, scroll down to `Capability`, and select `Machine Learning`.
-5. Locate the demo you want to try out and click on `Run`. Note that the listed demos will depend on what board you've connected. The [demos.xml](demos.xml) file in this repo lists all available demos.
+To flash a prebuilt demo:
+
+1. Open the Simplicity Studio Launcher
+2. Connect your device, for example an EFR32xG24 Dev Kit
+3. Select the connected device and click `Start`
+4. Open `Example Projects & Demos`
+5. In the left-side filters, select `Capability` -> `Machine Learning`
+6. Locate the demo you want to try and click `Run`
+
+The available demos depend on the connected board. See [demos.xml](demos.xml) for the full list.
 
 #### Simplicity Studio: Generating, building and flashing an application
 
-Some applications in this repository include project templates which can be used to generate projects you can modify and try out. You can generate a new project based on project templates provided by this repository as follows:
+Some applications in this repository provide project templates that can be generated and modified in Simplicity Studio.
 
-1. Open the Simplicity Studio Launcher (the rocket button in the top right corner of the window)
-2. Connect your device (e.g. an EFR32xG24 Dev Kit)
-3. Choose your device in the Connected Devices dropdown, and click on `Start`
-4. Navigate to `Example Projects & Demos`. Then, in the context menu on the left, scroll down to `Capability`, and select `Machine Learning`.
-5. Locate the template you want to try out and click on `Create`. You can typically leave the settings to their defaults, and click on `Finish` to set up the project for your board. Note that the listed templates will depend on what board you've connected. The [templates.xml](templates.xml) file in this repo lists all available project templates.
-6. Inside your project, you can then compile and run the code from the window context menu:
-   - Click on `Project`→`Build Project` to compile the code
-   - Click on `Run`→`Debug` and select your connected device to flash the compiled firmware onto your device
+To generate and use one of these projects:
 
-**You need to perform this step every time you make changes to the extension.**
+1. Open the Simplicity Studio Launcher
+2. Connect your device, for example an EFR32xG24 Dev Kit
+3. Select the connected device and click `Start`
+4. Open `Example Projects & Demos`
+5. In the left-side filters, select `Capability` -> `Machine Learning`
+6. Locate the template you want to use and click `Create`
+7. Review the project settings, then click `Finish` to generate the project for your board
+8. Build and flash the generated project from the Studio workspace
 
-Now you can reference the components in this extension, in projects that are generated using the above Gecko SDK.
+The templates shown depend on the connected board. See [templates.xml](templates.xml) for the full list of available project templates.
+
+**Regenerate the project after making changes to extension metadata or extension-provided components.**
+
+After the extension has been added, its components can be referenced by projects generated against the selected Simplicity SDK installation.
 
 ## Testing
 
@@ -271,23 +242,21 @@ You can find scripts for testing the repository under `tests/`. These are CMake-
 The scripts define two kinds of tests:
 
 - Unit tests: Standard unit testing using GoogleTest
-- Application builds: Verifies that the bundled applications compile when targeting specific Silabs development kits
+- Application builds: Verifies that the bundled applications compile when targeting specific Silicon Labs development kits
 
 ### Testing: Using build container
 
-After building the [#Build container](#build-container) image, you can configure, build and run the tests by running
+After building the [Build container](#build-container) image, you can configure, build, and run the tests using the scripts under `tests/`.
 
-```sh
-docker run mla-builder tests/run.sh /opt/gecko_sdk
-```
+> Note: Revalidate the container-based test workflow against the target SiSDK and tool versions before relying on it as the primary verification path.
 
 ### Testing: Using command line tools
 
-To run the tests natively using command line tools you need to install [CMake](https://cmake.org/). In addition, you'll need the prerequisites described in [#Command line tools: Installing the prerequites](#command-line-tools-installing-the-prerequisites).
+To run the tests natively using command line tools, install [CMake](https://cmake.org/). In addition, install the prerequisites described in [Command line tools: Installing the prerequisites](#command-line-tools-installing-the-prerequisites).
 
 #### Natively: Running the tests
 
-You can configure, build and run the tests by running
+You can configure, build, and run the tests by running
 
 ```sh
 # Configure build scripts
