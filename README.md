@@ -1,6 +1,6 @@
 # Silicon Labs Machine Learning Applications
 
-Silicon Labs provides integrated hardware, software and development tools to help you quickly create secure, intelligent devices suitable for both industrial and commercial use cases. Our development platform has first class support for embedded machine learning (TinyML) model inference, backed by the [Tensorflow Lite for Microcontrollers (TFLM)](https://www.tensorflow.org/lite/microcontrollers) framework. We offer devices such as the [EFR32xG24](https://www.silabs.com/wireless/zigbee/efr32mg24-series-2-socs) dev kit that have hardware accelerators specifically built for [high-performant and energy efficient](https://mlcommons.org/en/inference-tiny-07/) AI/ML edge computing.
+Silicon Labs provides integrated hardware, software, and development tools to help you quickly create secure, intelligent devices suitable for both industrial and commercial use cases. Our development platform has first-class support for embedded machine learning (TinyML) model inference, backed by the [TensorFlow Lite for Microcontrollers (TFLM)](https://www.tensorflow.org/lite/microcontrollers) framework. We offer devices such as the [EFR32xG24](https://www.silabs.com/wireless/zigbee/efr32mg24-series-2-socs) dev kit that have hardware accelerators specifically built for [high-performance and energy-efficient](https://mlcommons.org/en/inference-tiny-07/) AI/ML edge computing.
 
 This repository contains a collection of embedded applications that leverage ML. You can use these to program your own Silicon Labs device, or as a starting point to develop your own TinyML application.
 
@@ -222,7 +222,7 @@ Some applications in this repository provide project templates that can be gener
 To generate and use one of these projects:
 
 1. Open the Simplicity Studio Launcher
-2. Connect your device, for example an EFR32xG24 Dev Kit
+2. Connect your device
 3. Select the connected device and click `Start`
 4. Open `Example Projects & Demos`
 5. In the left-side filters, select `Capability` -> `Machine Learning`
