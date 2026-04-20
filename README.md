@@ -90,7 +90,7 @@ To install the prerequisites and build the build container image,
     If on `aarch64`, use the following command instead:
 
     ```sh
-    DOCKER_DEFAULT_PLATFORM=linux/amd64 docker build -t mla-builder -f build Dockerfile .
+    DOCKER_DEFAULT_PLATFORM=linux/amd64 docker build -t mla-builder -f build/Dockerfile .
     ```
 
 ### Build container: Generating, building and flashing an application
