@@ -40,12 +40,13 @@ Within an application's directory you will generally find:
 - Documentation on model training and usage
 - Optional host-side tools or scripts for visualization, data collection, or evaluation, when applicable
 
-## Dependent SDKs
+## Dependent SDKs and Studio
 
 This repository is validated with:
 
-1. Simplicity SDK (SiSDK) v2025.12.2
-2. Silicon Labs AI/ML v2.2.1
+1. Simplicity Studio 6
+2. Simplicity SDK (SiSDK) v2025.12.2
+3. Silicon Labs AI/ML v2.2.1
 
 ## Building and running
 
@@ -191,8 +192,8 @@ Simplicity Studio supports adding Simplicity SDK extensions that provide project
    - Or downloading the repository archive and extracting it locally
 
 2. Open Simplicity Studio
-3. Open the Preferences view in Simplicity Studio
-4. Select `Simplicity Studio` -> `SDKs`
+3. Open the Settings panel in Simplicity Studio
+4. Select `SDKs`
 5. Select your Simplicity SDK installation, then click `Add Extension...`
 6. Click `Browse`, select the root directory of the downloaded repository, then add and trust the `Machine Learning Applications` extension
 7. Click `Apply and Close`
