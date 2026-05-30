@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    style="@style/dialog_card" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="24dp"
+        android:orientation="vertical"
+        android:color="@android:color/transparent"
+        android:gravity="center">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:progressTint="@color/blue_primary"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:id="@+id/dialog_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Connecting with ESL tag..." />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_gravity="bottom|center_horizontal"
+            android:visibility="gone"
+            style="@style/dialog_button_positive_red"
+            android:textColor="@color/white"
+            android:text="@string/button_cancel"
+            android:layout_margin="@dimen/matter_10dp"
+            android:layout_width="match_parent"
+            android:id="@+id/button_cancel_upload"
+            android:layout_height="wrap_content">
+        </androidx.appcompat.widget.AppCompatButton>
+
+
+    </LinearLayout>
+
+
+
+
+</com.google.android.material.card.MaterialCardView>

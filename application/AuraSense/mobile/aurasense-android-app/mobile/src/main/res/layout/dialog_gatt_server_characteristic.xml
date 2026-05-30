@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dialog_margin_top"
+    android:layout_marginBottom="@dimen/dialog_margin_bottom"
+    style="@style/dialog_card">
+
+    <LinearLayout
+        style="@style/dialog_margins"
+        android:layout_marginHorizontal="@dimen/dialog_margin_horizontal"
+        android:layout_width="match_parent"
+        android:minWidth="300dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tv_header"
+            style="@style/dialog_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dialog_title_margin_bottom"
+            android:text="@string/gatt_configurator_title_add_a_gatt_characteristic" />
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/silabs_white">
+
+                <LinearLayout
+                    android:id="@+id/ll_characteristic_name_uuid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="vertical">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/actv_characteristic_name"
+                        style="@style/EditTextSmall"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/gatt_configurator_hint_characteristic_name" />
+
+                    <AutoCompleteTextView
+                        android:id="@+id/actv_characteristic_uuid"
+                        style="@style/EditTextSmall"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:digits="0123456789ABCDEFabcdef-"
+                        android:hint="@string/gatt_configurator_hint_16_128_bit_uuid"
+                        android:maxLength="36" />
+                </LinearLayout>
+
+                <include
+                    android:id="@+id/properties_content"
+                    layout="@layout/dialog_add_characteristic_properties_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ll_characteristic_name_uuid"
+                    android:layout_marginTop="16dp" />
+
+                <include
+                    android:id="@+id/initial_value"
+                    layout="@layout/gatt_configurator_initial_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/properties_content" />
+
+            </RelativeLayout>
+        </ScrollView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ll_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/dialog_button_margin_top">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_clear"
+                style="@style/dialog_button_negative_action"
+                android:layout_width="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="@string/button_clear" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_cancel"
+                style="@style/dialog_button_negative_action"
+                android:layout_width="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/btn_clear"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="@dimen/dialog_margin_between_buttons"
+                android:text="@string/button_cancel" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_save"
+                style="@style/dialog_button_positive_action"
+                android:layout_width="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/btn_cancel"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="@dimen/dialog_margin_between_buttons"
+                android:enabled="false"
+                android:text="@string/button_save" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

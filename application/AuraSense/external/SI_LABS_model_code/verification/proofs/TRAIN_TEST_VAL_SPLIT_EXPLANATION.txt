@@ -1,0 +1,155 @@
+================================================================================
+FULL PROOF VERIFICATION: HOW THE CODE SPLITS TRAIN/TEST/VAL
+================================================================================
+
+The code has TWO DIFFERENT SPLITTING STRATEGIES depending on the model:
+
+================================================================================
+MODEL 1 (CRY DETECTOR) - FEATURE-LEVEL SPLIT
+================================================================================
+
+This is where datasets1/audio files are used. The split happens AFTER extracting
+features from audio files, NOT at the file level.
+
+LINE 315 (CryCeleb Loading):
+────────────────────────────────────────────────────────────────────────────────
+    print('Loading CryCeleb2023 ...')
+    cryceleb_paths = list_wavs(AUDIO_DIR)              ← LOADS ALL FILES FROM datasets1/audio
+    random.shuffle(cryceleb_paths)
+    cry_from_celeb = load_and_window_cry(cryceleb_paths, 1, M1_SNR_LOW, M1_SNR_HIGH, cap=CRYCELEB_CAP)
+    print(f'  CryCeleb → {len(cry_from_celeb)} CRY features')
+
+Where: AUDIO_DIR = f'{BASE}/audio' (line 68)
+       BASE = 'datasets1'  (line 66)
+
+So: cryceleb_paths = ALL FILES from datasets1/audio/train/ + datasets1/audio/test/ + datasets1/audio/dev/
+    
+KEY POINT: All files are loaded WITHOUT considering which subfolder they're in.
+The files are simply loaded and chunked into features.
+
+LINES 318-322 (Pooling all features):
+────────────────────────────────────────────────────────────────────────────────
+    all_cry_features = cry_from_sad + cry_from_laugh + cry_from_celeb
+    random.shuffle(all_cry_features)                   ← SHUFFLES FEATURES, NOT FILES
+    print(f'\n✅ Total CRY pool: {len(all_cry_features)}')
+    print(f'✅ Total NOT-CRY : {len(all_notcry_features)}')
+
+LINES 325-327 (THE ACTUAL FEATURE-LEVEL SPLIT):
+────────────────────────────────────────────────────────────────────────────────
+    def split_features(feats, train_frac=SPLIT_TRAIN, val_frac=SPLIT_VAL):
+        n = len(feats)
+        n_train = int(n * train_frac)                  ← 80% of FEATURES
+        n_val = int(n * val_frac)                      ← 10% of FEATURES
+        random.shuffle(feats)                          ← SHUFFLES FEATURES RANDOMLY
+        return feats[:n_train], feats[n_train:n_train+n_val], feats[n_train+n_val:]
+                    ↑ TRAIN                ↑ VAL                           ↑ TEST
+
+LINES 329-330 (Applying the split):
+────────────────────────────────────────────────────────────────────────────────
+    cry_tr, cry_va, cry_te = split_features(all_cry_features)
+    nc_tr, nc_va, nc_te   = split_features(all_notcry_features)
+
+PROOF:
+------
+✓ The split happens on FEATURES (extracted from chunks of audio)
+✓ Multiple features can come from ONE FILE (via chunking)
+✓ Files from train/, test/, dev/ folders are ALL MIXED together
+✓ Then features are split 80:10:10 WITHOUT FILE-LEVEL AWARENESS
+✓ A file from "dev/" folder might end up in TRAINING features
+✓ A file from "train/" folder might end up in TEST features
+
+================================================================================
+MODEL 2 (EMOTION: SAD vs LAUGH) - FILE-LEVEL SPLIT
+================================================================================
+
+For Model 2, the split is done at the FILE level BEFORE loading and extracting
+features.
+
+LINES 396-400 (THE FILE-LEVEL SPLIT):
+────────────────────────────────────────────────────────────────────────────────
+    def file_split(paths):
+        paths = paths.copy()
+        random.shuffle(paths)                          ← SHUFFLE FILE PATHS
+        n = len(paths)
+        n_tr = int(n * SPLIT_TRAIN)                    ← 80% of FILES
+        n_va = int(n * SPLIT_VAL)                      ← 10% of FILES
+        return paths[:n_tr], paths[n_tr:n_tr+n_va], paths[n_tr+n_va:]
+               ↑ TRAIN FILES  ↑ VAL FILES                    ↑ TEST FILES
+
+LINES 402-404 (Loading files):
+────────────────────────────────────────────────────────────────────────────────
+    sad_all   = list_wavs(SAD_DIR)                     ← GET ALL sad/ files
+    laugh_all = list_wavs(LAUGH_DIR)                   ← GET ALL laugh/ files
+    random.shuffle(sad_all)
+    random.shuffle(laugh_all)
+
+LINES 405-406 (Splitting files FIRST):
+────────────────────────────────────────────────────────────────────────────────
+    sad_tr, sad_va, sad_te     = file_split(sad_all)
+    laugh_tr, laugh_va, laugh_te = file_split(laugh_all)
+
+LINES 408-415 (Loading features FROM ALREADY-SPLIT FILES):
+────────────────────────────────────────────────────────────────────────────────
+    print('Processing M2 training set ...')
+    sad_feat_tr, sad_lbl_tr     = load_class_m2(sad_tr,   ...)  ← ONLY sad_tr files
+    laugh_feat_tr, laugh_lbl_tr = load_class_m2(laugh_tr, ...)  ← ONLY laugh_tr files
+    
+    print('Processing M2 validation set ...')
+    sad_feat_va, sad_lbl_va     = load_class_m2(sad_va,   ...)  ← ONLY sad_va files
+    laugh_feat_va, laugh_lbl_va = load_class_m2(laugh_va, ...)  ← ONLY laugh_va files
+    
+    print('Processing M2 test set ...')
+    sad_feat_te, sad_lbl_te     = load_class_m2(sad_te,   ...)  ← ONLY sad_te files
+    laugh_feat_te, laugh_lbl_te = load_class_m2(laugh_te, ...)  ← ONLY laugh_te files
+
+PROOF:
+------
+✓ Files are split into train/val/test groups FIRST
+✓ THEN features are extracted from only those pre-assigned files
+✓ A file can ONLY appear in ONE set
+✓ No mixing of train/val/test at the file level
+
+================================================================================
+KEY DIFFERENCE SUMMARY
+================================================================================
+
+MODEL 1 (CRY DETECTOR - uses datasets1/audio/):
+    Files → Load & Chunk → Extract Features → SPLIT FEATURES 80:10:10
+    
+    Result: Files can be split across train/val/test at the FEATURE level
+            A single file from "dev/" folder might contribute features to train, val, AND test sets
+
+MODEL 2 (EMOTION - uses sad/ and laugh/):
+    Files → SPLIT FILES 80:10:10 → Load only assigned files → Extract Features
+    
+    Result: Files stay together - no mixing between sets
+
+================================================================================
+SPLIT RATIOS (from lines 49-50):
+================================================================================
+    SPLIT_TRAIN = 0.80  (80%)
+    SPLIT_VAL   = 0.10  (10%)
+    SPLIT_TEST  = 0.10  (remainder, 10%)
+
+================================================================================
+FOR DATASETS1/AUDIO SPECIFICALLY:
+================================================================================
+
+The 26,091 files in datasets1/audio/ are:
+    - Train folder: 18,188 files
+    - Test folder:  6,289 files
+    - Dev folder:   1,614 files
+    
+BUT: These folder names are IGNORED by Model 1!
+     
+     ALL 26,091 files are treated as one big pool and:
+     → Loaded without folder-awareness
+     → Chunked into ~2000 features (capped by CRYCELEB_CAP=2000)
+     → Features are shuffled
+     → Features are split 80:10:10 for train/val/test
+
+The original folder structure (train/test/dev) in datasets1/audio/ is
+MEANINGLESS for Model 1 - it's just how the data was organized on disk.
+The actual train/val/test split happens at the FEATURE level AFTER loading.
+
+================================================================================

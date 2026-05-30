@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_advertising_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/TitleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/advertiser_title_advertising_data" />
+
+        <include
+            android:id="@+id/ll_data_advertising_data"
+            layout="@layout/advertiser_data_container" />
+
+        <Spinner
+            android:id="@+id/sp_advertising_data"
+            style="@style/ButtonBlue"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/silabs_transparent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_add_advertising_data"
+            style="@style/button_add_data_outlined"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/advertiser_button_add_data_type" />
+
+        <TextView
+            android:id="@+id/tv_adv_data_available_bytes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginHorizontal="16dp"
+            android:textColor="@color/silabs_inactive_light"
+            android:textSize="12sp" />
+
+        <include
+            layout="@layout/horizontal_separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_scan_resp_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/TitleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/advertiser_title_scan_response_data" />
+
+        <include
+            android:id="@+id/ll_data_scan_resp_data"
+            layout="@layout/advertiser_data_container" />
+
+        <Spinner
+            android:id="@+id/sp_scan_response_data"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="16dp"
+            android:background="@color/silabs_transparent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_add_scan_response_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_gravity="center_horizontal"
+            style="@style/button_add_data_outlined"
+            android:text="@string/advertiser_button_add_data_type" />
+
+        <TextView
+            android:id="@+id/tv_scan_resp_available_bytes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginHorizontal="16dp"
+            android:textColor="@color/silabs_inactive_light"
+            android:textSize="12sp" />
+
+        <include
+            layout="@layout/horizontal_separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp" />
+    </LinearLayout>
+</LinearLayout>

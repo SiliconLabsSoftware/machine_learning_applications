@@ -1,0 +1,39 @@
+# Ignore large dataset archives and raw downloads
+dataset/*.zip
+_raw_downloads/
+*.zip
+
+# Python & System
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store
+
+# Virtual Environments
+venv/
+env/
+.venv/
+
+# Secrets
+kaggle.json
+
+# Internal Research and Planning - Not for Public Repo
+research/
+a.txt
+b.txt
+form.txt
+format.txt
+CLAUDE.md
+AuraSense_9Min_Pitch_Script.md
+*.resolved
+*_files.txt
+FINAL_DATA_LEAKAGE_VERDICT.txt
+MODEL2_EMOTION_SPLIT_PROOF.txt
+MODEL1_MODEL2_LABEL_SCHEME.txt
+
+# Duplicate folders
+file_name/
+file_name copy/
+SI_LABS_MASTER/
+code_final/
+v2/

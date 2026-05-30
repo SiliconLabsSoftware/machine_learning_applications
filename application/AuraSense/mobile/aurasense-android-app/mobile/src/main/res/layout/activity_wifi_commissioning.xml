@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".features.demo.wifi_commissioning.activities.WifiCommissioningActivity">
+    <!-- Fake Status Bar View -->
+    <View
+        android:id="@+id/fakeStatusBar"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/blue_primary" />
+
+    <!-- Toolbar just below fake status bar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_below="@id/fakeStatusBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/blue_primary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <LinearLayout
+        android:layout_below="@id/toolbar"
+        android:id="@+id/firmware_ly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/firmware_text_horizontal_padding"
+        android:paddingVertical="@dimen/firmware_text_vertical_padding"
+        android:orientation="horizontal"
+        android:background="@color/silabs_white">
+
+        <TextView
+            android:id="@+id/firmware_label_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="@string/firmware_version"
+            android:textSize="@dimen/firmware_txt_size"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:gravity="start" />
+
+        <TextView
+            android:id="@+id/firmware_version_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/firmware_txt_size"
+            android:textColor="@color/black"
+            android:layout_weight="2"
+            android:gravity="end" />
+    </LinearLayout>
+
+    <com.siliconlabs.bledemo.common.views.HorizontalShadow
+        android:id="@+id/top_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/firmware_ly" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/wifi_access_pts_list"
+        android:layout_width="match_parent"
+        android:layout_marginTop="8dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top_shadow"
+        android:orientation="vertical"
+        android:visibility="visible" />
+
+    <com.siliconlabs.bledemo.common.views.HorizontalShadow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:rotation="180"
+        android:layout_alignParentBottom="true" />
+
+    <LinearLayout
+        android:id="@+id/ap_connected_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/connect_ap_ly_margin"
+        android:layout_marginTop="@dimen/connect_ap_ly_margin"
+        android:layout_marginEnd="@dimen/connect_ap_ly_margin"
+        android:layout_marginBottom="@dimen/connect_ap_ly_margin"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/connected_ap_tv_margin"
+            android:gravity="center_horizontal"
+            android:text="@string/device_already_connected"
+            android:textColor="@color/black"
+            android:textSize="@dimen/ble_detail_connected_ap_size" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/disconnect_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/my_button"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="5dp"
+            android:text="@string/details_disconnect"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+</RelativeLayout>
