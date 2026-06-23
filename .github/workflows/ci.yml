@@ -11,7 +11,7 @@ on:
       - main
       - feature/*
   workflow_dispatch:
-  
+
 permissions:
   id-token: write
   contents: read
@@ -22,7 +22,7 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Generate dynamic matrix from templates.xml
         id: set-matrix
@@ -30,124 +30,102 @@ jobs:
           matrix=$(python3 .github/workflows/scripts/generate_matrix.py | jq -c .)
           echo "matrix=$matrix" >> $GITHUB_OUTPUT
 
-  get-sdk:
-    runs-on: ubuntu-latest
-    steps:
-      - name:  Clone GSDK and ai-ml app
-        shell: bash
-        run: |
-          set -e
-          mkdir src
-          echo "==> Creating developer directories..."
-          cd src
-          echo "==> Cloning public GSDK"
-          git clone https://github.com/SiliconLabs/simplicity_sdk.git gsdk
-          cd gsdk
-          git checkout v2025.6.2
-          mkdir extension
-          cd extension
-          git clone --recurse-submodules https://github.com/SiliconLabsSoftware/aiml-extension.git aiml-extension
-          cd aiml-extension
-          git checkout v2.1.2      
-          git submodule update --init --recursive
-          git lfs pull || true
-
-      - name: Checkout machine_learning_applications (this repo)
-        uses: actions/checkout@v5
-        with:
-          path: src/gsdk/extension/machine_learning_applications
-      
-      - name: Upload SDK
-        uses: actions/upload-artifact@v5
-        with:
-          name: sisdk-and-extensions
-          path: src
-          include-hidden-files: true
-          retention-days: 1 # keep the artifacts for 1 day
-  
-  get-tools:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download ARM-GNU and SLC toolchain  
-        run: |
-          mkdir -p tools && cd tools
-          wget -q https://developer.arm.com/-/media/Files/downloads/gnu/12.2.rel1/binrel/arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz
-          tar -xf arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz
-          mv arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi armgnu
-          rm arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz
-          wget -q https://www.silabs.com/documents/public/software/slc_cli_linux.zip
-          unzip -q slc_cli_linux.zip -d slc_cli
-          rm slc_cli_linux.zip
-
-      - name: Upload Tools
-        uses: actions/upload-artifact@v5
-        with:
-          name: arm-gnu-toolchain-and-slc
-          path: tools
-          retention-days: 1 # keep the artifacts for 1 day
-
   build:
     runs-on: ubuntu-latest
-    needs: [generate-matrix, get-sdk, get-tools]
+    needs: generate-matrix
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.generate-matrix.outputs.matrix) }}
+    env:
+      SISDK_VERSION: 2025.12.2
+      AIML_VERSION: 2.2.1
     steps:
-      - name: Download GSDK
-        uses: actions/download-artifact@v5
-        with:
-          name: sisdk-and-extensions
-          path: src
-
-      - name: Download ARM-GNU and SLC toolchain
-        uses: actions/download-artifact@v5
-        with:
-          name: arm-gnu-toolchain-and-slc
-          path: tools
-
-      - name:  Install Java 21
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '21'
-          check-latest: true
-          
-      - name: Configure SLC,ARM-GNU, JAVA paths
+      - name: Install SLT
+        shell: bash
+        env:
+          SLT_DOWNLOAD_URL: https://www.silabs.com/documents/public/software/slt-cli-1.1.4-linux-x64.zip
+          SLT_PKG_NAME: slt-linux-x64.zip
         run: |
-          set -e
-          tree -L 3 
-          chmod -R +x ${{ github.workspace }}/tools/armgnu
-          echo "ARM_GCC_DIR=${{ github.workspace }}/tools/armgnu"                  >> "$GITHUB_ENV"
-          echo "${{ github.workspace }}/tools/armgnu/bin/"                         >> "$GITHUB_PATH"
-          
-          SLC_DIR="${{ github.workspace }}/tools/slc_cli/slc_cli/bin/slc-cli"
-          chmod +x "$SLC_DIR/slc-cli"
-          ln -sf "$SLC_DIR/slc-cli" "$SLC_DIR/slc"
-          echo "UC_CLI_DIR=$SLC_DIR"                         >> "$GITHUB_ENV"
-          echo "$SLC_DIR"                                    >> "$GITHUB_PATH"
+          curl ${SLT_DOWNLOAD_URL} --output ${RUNNER_TEMP}/${SLT_PKG_NAME}
+          # check if we got the binary or a webpage, fail on webpage.
+          jq -e . ${RUNNER_TEMP}/${SLT_PKG_NAME} >/dev/null 2>&1 && cat ${RUNNER_TEMP}/${SLT_PKG_NAME}
+          mkdir -p $HOME/.local/bin
+          unzip -o ${RUNNER_TEMP}/${SLT_PKG_NAME} -d $HOME/.local/bin
+          chmod +x $HOME/.local/bin/slt
+          rm ${RUNNER_TEMP}/${SLT_PKG_NAME}
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          echo "SLT_CI=true" >> $GITHUB_ENV
 
-          echo "SLC_JAVA_HOME=$JAVA_HOME"                    >> "$GITHUB_ENV"
-
-      - name: Trust sdk's
+      - name: Install Conan
+        shell: bash
         run: |
-          set -e
-          slc configuration --sdk "${{ github.workspace }}/src/gsdk"
-          slc signature trust --sdk "${{ github.workspace }}/src/gsdk"
-          slc signature trust --extension-path "${{ github.workspace }}/src/gsdk/extension/aiml-extension"
-          slc signature trust --extension-path "${{ github.workspace }}/src/gsdk/extension/machine_learning_applications"
+          slt install conan
+
+          # Define paths as variables
+          echo "CONAN_HOME=$HOME/.silabs/slt/installs/conan" >> $GITHUB_ENV
+          echo "$HOME/.silabs/slt/engines/conan/conan" >> $GITHUB_PATH
+
+      - name: Check Conan Install
+        shell: bash
+        run: |
+          echo "conan-version=$(conan --version | head -n 1)" >> $GITHUB_OUTPUT
+          echo "conan-path=$(which conan)" >> $GITHUB_OUTPUT
+
+          cat "$GITHUB_OUTPUT" || true
+
+      - name: Install Build Tools
+        shell: bash
+        run: |
+          slt install cmake ninja gcc-arm-none-eabi/12.2.rel1 -e conan
+
+      - name: Setup Build Tool paths
+        shell: bash
+        run: |
+          echo "$(slt where ninja)" >> "$GITHUB_PATH"
+          echo "$(slt where cmake)/bin" >> "$GITHUB_PATH"
+
+          ARM_GCC_DIR="$(slt where gcc-arm-none-eabi)"
+          echo "ARM_GCC_DIR=$ARM_GCC_DIR" >> "$GITHUB_ENV"
+          echo "$ARM_GCC_DIR/bin" >> "$GITHUB_PATH"
+
+      - name: Install SLC CLI
+        shell: bash
+        run: |
+          slt install slc-cli
+
+      - name: Setup SLC CLI paths
+        shell: bash
+        run: |
+          SLC_CLI_PATH="$(slt where slc-cli)"
+          echo "UC_CLI_DIR=$SLC_CLI_PATH" >> $GITHUB_ENV
+          echo "$SLC_CLI_PATH" >> $GITHUB_PATH
+
+      - name: Install SDKs
+        shell: bash
+        run: slt install "simplicity-sdk/$SISDK_VERSION" "aiml/$AIML_VERSION" -e conan
+
+      - name: Checkout Repo
+        uses: actions/checkout@v6
+        with:
+          lfs: true
 
       - name: Generate + Build
-        working-directory: ${{ github.workspace }}/src/gsdk/extension/machine_learning_applications
         env:
-          APP: ${{ matrix.app }}                          
+          APP: ${{ matrix.app }}
           BOARD: ${{ matrix.board }}
         run: |
           set -e
           echo "App: $APP"
           echo "BOARD: $BOARD"
-          slc generate -d target/$APP/$BOARD -p $APP.slcp --with $BOARD -s "${{ github.workspace }}/src/gsdk"
-          cmake --preset project -S target/$APP/$BOARD/${APP##*/}_cmake
-          cmake --build target/$APP/$BOARD/${APP##*/}_cmake/build --parallel
+          slc generate \
+            -d target/$APP/$BOARD \
+            -p $APP.slcp \
+            --with $BOARD \
+            --sdk-package-path "$(slt where simplicity-sdk/$SISDK_VERSION)" \
+            --sdk-package-path "$(slt where aiml/$AIML_VERSION)" \
+            --sdk-package-path .
+
+          cd target/$APP/$BOARD/cmake_gcc
+          cmake --workflow --preset project
           echo "==> Listing generated .s37 files" 
           find ./target -name "*.s37"
-
