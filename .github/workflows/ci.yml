@@ -123,9 +123,13 @@ jobs:
             --with $BOARD \
             --sdk-package-path "$(slt where simplicity-sdk/$SISDK_VERSION)" \
             --sdk-package-path "$(slt where aiml/$AIML_VERSION)" \
-            --sdk-package-path .
+            --sdk-package-path . \
+            --output-type cmake \
+            --toolchain gcc
 
-          cd target/$APP/$BOARD/cmake_gcc
+          cd "target/$APP/$BOARD/cmake_gcc"
           cmake --workflow --preset project
-          echo "==> Listing generated .s37 files" 
+
+          echo "==> Listing generated .s37 files"
+          cd -
           find ./target -name "*.s37"
