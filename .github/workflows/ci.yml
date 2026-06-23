@@ -88,10 +88,10 @@ jobs:
           echo "ARM_GCC_DIR=$ARM_GCC_DIR" >> "$GITHUB_ENV"
           echo "$ARM_GCC_DIR/bin" >> "$GITHUB_PATH"
 
-      - name: Install SLC CLI
+      - name: Install SLC CLI and Commander
         shell: bash
         run: |
-          slt install slc-cli
+          slt install slc-cli commander
 
       - name: Setup SLC CLI paths
         shell: bash
