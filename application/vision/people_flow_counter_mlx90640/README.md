@@ -12,11 +12,9 @@ The video above is an example of the output this demo provides. The output is th
 
 The title shows information about people crossing the red line:
 
-<ul>
-    <li><b>L</b> and <b>R</b> are the number of people that have crossed from right to left and left to right respectively.</li>
-    <li><b>T</b> is the number of people that have crossed from left to right and not yet crossed back.</li>
-    <li><b>Present</b> is the number of people (the number of bounding boxes) currently detected by the model on the full image.</li>
-</ul>
+- **L** and **R** are the number of people that have crossed from right to left and left to right respectively.
+- **T** is the number of people that have crossed from left to right and not yet crossed back.
+- **Present** is the number of people (the number of bounding boxes) currently detected by the model on the full image.
 
 The main benefit of using deep learning to solve this problem is the ability to separate people who are close together and, more generally, separate objects that have overlapping IR signatures. This example also includes a way to gather new data, which is recommended to improve robustness and reduce the likelihood of false positives.
 
@@ -77,14 +75,14 @@ slc generate \
   -p people_flow_counter_mlx90640.slcp \
   --with brd2601b \
   --sdk-package-path "<path-to-simplicity-sdk>,<path-to-machine_learning_applications>,<path-to-aiml>" \
-  -d people_flow_counter_mlx90640_brd2601b \
+  -d people_flow_counter_mlx90640_brd2601b/cmake_gcc \
   --output-type vscode
 ```
 
 Build the generated project:
 
 ```sh
-cd people_flow_counter_mlx90640_brd2601b
+cd people_flow_counter_mlx90640_brd2601b/cmake_gcc
 cmake --workflow --preset project
 ```
 
