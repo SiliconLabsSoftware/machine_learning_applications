@@ -1,0 +1,18 @@
+# This is the recipe file driving the command line tool install flow in SLT
+
+# Version defaults to 0 if not defined
+version = "0"
+
+# All packages to install are under this header
+[dependency]
+# SDKs
+simplicity-sdk = {version = ">=2025.12.0"}
+
+# Tools
+cmake = "~"
+commander = "~"
+exx32 = "~"
+gcc-arm-none-eabi = "~"
+ninja = "~"
+sdm = "~"
+slc-cli = "~"
