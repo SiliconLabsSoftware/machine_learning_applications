@@ -4,7 +4,7 @@ RUN python -m pip install --upgrade pip
 
 RUN apt install -y make wget unzip
 
-RUN wget -O /tmp/corretto.tar.gz --progress=bar:force:noscroll  "https://corretto.aws/downloads/latest/amazon-corretto-11-x64-linux-jdk.tar.gz"
+RUN wget -O /tmp/corretto.tar.gz --progress=bar:force:noscroll "https://corretto.aws/downloads/latest/amazon-corretto-21-x64-linux-jdk.tar.gz"
 RUN wget -O /tmp/slc.zip --progress=bar:force:noscroll "https://www.silabs.com/documents/login/software/slc_cli_linux.zip"
 RUN wget -O /tmp/gcc-arm-none-eabi.tar.bz2 --progress=bar:force:noscroll "https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.10/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2?rev=78196d3461ba4c9089a67b5f33edf82a&hash=5631ACEF1F8F237389F14B41566964EC"
 RUN wget -O /tmp/git-lfs.tar.gz --progress=bar:force:noscroll "https://github.com/git-lfs/git-lfs/releases/download/v3.3.0/git-lfs-linux-amd64-v3.3.0.tar.gz"
@@ -40,7 +40,6 @@ RUN cd git-lfs && ./install.sh
 RUN cd gecko_sdk && git checkout v4.2.0
 RUN cd gecko_sdk && git lfs install && git lfs pull --include="lib*.a"
 
-RUN cd slc && pip install -r requirements.txt
 RUN chmod +x /opt/slc/slc
 
 RUN slc configuration --sdk /opt/gecko_sdk
