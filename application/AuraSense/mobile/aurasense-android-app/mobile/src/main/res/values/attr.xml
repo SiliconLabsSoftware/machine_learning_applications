@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TemperatureDisplay">
+        <attr name="large_text_size" format="dimension" />
+        <attr name="small_text_size" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="MainActionButton" >
+        <attr name="is_action_on" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="DynamicRippleView">
+        <attr name="rippleColor" format="color" />
+        <attr name="rippleDuration" format="integer" />
+        <attr name="rippleAmount" format="integer" />
+        <attr name="rippleRadius" format="dimension" />
+        <attr name="rippleScale" format="float" />
+    </declare-styleable>
+</resources>

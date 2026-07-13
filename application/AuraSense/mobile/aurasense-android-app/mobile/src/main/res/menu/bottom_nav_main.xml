@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- IDs of the menu items must be the same as the IDs for their complementary fragments
+    defined in navigation_main_activity.xml. Only then main menu navigating will work properly. -->
+
+    <item android:id="@+id/demoFragment"
+        android:icon="@drawable/redesign_ic_main_navigation_demo"
+        android:menuCategory="secondary"
+        android:title="@string/main_navigation_monitor_title" />
+
+    <item android:id="@+id/historyFragment"
+        android:icon="@drawable/redesign_ic_clock"
+        android:menuCategory="secondary"
+        android:title="@string/main_navigation_history_title" />
+
+    <item android:id="@+id/settingsFragment"
+        android:icon="@drawable/ic_settings"
+        android:menuCategory="secondary"
+        android:title="@string/action_settings" />
+
+</menu>

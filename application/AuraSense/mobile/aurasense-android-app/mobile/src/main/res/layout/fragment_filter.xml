@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="@dimen/filters_margin_horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/filter_fragment_setting_header"
+                android:text="@string/filter_search_label" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="@dimen/space_XS"
+                android:background="@color/silabs_black" />
+
+            <LinearLayout android:id="@+id/search_packet_name_container"
+                style="@style/edit_text_box"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/space_XS"
+                android:layout_marginTop="@dimen/space_XS"
+                android:layout_marginBottom="@dimen/space_SM"
+                android:orientation="horizontal">
+
+                <EditText android:id="@+id/et_search_device_name"
+                    style="@style/edit_text_content"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:hint="@string/filter_edit_text_search_criteria"
+                    android:imeOptions="actionDone"
+                    android:inputType="text" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:src="@drawable/ic_search_off"
+                    android:contentDescription="@string/content_desc_search_icon"
+                    app:tint="#333333" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/filter_fragment_setting_header"
+                android:text="@string/RSSI" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="@dimen/space_XS"
+                android:background="@color/silabs_black"/>
+
+            <include layout="@layout/seek_control"
+                android:id="@+id/seek_bar_rssi" />
+
+            <TextView
+                android:id="@+id/textview_beacon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/filter_fragment_setting_header"
+                android:text="@string/Beacon_Type" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="@dimen/space_XS"
+                android:background="@color/silabs_black"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_SM">
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/beacon_type_unspecified"
+                    style="@style/full_line_checkbox_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/advertiser_setting_beacon_unspecified" />
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/beacon_type_iBeacon"
+                    style="@style/full_line_checkbox_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/ibeacon"/>
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/beacon_type_altBeacon"
+                    style="@style/full_line_checkbox_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/alt_beacon"/>
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/beacon_type_eddystone"
+                    style="@style/full_line_checkbox_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/eddystone" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textview_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/filter_fragment_setting_header"
+                android:text="@string/filter_status_label" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="@dimen/space_XS"
+                android:background="@color/silabs_black"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/cb_only_favourites"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0"
+                    android:text="@string/only_favorites"
+                    style="@style/filter_fragment_status_setting_choices"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/cb_only_connectable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0"
+                    android:text="@string/only_connectible"
+                    style="@style/filter_fragment_status_setting_choices" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/cb_only_bonded"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0"
+                    android:text="@string/only_bonded"
+                    style="@style/filter_fragment_status_setting_choices" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_apply_filters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:layout_gravity="center"
+        android:paddingVertical="@dimen/space_S"
+        app:backgroundTint="@color/blue_primary"
+        android:layout_marginVertical="16dp"
+        android:text="@string/filter_btn_apply_filters" />
+</LinearLayout>

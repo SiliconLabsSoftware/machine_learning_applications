@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="12dp"
+    android:background="@color/silabs_white"
+    android:clipToPadding="false">
+
+    <TextView
+        android:id="@+id/tv_characteristic_name"
+        style="@style/TitleMedium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        app:layout_constraintEnd_toStartOf="@id/ib_edit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Characteristic Name" />
+
+    <ImageButton
+        android:id="@+id/ib_edit"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@drawable/btn_grey_ripple_effect"
+        android:contentDescription="@string/label_edit"
+        android:src="@drawable/redesign_ic_card_view_action_icon_edit"
+        android:tint="@color/silabs_primary_icon"
+        app:layout_constraintEnd_toStartOf="@id/ib_copy"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/ib_copy"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/btn_grey_ripple_effect"
+        android:contentDescription="@string/label_copy"
+        android:src="@drawable/redesign_ic_card_view_action_icon_copy"
+        android:tint="@color/silabs_primary_icon"
+        app:layout_constraintEnd_toStartOf="@id/ib_remove"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/ib_remove"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/btn_grey_ripple_effect"
+        android:contentDescription="@string/label_remove"
+        android:src="@drawable/redesign_ic_card_view_action_icon_delete"
+        android:tint="@color/silabs_primary_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_characteristic_uuid"
+        style="@style/TextSmall"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="16dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintEnd_toStartOf="@id/ib_edit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_characteristic_name"
+        tools:text="UUID: 0x2A1E" />
+
+    <LinearLayout
+        android:id="@+id/ll_properties"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginHorizontal="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_characteristic_uuid">
+
+        <TextView
+            android:id="@+id/tv_property_indicate"
+            style="@style/configurator_property_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:gravity="center_vertical"
+            android:text="@string/gatt_configurator_label_indicate"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:drawableStartCompat="@drawable/redesign_ic_property_indicate_scaled" />
+
+        <TextView
+            android:id="@+id/tv_property_notify"
+            style="@style/configurator_property_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:gravity="center_vertical"
+            android:text="@string/gatt_configurator_label_notify"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:drawableStartCompat="@drawable/redesign_ic_property_notify_scaled"/>
+
+        <TextView
+            android:id="@+id/tv_property_write"
+            style="@style/configurator_property_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:gravity="center_vertical"
+            android:text="@string/gatt_configurator_label_write"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:drawableStartCompat="@drawable/redesign_ic_property_write" />
+
+        <TextView
+            android:id="@+id/tv_property_read"
+            style="@style/configurator_property_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/gatt_configurator_label_read"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:drawableStartCompat="@drawable/redesign_ic_property_read_off"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_descriptors"
+        style="@style/TitleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/Descriptors_colon"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_properties" />
+
+    <LinearLayout
+        android:id="@+id/cv_descriptors"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_descriptors">
+
+        <LinearLayout
+            android:id="@+id/ll_descriptors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_descriptors">
+<!--            <include tools:layout="@layout/view_gatt_descriptor" />-->
+<!--            <include tools:layout="@layout/view_gatt_descriptor" />-->
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_add_descriptor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/button_add_data_outlined"
+        android:text="@string/button_add_descriptor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cv_descriptors" />
+
+    <View
+        android:id="@+id/view_characteristic_separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/silabs_divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_add_descriptor" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
