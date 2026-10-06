@@ -29,11 +29,20 @@ source:
   - path: magic_wand.cc
   - path: accelerometer.cc
   - path: bluetooth.c
+sdk:
+  id: simplicity_sdk
+  vendor: silabs
+  version: 2026.6.2
+sdk_extension:
+  - id: aiml
+    vendor: silabs
+    version: 3.0.2
 component:
   - id: sl_system
   - id: device_init
-  - id: tensorflow_lite_micro
+  - id: ml_model
     from: aiml
+    instance: [magic_wand_model]
   - id: imu_driver
   - id: iostream_recommended_stream
   - id: power_manager
@@ -57,20 +66,8 @@ component:
   - id: printf
   - id: simple_button
     instance: [btn0]
-  - id: tensorflow_debug_log_iostream
-    from: aiml
-  - id: tensorflow_lite_micro_accelerated_kernels
-    from: aiml
-    condition: [device_has_mvp]
-  - id: tensorflow_lite_micro_optimized_kernels
-    from: aiml
-    condition: [device_has_mvp]
-  - id: tensorflow_lite_micro_optimized_kernels
-    from: aiml
-    condition: [device_compute_basic]
 define:
   - name: DEBUG_EFM
-  - name: TF_LITE_STATIC_MEMORY
 configuration:
   - name: SL_BOARD_ENABLE_VCOM
     value: "1"
@@ -90,13 +87,13 @@ configuration:
     value: "0"
     condition:
       - psa_crypto
-  - name: SL_TFLITE_MICRO_ARENA_SIZE
-    value: "12000"
 toolchain_settings:
   - option: gcc_compiler_option
     value: "-Wno-unused-parameter"
   - option: gcc_compiler_option
     value: "-Wno-missing-field-initializers"
+  - option: gcc_compiler_option
+    value: "-mfp16-format=ieee"
   - option: gcc_linker_option
     value: "-u _printf_float"
 readme:
@@ -104,9 +101,14 @@ readme:
 ui_hints:
   highlight: readme.md
 config_file:
-  - path: "config/tflite/model_quantized.tflite"
-    file_id: flatbuffer_file_id
-    directory: "tflite"
+  - path: config/compiler/magic_wand_model.mlconf
+    directory: tflite
+    override:
+      component: ml_model
+      file_id: ml_compiler_config
+      instance: magic_wand_model
+  - path: config/tflite/magic_wand_model.tflite
+    directory: tflite
   - override:
       component: gatt_configuration
       file_id: gatt_configuration_file_id
