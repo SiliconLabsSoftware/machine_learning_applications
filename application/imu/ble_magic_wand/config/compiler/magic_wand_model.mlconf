@@ -1,0 +1,7 @@
+model: magic_wand_model.tflite
+
+graph_optimizer:
+  enabled: true
+
+memory_optimizer:
+  enabled: true
