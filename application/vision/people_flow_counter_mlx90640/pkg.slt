@@ -6,7 +6,7 @@ version = "0"
 # All packages to install are under this header
 [dependency]
 # SDKs
-simplicity-sdk = "2025.12.0"
+simplicity-sdk = "2025.12.3"
 aiml = "2.2.2"
 
 # Tools
