@@ -56,7 +56,19 @@ jobs:
           echo "$HOME/.local/bin" >> $GITHUB_PATH
           echo "SLT_CI=true" >> $GITHUB_ENV
 
+      - name: Checkout Repo
+        uses: actions/checkout@v6
+        with:
+          lfs: true
+
+      - name: Install from pkg.slt
+        if: matrix.use_pkg_slt
+        shell: bash
+        working-directory: ${{ matrix.app_dir }}
+        run: slt install
+
       - name: Install Conan
+        if: ${{ !matrix.use_pkg_slt }}
         shell: bash
         run: |
           slt install conan
@@ -66,6 +78,7 @@ jobs:
           echo "$HOME/.silabs/slt/engines/conan/conan" >> $GITHUB_PATH
 
       - name: Check Conan Install
+        if: ${{ !matrix.use_pkg_slt }}
         shell: bash
         run: |
           echo "conan-version=$(conan --version | head -n 1)" >> $GITHUB_OUTPUT
@@ -74,6 +87,7 @@ jobs:
           cat "$GITHUB_OUTPUT" || true
 
       - name: Install Build Tools
+        if: ${{ !matrix.use_pkg_slt }}
         shell: bash
         run: |
           slt install cmake ninja gcc-arm-none-eabi/12.2.rel1 -e conan
@@ -85,10 +99,11 @@ jobs:
           echo "$(slt where cmake)/bin" >> "$GITHUB_PATH"
 
           ARM_GCC_DIR="$(slt where gcc-arm-none-eabi)"
-          echo "ARM_GCC_DIR=$ARM_GCC_DIR" >> "$GITHUB_ENV"
+          echo "ARM_GCC_DIR=$ARM_GCC_DIR" >> $GITHUB_ENV
           echo "$ARM_GCC_DIR/bin" >> "$GITHUB_PATH"
 
       - name: Install SLC CLI and Commander
+        if: ${{ !matrix.use_pkg_slt }}
         shell: bash
         run: |
           slt install slc-cli commander
@@ -101,13 +116,9 @@ jobs:
           echo "$SLC_CLI_PATH" >> $GITHUB_PATH
 
       - name: Install SDKs
+        if: ${{ !matrix.use_pkg_slt }}
         shell: bash
         run: slt install "simplicity-sdk/$SISDK_VERSION" "aiml/$AIML_VERSION" -e conan
-
-      - name: Checkout Repo
-        uses: actions/checkout@v6
-        with:
-          lfs: true
 
       - name: Generate + Build
         env:
@@ -117,15 +128,25 @@ jobs:
           set -e
           echo "App: $APP"
           echo "BOARD: $BOARD"
-          slc generate \
-            -d target/$APP/$BOARD \
-            -p $APP.slcp \
-            --with $BOARD \
-            --sdk-package-path "$(slt where simplicity-sdk/$SISDK_VERSION)" \
-            --sdk-package-path "$(slt where aiml/$AIML_VERSION)" \
-            --sdk-package-path . \
-            --output-type cmake \
-            --toolchain gcc
+
+          if [ "${{ matrix.use_pkg_slt }}" = "true" ]; then
+            slc generate \
+              -d "target/$APP/$BOARD" \
+              -p "$APP.slcp" \
+              --with "$BOARD" \
+              --output-type cmake \
+              --toolchain gcc
+          else
+            slc generate \
+              -d "target/$APP/$BOARD" \
+              -p "$APP.slcp" \
+              --with "$BOARD" \
+              --sdk-package-path "$(slt where simplicity-sdk/$SISDK_VERSION)" \
+              --sdk-package-path "$(slt where aiml/$AIML_VERSION)" \
+              --sdk-package-path . \
+              --output-type cmake \
+              --toolchain gcc
+          fi
 
           cd "target/$APP/$BOARD/cmake_gcc"
           cmake --workflow --preset project
