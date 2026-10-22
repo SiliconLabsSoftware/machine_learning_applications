@@ -45,4 +45,8 @@
 #define PREDICTION_HISTORY_LEN   5
 #define PREDICTION_SUPPRESSION  18
 
+// Uncomment to log the model output scores on every inference while holding
+// btn0. Useful when tuning DETECTION_THRESHOLD or checking a retrained model.
+// #define MAGIC_WAND_LOG_SCORES
+
 #endif // MAGIC_WAND_CONFIG_H

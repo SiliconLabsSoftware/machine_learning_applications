@@ -14,8 +14,7 @@
  * sections of the MSLA applicable to Source Code.
  *
  ******************************************************************************/
-#include "sl_tflite_micro_model.h"
-#include "sl_tflite_micro_init.h"
+#include "sl_ml_model_magic_wand_model.h"
 #include "sl_sleeptimer.h"
 #include "magic_wand.h"
 #include "accelerometer.h"
@@ -23,10 +22,12 @@
 #include "math.h"
 static int input_length;
 static TfLiteTensor* model_input;
-static tflite::MicroInterpreter* interpreter;
 static acc_data_t buf[SEQUENCE_LENGTH] = { 0.5f, 0.5f, 0.5f };
 static bool infer = false;
 static bool read_accel = false;
+// Set from the button interrupt; the Bluetooth stack must not be called from
+// interrupt context, so the key release report is sent from magic_wand_action().
+static volatile bool report_reset_pending = false;
 static int head_ptr = 0;
 static int inference_trigger_samples_num = round(INFERENCE_PERIOD_MS / ACCELEROMETER_FREQ);
 static acc_data_t prev_data = { 0.5f, 0.5f, 0.5f };
@@ -52,7 +53,7 @@ void sl_button_on_change(const sl_button_t *handle)
   } else if (sl_button_get_state(handle) == SL_SIMPLE_BUTTON_RELEASED) {
     if (&sl_button_btn0 == handle) {
       listen_for_gestures(false);
-      reset_report();
+      report_reset_pending = true;
     }
   }
 }
@@ -100,8 +101,12 @@ void magic_wand_init(void)
 {
   app_log_info("Initializing Magic Wand...\n");
   // Obtain pointer to the model's input tensor.
-  model_input = sl_tflite_micro_get_input_tensor();
-  interpreter = sl_tflite_micro_get_interpreter();
+  if (sl_ml_model_init(&sl_ml_magic_wand_model_model_handle) != SL_STATUS_OK) {
+    app_log_error("Failed to load model.\n");
+    EFM_ASSERT(false);
+    return;
+  }
+  model_input = sl_ml_magic_wand_model_model_handle.input_tensor(0);
   if ((model_input->dims->size != 4) || (model_input->dims->data[0] != 1)
       || (model_input->dims->data[1] != SEQUENCE_LENGTH)
       || (model_input->dims->data[2] != ACCELEROMETER_CHANNELS)
@@ -165,16 +170,21 @@ static void do_inference(void)
   // Copy the buffer into the model inputs
   memcpy(model_input->data.f, buf, sizeof(buf));
 
-  TfLiteStatus invoke_status = interpreter->Invoke();
-
-  if (invoke_status != kTfLiteOk) {
+  if (sl_ml_model_run(&sl_ml_magic_wand_model_model_handle) != SL_STATUS_OK) {
     app_log_error("Inference failed!\n");
     return;
   }
 
   // Analyze the results to obtain a prediction
-  const model_output_t *output = (const model_output_t *)interpreter->output(0)->data.f;
+  const model_output_t *output = (const model_output_t *)sl_ml_magic_wand_model_model_handle.output_tensor(0)->data.f;
   int gesture = GESTURE_UNKNOWN;
+#ifdef MAGIC_WAND_LOG_SCORES
+  if ((*output).gesture[0] > 0.3f || (*output).gesture[1] > 0.3f || (*output).gesture[2] > 0.3f) {
+    app_log_info("scores down=%d circle=%d up=%d unknown=%d (x1000)\n",
+                 (int)((*output).gesture[0] * 1000), (int)((*output).gesture[1] * 1000),
+                 (int)((*output).gesture[2] * 1000), (int)((*output).gesture[3] * 1000));
+  }
+#endif
   if ((*output).gesture[0] > DETECTION_THRESHOLD) {
     gesture = GESTURE_DOWN;
   } else if ((*output).gesture[1] > DETECTION_THRESHOLD) {
@@ -187,6 +197,10 @@ static void do_inference(void)
 }
 void magic_wand_action(void)
 {
+  if (report_reset_pending) {
+    report_reset_pending = false;
+    reset_report();
+  }
   if (infer) {
     do_inference();
   }
