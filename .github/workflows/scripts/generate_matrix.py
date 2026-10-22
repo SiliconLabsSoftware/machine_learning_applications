@@ -21,13 +21,20 @@ def main():
 
     rows = []
     for desc in root.findall("descriptors"):
-        app = get_prop(desc, "projectFilePaths").split(".")[0]     # e.g. application/voice/.../series_2.slcp -> application/voice/.../series_2    
-        boards = split_ws(get_prop(desc, "boardCompatibility"))    # e.g. ["brd2601a", "brd2601b"]
+        slcp_path = get_prop(desc, "projectFilePaths")
+        app = slcp_path.split(".")[0]
+        app_dir = str(Path(slcp_path).parent)
+        slcp = Path(slcp_path).name
+        use_pkg_slt = (ROOT / app_dir / "pkg.slt").is_file()
+        boards = split_ws(get_prop(desc, "boardCompatibility"))
 
         for board in boards:
             rows.append({
                 "app": app,
-                "board": board
+                "board": board,
+                "app_dir": app_dir,
+                "slcp": slcp,
+                "use_pkg_slt": use_pkg_slt,
             })
 
     if not rows:

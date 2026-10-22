@@ -6,14 +6,14 @@ version = "0"
 # All packages to install are under this header
 [dependency]
 # SDKs
-simplicity-sdk = "2025.12.0"
+simplicity-sdk = "~2025.12.3"
 aiml = "2.2.2"
 
 # Tools
 cmake = "~"
 commander = "~"
 exx32 = "~"
-gcc-arm-none-eabi = "~"
+gcc-arm-none-eabi = "12.2.rel1"
 ninja = "~"
 sdm = "~"
 slc-cli = "~"
