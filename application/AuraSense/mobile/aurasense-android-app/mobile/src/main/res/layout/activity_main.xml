@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/aura_app_background">
+
+    <include android:id="@+id/include_layout_edge_to_edge"
+        layout="@layout/layout_edge_to_edge" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/main_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:navGraph="@navigation/navigation_main_activity"
+        app:defaultNavHost="true"
+        tools:layout="@layout/fragment_scan"/>
+
+    <com.siliconlabs.bledemo.home_screen.views.HidableBottomNavigationView
+        android:id="@+id/main_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:menu="@menu/bottom_nav_main"
+        app:labelVisibilityMode="labeled" >
+    </com.siliconlabs.bledemo.home_screen.views.HidableBottomNavigationView>
+
+</LinearLayout>

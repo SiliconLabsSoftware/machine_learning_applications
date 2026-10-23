@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission
+        android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RANGING" />
+    <uses-permission android:name="android.permission.UWB_RANGING" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+
+    <application
+        android:name=".application.SiliconLabsDemoApplication"
+        android:allowBackup="false"
+        android:enableOnBackInvokedCallback="true"
+        android:icon="@mipmap/si_launcher_round"
+        android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
+        android:supportsRtl="true"
+        android:theme="@style/MainAppTheme"
+        android:usesCleartextTraffic="true"
+        tools:replace="android:allowBackup"
+        tools:targetApi="tiramisu">
+        <activity
+            android:name=".features.demo.energyharvesting.EnergyHarvestingActivity"
+            android:exported="false" />
+        <!-- MqttService -->
+        <service
+            android:name=".features.configure.advertiser.services.MqttForegroundService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync"
+            tools:ignore="ForegroundServicePermission" />
+        <service android:name="org.eclipse.paho.android.service.MqttService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="dataSync"
+            tools:ignore="ForegroundServicePermission" />
+        <service
+            android:name=".bluetooth.services.BluetoothService"
+            android:exported="true"
+            tools:ignore="ExportedService" />
+        <service
+            android:name=".features.configure.advertiser.services.AdvertiserService"
+            android:exported="true"
+            android:foregroundServiceType="connectedDevice"
+            tools:ignore="ExportedService" />
+        <service
+            android:name=".features.scan.browser.services.ShareLogServices"
+            android:exported="true"
+            tools:ignore="ExportedService" />
+        <service
+            android:name=".features.demo.energyharvesting.bluetooth.EnergyHarvestingBluetoothService"
+            android:exported="false"
+            android:foregroundServiceType="location|dataSync">
+
+        </service>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.siliconlabs.bledemo.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider> <!-- REDESIGN 07/22 -->
+        <!--E2E done-->
+        <activity
+            android:name=".features.demo.wifi_throughput.activities.WifiThroughputActivity"
+            android:exported="false"
+            android:theme="@style/MainAppTheme.NoActionBar" />
+        <!--E2E done-->
+        <activity
+            android:theme="@style/MainAppTheme.NoActionBar"
+            android:name=".features.configure.gatt_configurator.activities.GattServerActivity"
+            android:label="@string/title_new_GATT_Server" />
+        <!--E2E done-->
+        <activity
+            android:theme="@style/MainAppTheme.NoActionBar"
+            android:name=".features.configure.advertiser.activities.AdvertiserConfigActivity"
+            android:label="@string/title_Advertiser" />
+        <!--E2E done-->
+        <activity
+            android:theme="@style/MainAppTheme.NoActionBar"
+            android:name=".features.scan.browser.activities.UuidDictionaryActivity"
+            android:label="@string/title_uuid_dictionary" />
+        <!--E2E done-->
+        <activity
+            android:theme="@style/MainAppTheme.NoActionBar"
+            android:name=".features.demo.health_thermometer.activities.HealthThermometerActivity"
+            android:screenOrientation="sensorPortrait"
+            tools:ignore="DiscouragedApi" />
+        <activity
+            android:theme="@style/MainAppTheme.NoActionBar"
+            android:name=".features.demo.babycry.BabyCryMonitorActivity"
+            android:screenOrientation="sensorPortrait"
+            tools:ignore="DiscouragedApi" />
+        <!--E2E done-->
+        <activity
+            android:theme="@style/MainAppTheme.NoActionBar"
+            android:name=".features.demo.blinky.activities.BlinkyActivity"
+            android:screenOrientation="sensorPortrait"
+            tools:ignore="DiscouragedApi" />
+        <!--E2E done-->
+        <activity
+            android:theme="@style/MainAppTheme.NoActionBar"
+            android:name=".features.demo.connected_lighting.activities.ConnectedLightingActivity"
+            android:screenOrientation="sensorPortrait"
+            tools:ignore="DiscouragedApi" />
+        <!--E2E  done-->
+        <activity
+            android:theme="@style/MainAppTheme.NoActionBar"
+            android:name=".features.demo.range_test.activities.RangeTestActivity"
+            android:screenOrientation="sensorPortrait"
+            tools:ignore="DiscouragedApi" />
+        <!--E2E  done-->
+        <activity
+            android:theme="@style/MainAppTheme.NoActionBar"
+            android:name=".features.demo.throughput.activities.ThroughputActivity"
+            android:screenOrientation="sensorPortrait"
+            tools:ignore="DiscouragedApi" />
+        <!--E2E  done-->
+        <activity
+            android:theme="@style/MainAppTheme.NoActionBar"
+            android:name=".features.demo.wifi_commissioning.activities.WifiCommissioningActivity"
+            android:screenOrientation="sensorPortrait"
+            tools:ignore="DiscouragedApi" />
+        <!--E2E done-->
+        <activity
+            android:theme="@style/MainAppTheme.NoActionBar"
+            android:name=".features.scan.browser.activities.DeviceServicesActivity"
+            android:screenOrientation="sensorPortrait"
+            tools:ignore="DiscouragedApi" />
+        <!--E2E done-->
+        <activity
+            android:theme="@style/MainAppTheme.NoActionBar"
+            android:name=".features.iop_test.activities.IOPTestActivity"
+            android:screenOrientation="sensorPortrait"
+            tools:ignore="DiscouragedApi" />
+        <!--E2E  done-->
+        <activity
+            android:theme="@style/MainAppTheme.NoActionBar"
+            android:name=".features.demo.thunderboard_demos.demos.motion.activities.MotionActivity"
+            android:screenOrientation="sensorPortrait"
+            tools:ignore="DiscouragedApi" />
+        <!--E2E done-->
+        <activity
+            android:theme="@style/MainAppTheme.NoActionBar"
+            android:name=".features.demo.thunderboard_demos.demos.environment.activities.EnvironmentActivity"
+            android:screenOrientation="sensorPortrait"
+            tools:ignore="DiscouragedApi" />
+        <!--E2E  done-->
+        <activity
+            android:theme="@style/MainAppTheme.NoActionBar"
+            android:name=".features.demo.thunderboard_demos.demos.blinky_thunderboard.activities.BlinkyThunderboardActivity"
+            android:screenOrientation="sensorPortrait"
+            tools:ignore="DiscouragedApi" />
+        <!--E2E done-->
+        <activity
+            android:theme="@style/MainAppTheme.NoActionBar"
+            android:name=".features.demo.esl_demo.activities.EslDemoActivity"
+            android:screenOrientation="sensorPortrait"
+            tools:ignore="DiscouragedApi" />
+        <!--E2E  done-->
+        <activity
+            android:name=".features.demo.matter_demo.activities.MatterDemoActivity"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/MainAppTheme.NoActionBar"
+            tools:ignore="DiscouragedApi" />
+        <!--E2E done-->
+        <activity
+            android:name=".features.demo.devkitsensor917.activities.DevKitSensor917Activity"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/MainAppTheme.NoActionBar"
+            tools:ignore="DiscouragedApi" />
+        <activity
+            android:name=".home_screen.activities.MainActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/MainAppTheme.NoActionBar"
+            tools:ignore="DiscouragedApi" />
+        <activity
+            android:name=".home_screen.activities.SplashActivity"
+            android:exported="true"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/SystemSplashTheme"
+            tools:ignore="DiscouragedApi">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!--E2E done-->
+        <activity
+            android:name=".features.configure.advertiser.activities.PendingServerConnectionActivity"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/Theme.SiConnectApp"
+            tools:ignore="DiscouragedApi" />
+        <!--E2E  done-->
+        <activity
+            android:name=".features.demo.wifi_provisioning.activities.WiFiProvisioningActivity"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/MainAppTheme.NoActionBar"
+            tools:ignore="DiscouragedApi"  />
+        <!--E2E done-->
+        <activity
+            android:name=".features.demo.awsiot.AWSIOTDemoActivity"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/MainAppTheme.NoActionBar"
+            tools:ignore="DiscouragedApi" />
+        <!--E2E not done-->
+        <activity
+            android:name=".features.demo.smartlock.activities.SmartLockActivity"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/MainAppTheme.NoActionBar"
+            tools:ignore="DiscouragedApi"/>
+
+        <!--E2E not done-->
+        <activity
+            android:name=".features.demo.channel_sounding.activities.ChannelSoundingActivity"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/MainAppTheme.NoActionBar"
+            tools:ignore="DiscouragedApi"/>
+    </application>
+
+</manifest>

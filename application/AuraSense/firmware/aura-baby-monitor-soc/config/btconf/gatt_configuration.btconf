@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Custom BLE GATT database for AI Cry Classifier-->
+<gatt generic_attribute_service="true" header="gatt_db.h" name="AI Cry Classifier GATT" out="gatt_db.c" prefix="gattdb_">
+  
+  <!--Generic Access Service (0x1800)-->
+  <service advertise="false" id="generic_access" name="Generic Access" requirement="mandatory" sourceId="org.bluetooth.service.generic_access" type="primary" uuid="1800">
+    <informativeText>Abstract: The generic_access service contains generic information about the device.</informativeText>
+    
+    <characteristic const="false" id="device_name" name="Device Name" sourceId="org.bluetooth.characteristic.gap.device_name" uuid="2A00">
+      <value length="17" type="utf-8" variable_length="true">AI Cry Classifier</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+        <write authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+    
+    <characteristic const="true" id="appearance" name="Appearance" sourceId="org.bluetooth.characteristic.gap.appearance" uuid="2A01">
+      <informativeText>Abstract: The external appearance of this device.</informativeText>
+      <value length="2" type="hex" variable_length="false">0000</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+  </service>
+  
+  <!--Device Information Service (0x180A)-->
+  <service advertise="false" id="device_information" name="Device Information" requirement="mandatory" sourceId="org.bluetooth.service.device_information" type="primary" uuid="180A">
+    <informativeText>Abstract: Device Information Service</informativeText>
+    
+    <characteristic const="true" id="manufacturer_name_string" name="Manufacturer Name String" sourceId="org.bluetooth.characteristic.manufacturer_name_string" uuid="2A29">
+      <value length="12" type="utf-8" variable_length="false">Silicon Labs</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+    
+    <characteristic const="false" id="system_id" name="System ID" sourceId="org.bluetooth.characteristic.system_id" uuid="2A23">
+      <value length="8" type="hex" variable_length="false">00</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+  </service>
+  
+  <!--AI Classifier Service (Custom 128-bit UUID)-->
+  <service advertise="true" id="ai_service" name="AI_Service" requirement="mandatory" type="primary" uuid="a3c87500-8ed3-4bdf-8a39-a01bebede295">
+    <informativeText>Custom service for AI audio classification results</informativeText>
+    
+    <!--Inference Result Characteristic-->
+    <characteristic const="false" id="inference_result" name="Inference Result" uuid="a3c87501-8ed3-4bdf-8a39-a01bebede295">
+      <informativeText>
+        2-byte payload:
+        Byte 0: class_id (0=belly_pain, 1=burping, 2=hungry, 3=laugh, 4=uncomfortable, 255=uncertain/silence)
+        Byte 1: confidence score (0-255, 128=neutral)
+      </informativeText>
+      <value length="2" type="hex" variable_length="false">0080</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+        <notify authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <characteristic const="false" id="ai_control" name="AI Control" uuid="a3c87502-8ed3-4bdf-8a39-a01bebede295">
+      <informativeText>
+        2-byte write payload:
+        Byte 0: command_id
+        Byte 1: command_value
+      </informativeText>
+      <value length="2" type="hex" variable_length="false">0000</value>
+      <properties>
+        <write authenticated="false" bonded="false" encrypted="false"/>
+        <write_no_response authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+  </service>
+  
+</gatt>

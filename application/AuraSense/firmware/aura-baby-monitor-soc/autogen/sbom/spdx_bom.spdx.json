@@ -1,0 +1,2749 @@
+{
+  "SPDXID" : "SPDXRef-DOCUMENT",
+  "spdxVersion" : "SPDX-2.3",
+  "dataLicense" : "CC0-1.0",
+  "name" : "Silicon-Laboratories",
+  "documentNamespace" : "https://silabs.com",
+  "creationInfo" : {
+    "created" : "2026-04-09T10:15:55Z",
+    "creators" : [ "Tool: Silicon Labs Configuration Tooling" ]
+  },
+  "comment" : "TERMS OF USE - SILICON LABORATORIES INC.\n(With respect to Silicon Labs software components, this Software Bill of Materials (SBOM) is based upon Silicon Labs'\nreview and analysis of the code version when released.  It is provided \"AS IS\" and does not modify, change or alter\nthe terms or conditions of your use of Silicon Labs' software and/or SDKs based upon license terms and/or agreements\nassociated with this software or SDKs when distributed to you, received by you, or installed by you.  Further, no\nwarranties or obligations are created by this SBOM.  It is your obligation to comply with the terms of licenses\nreferenced in this SBOM.)",
+  "documentDescribes" : [ "SPDXRef-silabs.aiml-2.2.0", "SPDXRef-silabs.simplicity_sdk-2025.12.1" ],
+  "packages" : [ {
+    "SPDXID" : "SPDXRef-silabs.aiml-2.2.0",
+    "name" : "Silicon Labs AI/ML",
+    "versionInfo" : "2.2.0",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories Inc."
+  }, {
+    "SPDXID" : "SPDXRef-silabs.aiml-2.2.0-ml_audio_feature_generation",
+    "name" : "Audio Feature Generator",
+    "versionInfo" : "2.2.0",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories Inc.",
+    "licenseConcluded" : "Zlib AND Apache-2.0"
+  }, {
+    "SPDXID" : "SPDXRef-ml_audio_feature_generation-2.3.1",
+    "name" : "Microfrontend",
+    "versionInfo" : "2.3.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: The Tensorflow Authors",
+    "originator" : "Organization: NOASSERTION",
+    "homepage" : "https://github.com/tensorflow/tensorflow/tree/master/tensorflow/lite/experimental/microfrontend",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:github/tensorflow/tensorflow@v2.3.1",
+      "referenceType" : "purl"
+    } ],
+    "comment" : "Microfrontend library to process audio that lives within the tensorflow repo on GitHub, version 2.3.1"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.aiml-2.2.0-tensorflow_debug_log_iostream",
+    "name" : "Debug Logging using IO Stream",
+    "versionInfo" : "2.2.0",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.aiml-2.2.0-tflite-micro",
+    "name" : "TensorFlow Lite Micro",
+    "versionInfo" : "2.2.0",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories Inc.",
+    "licenseConcluded" : "Apache-2.0 AND MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-tflite-micro-ea8db00ab35",
+    "name" : "Tensorflow Lite for Microcontrollers",
+    "versionInfo" : "ea8db00ab35",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: The Tensorflow Authors",
+    "originator" : "Organization: NOASSERTION",
+    "homepage" : "https://github.com/tensorflow/tflite-micro",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:github/tensorflow/tflite-micro@ea8db00ab35",
+      "referenceType" : "purl"
+    } ],
+    "comment" : "Tensorflow Lite for Microcontrollers library as it was on GitHub, at commit hash ea8db00ab35"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.aiml-2.2.0-tensorflow_lite_micro_accelerated_kernels",
+    "name" : "MVPv1 Accelerated Kernels",
+    "versionInfo" : "2.2.0",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.aiml-2.2.0-ml_cmsis_dsp_rfft_q15",
+    "name" : "cmsis_dsp_rfft",
+    "versionInfo" : "2.2.0",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories Inc.",
+    "licenseConcluded" : "Apache-2.0 AND Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-ml_cmsis_dsp_rfft_q15-1.15.0",
+    "name" : "CMSIS-DSP",
+    "versionInfo" : "1.15.0",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: ARM-software",
+    "originator" : "Organization: NOASSERTION",
+    "homepage" : "https://github.com/ARM-software/CMSIS-DSP",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:github/ARM-software/CMSIS-DSP@v1.15.0",
+      "referenceType" : "purl"
+    } ],
+    "comment" : "CMSIS DSP Library as packaged and released by ARM-software, version 1.15.0"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.aiml-2.2.0-tensorflow_dependency_flatbuffers",
+    "name" : "Flatbuffers",
+    "versionInfo" : "2.2.0",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories Inc.",
+    "licenseConcluded" : "Apache-2.0"
+  }, {
+    "SPDXID" : "SPDXRef-tensorflow_dependency_flatbuffers-07a8b5cb5a1085b7a3d7348ca547ec2643ca18c2",
+    "name" : "Flatbuffers",
+    "versionInfo" : "07a8b5cb5a1085b7a3d7348ca547ec2643ca18c2",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Google Inc.",
+    "originator" : "Organization: NOASSERTION",
+    "homepage" : "https://github.com/google/flatbuffers",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:github/google/flatbuffers@07a8b5cb5a1085b7a3d7348ca547ec2643ca18c2",
+      "referenceType" : "purl"
+    } ],
+    "comment" : "Only \"include/\" folder copied from Flatbuffers GitHub repo, commit hash 07a8b5cb5a1085b7a3d7348ca547ec2643ca18c2"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.aiml-2.2.0-tensorflow_dependency_gemmlowp",
+    "name" : "Low Precision General Matrix Multiplication (GEMMLOWP)",
+    "versionInfo" : "2.2.0",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories Inc.",
+    "licenseConcluded" : "Apache-2.0"
+  }, {
+    "SPDXID" : "SPDXRef-tensorflow_dependency_gemmlowp-719139ce755a0",
+    "name" : "Gemmlowp",
+    "versionInfo" : "719139ce755a0",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: The Gemmlowp Authors",
+    "originator" : "Organization: NOASSERTION",
+    "homepage" : "https://github.com/google/gemmlowp",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:github/google/gemmlowp@719139ce755a0",
+      "referenceType" : "purl"
+    } ],
+    "comment" : "Few header files copied from \"fixedpoint\" and \"internal\" folders from Gemmlowp GitHub repo, commit hash 719139ce755a0"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.aiml-2.2.0-tensorflow_dependency_ruy",
+    "name" : "Ruy Matrix Multiplication",
+    "versionInfo" : "2.2.0",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories Inc.",
+    "licenseConcluded" : "Apache-2.0"
+  }, {
+    "SPDXID" : "SPDXRef-tensorflow_dependency_ruy-5bb02fbf90824",
+    "name" : "Ruy",
+    "versionInfo" : "5bb02fbf90824",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Google LLC",
+    "originator" : "Organization: NOASSERTION",
+    "homepage" : "https://github.com/google/ruy",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:github/google/ruy@5bb02fbf90824",
+      "referenceType" : "purl"
+    } ],
+    "comment" : "Only profiler instrumentation header copied from GitHub repo, commit hash 5bb02fbf90824"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "name" : "Simplicity SDK Suite",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc."
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-EFR32MG26B510F3200IM68",
+    "name" : "EFR32MG26B510F3200IM68",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-app_assert",
+    "name" : "Assert",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_feature_connection",
+    "name" : "Connection",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib AND MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_feature_gatt_server",
+    "name" : "GATT Server",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_feature_legacy_advertiser",
+    "name" : "Legacy Advertising",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_feature_sm",
+    "name" : "Security Manager",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_feature_system",
+    "name" : "System",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_stack",
+    "name" : "Bluetooth Core",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib AND MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-brd2608a",
+    "name" : "BRD2608A",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-clock_manager",
+    "name" : "Clock Manager",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-device_init",
+    "name" : "Automatic Device Initialization",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-gatt_configuration",
+    "name" : "Static GATT Database and Configuration",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-gatt_service_rht",
+    "name" : "Environment Sensing - Relative Humidity and Temperature GATT Service",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-iostream_recommended_stream",
+    "name" : "IO Stream: Recommended Stream",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-iostream_retarget_stdio",
+    "name" : "IO Stream: Retarget STDIO",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-memory_manager",
+    "name" : "Memory Manager",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-micriumos_kernel",
+    "name" : "Micrium OS Kernel",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-mpu",
+    "name" : "Simple MPU",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-nvm3_default",
+    "name" : "NVM3 Default Instance",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-power_manager",
+    "name" : "Power Manager",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-printf",
+    "name" : "Tiny printf",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MIT"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sensor_rht",
+    "name" : "Relative Humidity and Temperature sensor",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-si70xx_driver",
+    "name" : "Si70xx - Temperature/Humidity Sensor",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-simple_led",
+    "name" : "Simple LED",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_main",
+    "name" : "System Setup (sl_main)",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sleeptimer",
+    "name" : "Sleep Timer",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-status",
+    "name" : "Status Codes Definitions",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bgapi_protocol_rtos_adaptation",
+    "name" : "BGAPI Protocol RTOS adaptation",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib AND MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-mic_i2s_driver",
+    "name" : "I2S Microphone",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-micriumos_common_platform_manager",
+    "name" : "Micrium OS Common Platform Manager",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-dmadrv_core",
+    "name" : "DMADRV Core",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-device_manager",
+    "name" : "Device Manager",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-led",
+    "name" : "Generic LED API",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-emlib_eusart",
+    "name" : "EUSART",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bit",
+    "name" : "Bit Operations Library",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-psa_driver_common",
+    "name" : "PSA Driver Common Source Code",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_controller_libraries",
+    "name" : "Bluetooth Low Energy Controller Library",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-compute_util",
+    "name" : "Compute utilities",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-clock_manager_init_hal_s2",
+    "name" : "Clock Manager Init HAL Series 2",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-hal_system",
+    "name" : "SYSTEM",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-psa_crypto_trng",
+    "name" : "TRNG",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-slist",
+    "name" : "Single Link List",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-nn_mvp",
+    "name" : "MVP NN",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib and MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-micriumos_kernel_port_armv8m",
+    "name" : "Kernel port for ARMv8-M",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-cmsis_nn",
+    "name" : "CMSIS-NN",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Apache-2.0"
+  }, {
+    "SPDXID" : "SPDXRef-cmsis_nn-3f773cbf8f5",
+    "name" : "CMSIS-NN",
+    "versionInfo" : "3f773cbf8f5",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: ARM-software",
+    "originator" : "Organization: NOASSERTION",
+    "homepage" : "https://github.com/ARM-software/CMSIS-NN",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:github/ARM-software/CMSIS-NN@3f773cbf8f5",
+      "referenceType" : "purl"
+    } ],
+    "comment" : "CMSIS NN Library as packaged and released by ARM-software, version 4.1.0, tag 23.08, commit hash 3f773cbf8f5"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-device_gpio",
+    "name" : "Device Manager GPIO",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-device_dma",
+    "name" : "Device Manager DMA",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-nvm3_source",
+    "name" : "NVM3 Core (source)",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-nvm3_default_config",
+    "name" : "NVM3 Default Config",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_crypto",
+    "name" : "Bluetooth Core Crypto Configuration",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-driver_mvp",
+    "name" : "MVP Driver",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-psa_crypto_config",
+    "name" : "Configuration",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-toolchain_gcc_standard",
+    "name" : "GCC Toolchain Standard Linker",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-iostream",
+    "name" : "IO Stream",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_configuration",
+    "name" : "Instantiation of Bluetooth configuration",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-hal_prs",
+    "name" : "PRS",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-se_manager_crypto",
+    "name" : "Crypto",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-device_init_dcdc",
+    "name" : "DC-DC Converter",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_rail_util_pa_tables",
+    "name" : "RAIL Utility, PA Tables",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-enum",
+    "name" : "Enumerations",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-mbedtls_threading_alt_cmsis_rtos2",
+    "name" : "Silicon Labs Threading support Mbed TLS",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sli_crypto_s2",
+    "name" : "Accelerated Crypto Primitives for Series-2 devices",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-power_manager_core_impl_sleep_loop",
+    "name" : "Power Manager: Core implementation",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-memory_manager_retention_control",
+    "name" : "Memory Manager Retention Control",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-nvm3_optimization_disable",
+    "name" : "NVM3 disable optimization",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sli_protocol_crypto",
+    "name" : "Accelerated Crypto Primitives (CRYPTO and RADIOAES)",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_main_memory_init",
+    "name" : "sl_main Setup",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-nn_util",
+    "name" : "NN Utilities",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_gattdb_definition",
+    "name" : "Bluetooth GATT database structure definition",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-atomic",
+    "name" : "Atomic Operations Library",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-code_classification",
+    "name" : "Code Classification",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-math",
+    "name" : "Math",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_main_kernel",
+    "name" : "SL Main Kernel",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-micriumos_common_collections",
+    "name" : "Micrium OS Common Collections",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-configuration_over_swo",
+    "name" : "Configuration Over SWO",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-micriumos_cpu_port_armv8m",
+    "name" : "CPU port for ARMv8-M",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-rail_lib_singleprotocol",
+    "name" : "RAIL Library, Single Protocol",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_feature_builtin_bonding_database",
+    "name" : "Built-in Bluetooth bonding database",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_rail_util_compatible_pa",
+    "name" : "RAIL Utility, PA compatibility",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-memory_manager_pool",
+    "name" : "Memory Manager Memory Pool",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_rail_util_pa",
+    "name" : "RAIL Utility, PA (RAIL 3)",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-emlib_ldma",
+    "name" : "LDMA",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_rtos_adaptation",
+    "name" : "Bluetooth RTOS Adaptation",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib AND MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-micriumos_common_core",
+    "name" : "Micrium OS Common Module Core",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-cmsis_os2_ext_task_register",
+    "name" : "Task registers abstraction layer",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_device_compatibility",
+    "name" : "Device compatibility defines for Bluetooth features",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-cmsis_rtos2_tick",
+    "name" : "CMSIS-RTOS2 OS Tick",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Apache 2.0"
+  }, {
+    "SPDXID" : "SPDXRef-cmsis_rtos2_tick-5.8.0",
+    "name" : "CMSIS_5",
+    "versionInfo" : "5.8.0",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: ARM-software",
+    "originator" : "Organization: NOASSERTION",
+    "homepage" : "https://github.com/ARM-software/CMSIS_5",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:github/ARM-software/CMSIS_5@5.8.0",
+      "referenceType" : "purl"
+    } ],
+    "comment" : "The CMSIS is a set of tools, APIs, frameworks, and work flows"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-emlib_cmu",
+    "name" : "CMU",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_host_release_libraries",
+    "name" : "Bluetooth Low Energy Host Library",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-errno_error_codes",
+    "name" : "errno error codes support",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-emlib_syscfg",
+    "name" : "SYSCFG",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-hal_usart",
+    "name" : "USART",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-trustzone_unaware",
+    "name" : "TrustZone Unaware",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-psa_se_driver",
+    "name" : "PSA SE Driver Source Code",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-hfxo_manager",
+    "name" : "HFXO Manager",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-dmadrv",
+    "name" : "DMADRV",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-hal_common",
+    "name" : "Common Headers",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-emlib_i2c",
+    "name" : "I2C",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bgapi_protocol",
+    "name" : "BGAPI Protocol",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib AND MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-micriumos_rtos_description",
+    "name" : "RTOS Description",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-device_peripheral_hal",
+    "name" : "Device Manager Peripheral HAL",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-interrupt_manager",
+    "name" : "Interrupt Manager",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-ecode",
+    "name" : "EMDRV Common Headers",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-iostream_uart_common",
+    "name" : "IO Stream: Common code for UART-type streams",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-psa_crypto",
+    "name" : "PSA Crypto",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-emlib_prs",
+    "name" : "PRS",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-psa_driver",
+    "name" : "Drivers for Crypto Acceleration",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-clock_manager_runtime",
+    "name" : "Clock Manager Runtime",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-memory_manager_retention_control_hal",
+    "name" : "Memory Manager Retention Control HAL",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sli_psec_osal",
+    "name" : "OS Abstraction Layer",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-udelay",
+    "name" : "Microsecond Delay",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-device_peripheral",
+    "name" : "Device Manager Peripheral",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-se_manager_mailbox",
+    "name" : "SE mailbox utilities",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-se_manager_config",
+    "name" : "Config",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-power_manager_handler_implementation",
+    "name" : "Power Manager: Handler",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_common_libraries_release",
+    "name" : "bluetooth_common_libraries_release",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-simple_led_core",
+    "name" : "Simple LED Core",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-memory_profiler_api",
+    "name" : "Memory Profiler API",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-i2c_core",
+    "name" : "I2C Core",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-board_control",
+    "name" : "Board Control",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-memory_manager_cpp",
+    "name" : "Memory Manager C++ Support",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-device_dma_hal",
+    "name" : "Device Manager DMA HAL",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-cmsis_common",
+    "name" : "Common APIs for CMSIS-Compliant Kernels",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-power_manager_core",
+    "name" : "Power Manager: Core",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-i2cspm_core",
+    "name" : "I2CSPM Core",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bgapi_protocol_libraries_release",
+    "name" : "BGAPI Protocol release libraries",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-mbedtls_slcrypto_driver",
+    "name" : "Drivers for Silicon Labs Crypto Acceleration",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-emlib_system",
+    "name" : "SYSTEM",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-rail_lib",
+    "name" : "RAIL Library, Core",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-hal_gpio",
+    "name" : "GPIO",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-se_manager",
+    "name" : "SE Manager",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_rail_util_sequencer",
+    "name" : "RAIL Utility, Radio Sequencer Image Selection (RAIL 3)",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_controller",
+    "name" : "Bluetooth Low Energy Controller",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-event_handler",
+    "name" : "Event Handler",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-hal_sysrtc_subsystem_host",
+    "name" : "SYSRTC for Host Sub-System",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-memory_manager_region",
+    "name" : "Memory Manager region",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-emlib_msc",
+    "name" : "MSC",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_feature_advertiser",
+    "name" : "Advertising Base Feature",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib AND MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-device_i2c",
+    "name" : "Device Manager I2C",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sli_crypto",
+    "name" : "Accelerated Crypto Primitives",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_rail_util_built_in_phys",
+    "name" : "RAIL Utility, Built-in PHYs Across HFXO Frequencies (RAIL 3)",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-power_manager_deepsleep",
+    "name" : "Power Manager: Deepsleep",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-micriumos_cpu",
+    "name" : "Micrium OS CPU Module",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-debug_swo",
+    "name" : "SWO Debug",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-micriumos_common_lib",
+    "name" : "Micrium OS Common Libraries Module",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-rail_util_features",
+    "name" : "RAIL Library Features, Core",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-interrupt_manager_cortexm",
+    "name" : "Interrupt Manager Cortex-M",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_controller_rtos_adaptation",
+    "name" : "Bluetooth Core",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-rail_lib_singleprotocol_internal_chips_dummy",
+    "name" : "RAIL Library, Single Protocol Internal Chips Dummy",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_string",
+    "name" : "String Functions",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-cpp_support",
+    "name" : "Toolchain: C++ Support",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_host_adaptation",
+    "name" : "System adaptation layer used by the Bluetooth host stack",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib AND MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-mx25_flash_shutdown_eusart",
+    "name" : "MX25 Flash Shutdown with eusart",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_syscalls",
+    "name" : "SystemCall Functions",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_common",
+    "name" : "Bluetooth Low Energy Common Component",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_rail_util_power_manager_init",
+    "name" : "RAIL Utility, Power manager init (RAIL 3)",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-emlib_gpio",
+    "name" : "GPIO",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-nvm3_default_flash_backend",
+    "name" : "NVM3 back-end for default instance in flash",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-hal_i2c",
+    "name" : "I2C",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-rail_lib_singleprotocol_alpha_chips",
+    "name" : "RAIL Library, Single Protocol for Alpha Chips",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-cmsis_dsp",
+    "name" : "CMSIS-DSP",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Apache-2.0"
+  }, {
+    "SPDXID" : "SPDXRef-cmsis_dsp-1.15.0",
+    "name" : "CMSIS-DSP",
+    "versionInfo" : "1.15.0",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: ARM-software",
+    "originator" : "Organization: NOASSERTION",
+    "homepage" : "https://github.com/ARM-software/CMSIS-DSP",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:github/ARM-software/CMSIS-DSP@v1.15.0",
+      "referenceType" : "purl"
+    } ],
+    "comment" : "CMSIS DSP Library as packaged and released by ARM-software, version 1.15.0"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-math_mvp",
+    "name" : "MVP Math",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-device_clock_hal",
+    "name" : "Device Manager Clock HAL",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_version",
+    "name" : "Bluetooth Version",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-iostream_eusart",
+    "name" : "IO Stream: EUSART",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-i2cspm",
+    "name" : "I2CSPM",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-cmsis_rtos2_init",
+    "name" : "CMSIS-RTOS2 Initialization",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Apache 2.0"
+  }, {
+    "SPDXID" : "SPDXRef-cmsis_rtos2_init-5.8.0",
+    "name" : "CMSIS_5",
+    "versionInfo" : "5.8.0",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: ARM-software",
+    "originator" : "Organization: NOASSERTION",
+    "homepage" : "https://github.com/ARM-software/CMSIS_5",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:github/ARM-software/CMSIS_5@5.8.0",
+      "referenceType" : "purl"
+    } ],
+    "comment" : "The CMSIS is a set of tools, APIs, frameworks, and work flows"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-mbedtls_slcrypto",
+    "name" : "Silicon Labs Mbed TLS support",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-toolchain_gcc",
+    "name" : "GCC Toolchain",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_assert",
+    "name" : "Assert Functions",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-cmsis_rtos2_headers",
+    "name" : "CMSIS-RTOS2 Headers",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Apache 2.0"
+  }, {
+    "SPDXID" : "SPDXRef-cmsis_rtos2_headers-5.8.0",
+    "name" : "CMSIS_5",
+    "versionInfo" : "5.8.0",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: ARM-software",
+    "originator" : "Organization: NOASSERTION",
+    "homepage" : "https://github.com/ARM-software/CMSIS_5",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:github/ARM-software/CMSIS_5@5.8.0",
+      "referenceType" : "purl"
+    } ],
+    "comment" : "The CMSIS is a set of tools, APIs, frameworks, and work flows."
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-device_clock",
+    "name" : "Device Manager Clock",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-component_catalog",
+    "name" : "Component Catalog",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-emlib_emu",
+    "name" : "EMU",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-mic_driver",
+    "name" : "Microphone",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-clock_manager_runtime_hal_s2",
+    "name" : "Clock Manager Runtime HAL Series 2",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-emlib_burtc",
+    "name" : "BURTC",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-driver_mvp_hal_efr32",
+    "name" : "MVP HAL Driver for EFR32 parts",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-psa_its",
+    "name" : "PSA Persistent Storage Support (ITS)",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-hal_eusart",
+    "name" : "EUSART",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-brd2608a_config",
+    "name" : "brd2608a config",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_controller_crypto",
+    "name" : "Bluetooth Core Crypto Configuration for Controller",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-iostream_eusart_core",
+    "name" : "IO Stream: EUSART Core",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-emlib_common",
+    "name" : "Common Headers",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-micriumos_kernel_port_generic",
+    "name" : "Kernel port generic",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "MSLA"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_core",
+    "name" : "core",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-hal_syscfg",
+    "name" : "SYSCFG",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-cmsis_core",
+    "name" : "CMSIS-Core",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Apache 2.0"
+  }, {
+    "SPDXID" : "SPDXRef-cmsis_core-5.8.0",
+    "name" : "CMSIS_5",
+    "versionInfo" : "5.8.0",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: ARM-software",
+    "originator" : "Organization: NOASSERTION",
+    "homepage" : "https://github.com/ARM-software/CMSIS_5",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:github/ARM-software/CMSIS_5@5.8.0",
+      "referenceType" : "purl"
+    } ],
+    "comment" : "The CMSIS is a set of tools, APIs, frameworks, and work flows"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-emlib_core",
+    "name" : "CORE",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-hal_sysrtc",
+    "name" : "SYSRTC",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-toolchain_variant_arm",
+    "name" : "Toolchain for ARM",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-emlib_timer",
+    "name" : "TIMER",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-psa_crypto_common",
+    "name" : "PSA Crypto Common",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-math_types",
+    "name" : "Math Types",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_common",
+    "name" : "Common Functions",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-mbedtls_config",
+    "name" : "Configuration",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_main_init",
+    "name" : "sl main Init",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_main_process_action",
+    "name" : "sl_main Process Action",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-gpio",
+    "name" : "GPIO Driver",
+    "versionInfo" : "2025.12.1",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  } ],
+  "relationships" : [ {
+    "spdxElementId" : "SPDXRef-DOCUMENT",
+    "relatedSpdxElement" : "SPDXRef-silabs.aiml-2.2.0",
+    "relationshipType" : "DESCRIBES"
+  }, {
+    "spdxElementId" : "SPDXRef-DOCUMENT",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relationshipType" : "DESCRIBES"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.aiml-2.2.0",
+    "relatedSpdxElement" : "SPDXRef-silabs.aiml-2.2.0-ml_audio_feature_generation",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.aiml-2.2.0-ml_audio_feature_generation",
+    "relatedSpdxElement" : "SPDXRef-ml_audio_feature_generation-2.3.1",
+    "relationshipType" : "ANCESTOR_OF"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.aiml-2.2.0",
+    "relatedSpdxElement" : "SPDXRef-silabs.aiml-2.2.0-tensorflow_debug_log_iostream",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.aiml-2.2.0",
+    "relatedSpdxElement" : "SPDXRef-silabs.aiml-2.2.0-tflite-micro",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.aiml-2.2.0-tflite-micro",
+    "relatedSpdxElement" : "SPDXRef-tflite-micro-ea8db00ab35",
+    "relationshipType" : "ANCESTOR_OF"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.aiml-2.2.0",
+    "relatedSpdxElement" : "SPDXRef-silabs.aiml-2.2.0-tensorflow_lite_micro_accelerated_kernels",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.aiml-2.2.0",
+    "relatedSpdxElement" : "SPDXRef-silabs.aiml-2.2.0-ml_cmsis_dsp_rfft_q15",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.aiml-2.2.0-ml_cmsis_dsp_rfft_q15",
+    "relatedSpdxElement" : "SPDXRef-ml_cmsis_dsp_rfft_q15-1.15.0",
+    "relationshipType" : "ANCESTOR_OF"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.aiml-2.2.0",
+    "relatedSpdxElement" : "SPDXRef-silabs.aiml-2.2.0-tensorflow_dependency_flatbuffers",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.aiml-2.2.0-tensorflow_dependency_flatbuffers",
+    "relatedSpdxElement" : "SPDXRef-tensorflow_dependency_flatbuffers-07a8b5cb5a1085b7a3d7348ca547ec2643ca18c2",
+    "relationshipType" : "ANCESTOR_OF"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.aiml-2.2.0",
+    "relatedSpdxElement" : "SPDXRef-silabs.aiml-2.2.0-tensorflow_dependency_gemmlowp",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.aiml-2.2.0-tensorflow_dependency_gemmlowp",
+    "relatedSpdxElement" : "SPDXRef-tensorflow_dependency_gemmlowp-719139ce755a0",
+    "relationshipType" : "ANCESTOR_OF"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.aiml-2.2.0",
+    "relatedSpdxElement" : "SPDXRef-silabs.aiml-2.2.0-tensorflow_dependency_ruy",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.aiml-2.2.0-tensorflow_dependency_ruy",
+    "relatedSpdxElement" : "SPDXRef-tensorflow_dependency_ruy-5bb02fbf90824",
+    "relationshipType" : "ANCESTOR_OF"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-EFR32MG26B510F3200IM68",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-app_assert",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_feature_connection",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_feature_gatt_server",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_feature_legacy_advertiser",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_feature_sm",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_feature_system",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_stack",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-brd2608a",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-clock_manager",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-device_init",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-gatt_configuration",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-gatt_service_rht",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-iostream_recommended_stream",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-iostream_retarget_stdio",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-memory_manager",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-micriumos_kernel",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-mpu",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-nvm3_default",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-power_manager",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-printf",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sensor_rht",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-si70xx_driver",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-simple_led",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_main",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sleeptimer",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-status",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bgapi_protocol_rtos_adaptation",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-mic_i2s_driver",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-micriumos_common_platform_manager",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-dmadrv_core",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-device_manager",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-led",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-emlib_eusart",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bit",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-psa_driver_common",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_controller_libraries",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-compute_util",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-clock_manager_init_hal_s2",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-hal_system",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-psa_crypto_trng",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-slist",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-nn_mvp",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-micriumos_kernel_port_armv8m",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-cmsis_nn",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-cmsis_nn",
+    "relatedSpdxElement" : "SPDXRef-cmsis_nn-3f773cbf8f5",
+    "relationshipType" : "ANCESTOR_OF"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-device_gpio",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-device_dma",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-nvm3_source",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-nvm3_default_config",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_crypto",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-driver_mvp",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-psa_crypto_config",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-toolchain_gcc_standard",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-iostream",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_configuration",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-hal_prs",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-se_manager_crypto",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-device_init_dcdc",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_rail_util_pa_tables",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-enum",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-mbedtls_threading_alt_cmsis_rtos2",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sli_crypto_s2",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-power_manager_core_impl_sleep_loop",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-memory_manager_retention_control",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-nvm3_optimization_disable",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sli_protocol_crypto",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_main_memory_init",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-nn_util",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_gattdb_definition",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-atomic",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-code_classification",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-math",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_main_kernel",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-micriumos_common_collections",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-configuration_over_swo",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-micriumos_cpu_port_armv8m",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-rail_lib_singleprotocol",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_feature_builtin_bonding_database",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_rail_util_compatible_pa",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-memory_manager_pool",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_rail_util_pa",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-emlib_ldma",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_rtos_adaptation",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-micriumos_common_core",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-cmsis_os2_ext_task_register",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_device_compatibility",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-cmsis_rtos2_tick",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-cmsis_rtos2_tick",
+    "relatedSpdxElement" : "SPDXRef-cmsis_rtos2_tick-5.8.0",
+    "relationshipType" : "ANCESTOR_OF"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-emlib_cmu",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_host_release_libraries",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-errno_error_codes",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-emlib_syscfg",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-hal_usart",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-trustzone_unaware",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-psa_se_driver",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-hfxo_manager",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-dmadrv",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-hal_common",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-emlib_i2c",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bgapi_protocol",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-micriumos_rtos_description",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-device_peripheral_hal",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-interrupt_manager",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-ecode",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-iostream_uart_common",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-psa_crypto",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-emlib_prs",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-psa_driver",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-clock_manager_runtime",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-memory_manager_retention_control_hal",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sli_psec_osal",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-udelay",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-device_peripheral",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-se_manager_mailbox",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-se_manager_config",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-power_manager_handler_implementation",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_common_libraries_release",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-simple_led_core",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-memory_profiler_api",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-i2c_core",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-board_control",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-memory_manager_cpp",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-device_dma_hal",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-cmsis_common",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-power_manager_core",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-i2cspm_core",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bgapi_protocol_libraries_release",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-mbedtls_slcrypto_driver",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-emlib_system",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-rail_lib",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-hal_gpio",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-se_manager",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_rail_util_sequencer",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_controller",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-event_handler",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-hal_sysrtc_subsystem_host",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-memory_manager_region",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-emlib_msc",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_feature_advertiser",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-device_i2c",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sli_crypto",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_rail_util_built_in_phys",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-power_manager_deepsleep",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-micriumos_cpu",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-debug_swo",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-micriumos_common_lib",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-rail_util_features",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-interrupt_manager_cortexm",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_controller_rtos_adaptation",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-rail_lib_singleprotocol_internal_chips_dummy",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_string",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-cpp_support",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_host_adaptation",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-mx25_flash_shutdown_eusart",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_syscalls",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_common",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_rail_util_power_manager_init",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-emlib_gpio",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-nvm3_default_flash_backend",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-hal_i2c",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-rail_lib_singleprotocol_alpha_chips",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-cmsis_dsp",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-cmsis_dsp",
+    "relatedSpdxElement" : "SPDXRef-cmsis_dsp-1.15.0",
+    "relationshipType" : "ANCESTOR_OF"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-math_mvp",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-device_clock_hal",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_version",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-iostream_eusart",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-i2cspm",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-cmsis_rtos2_init",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-cmsis_rtos2_init",
+    "relatedSpdxElement" : "SPDXRef-cmsis_rtos2_init-5.8.0",
+    "relationshipType" : "ANCESTOR_OF"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-mbedtls_slcrypto",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-toolchain_gcc",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_assert",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-cmsis_rtos2_headers",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-cmsis_rtos2_headers",
+    "relatedSpdxElement" : "SPDXRef-cmsis_rtos2_headers-5.8.0",
+    "relationshipType" : "ANCESTOR_OF"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-device_clock",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-component_catalog",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-emlib_emu",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-mic_driver",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-clock_manager_runtime_hal_s2",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-emlib_burtc",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-driver_mvp_hal_efr32",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-psa_its",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-hal_eusart",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-brd2608a_config",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-bluetooth_controller_crypto",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-iostream_eusart_core",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-emlib_common",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-micriumos_kernel_port_generic",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_core",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-hal_syscfg",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-cmsis_core",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-cmsis_core",
+    "relatedSpdxElement" : "SPDXRef-cmsis_core-5.8.0",
+    "relationshipType" : "ANCESTOR_OF"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-emlib_core",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-hal_sysrtc",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-toolchain_variant_arm",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-emlib_timer",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-psa_crypto_common",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-math_types",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_common",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-mbedtls_config",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_main_init",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-sl_main_process_action",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-silabs.simplicity_sdk-2025.12.1",
+    "relatedSpdxElement" : "SPDXRef-silabs.simplicity_sdk-2025.12.1-gpio",
+    "relationshipType" : "CONTAINS"
+  } ]
+}

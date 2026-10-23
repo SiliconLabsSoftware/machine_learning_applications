@@ -1,0 +1,51 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.tmp
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Android / Gradle
+.gradle/
+.kotlin/
+build/
+**/build/
+local.properties
+*.iml
+
+# Simplicity Studio / generated build output
+**/.pdm/
+**/.settings/
+**/.uceditor/
+**/cmake_gcc/
+**/GNU ARM v12.2.1 - Default/
+**/build.ninja
+**/.ninja_deps
+**/.ninja_log
+**/CMakeFiles/
+**/CMakeCache.txt
+
+# Backup / scratch files
+*.bak
+*.bak0
+*.orig
+
+# Archives / binaries produced during local work
+*.zip
+*.bin
+*.hex
+*.out
+*.axf
+*.map
+*.apk
+
+# Node
+node_modules/
+**/node_modules/

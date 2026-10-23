@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    tools:context=".features.configure.advertiser.activities.AdvertiserConfigActivity">
+    <!-- Fake status bar: gets real height at runtime and paints blue -->
+    <View
+        android:id="@+id/fakeStatusBar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/blue_primary"/>
+
+    <!-- Toolbar that becomes supportActionBar -->
+    <androidx.appcompat.widget.Toolbar
+        android:layout_below="@id/fakeStatusBar"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/blue_primary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <com.siliconlabs.bledemo.common.views.HorizontalShadow
+        android:id="@+id/horizontalShadow"
+        android:layout_below="@id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
+        android:layout_below="@id/horizontalShadow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <include
+                        android:id="@+id/adv_config_name"
+                        layout="@layout/advertiser_config_name" />
+
+                    <include
+                        android:id="@+id/adv_config_type"
+                        layout="@layout/advertiser_config_type" />
+
+                    <include
+                        android:id="@+id/adv_config_data"
+                        layout="@layout/advertiser_config_data" />
+
+                    <include
+                        android:id="@+id/adv_config_param"
+                        layout= "@layout/advertiser_config_parameters" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

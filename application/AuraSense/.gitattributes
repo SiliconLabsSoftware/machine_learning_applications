@@ -1,0 +1,11 @@
+* text=auto
+
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+*.s37 binary
+*.tflite binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.so binary
+*.p12 binary
