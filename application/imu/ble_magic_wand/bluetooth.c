@@ -34,6 +34,8 @@ static uint8_t input_report_data[9];
 
 static uint8_t notification_enabled = 0;
 static uint8_t connection_handle = 0xff;
+// True while a key press report has been sent and the matching release has not.
+static bool key_report_pending = false;
 uint8_t current_report_page = 0; // 0x01 is for vanilla keyboard report, 0x02 is for media keys
 uint8_t current_key = 0;
 uint8_t current_modifier_key = 0;
@@ -119,7 +121,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 
       // Start advertising and enable connections.
       sc = sl_bt_legacy_advertiser_start(advertising_set_handle,
-                                         sl_bt_advertiser_connectable_scannable);
+                                         sl_bt_legacy_advertiser_connectable);
       app_assert_status(sc);
       app_log_info("Started advertising\n");
       break;
@@ -127,6 +129,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     // This event indicates that a new connection was opened.
     case sl_bt_evt_connection_opened_id:
       notification_enabled = 0;
+      key_report_pending = false;
       connection_handle = evt->data.evt_connection_opened.connection;
       sl_bt_sm_increase_security(evt->data.evt_connection_opened.connection);
       app_log_info("Connection opened.\n");
@@ -136,6 +139,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     // This event indicates that a connection was closed.
     case sl_bt_evt_connection_closed_id:
       notification_enabled = 0;
+      key_report_pending = false;
       connection_handle = 0xff;
       app_log_info("Connection closed.\n");
 
@@ -146,7 +150,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 
       // Restart advertising after client has disconnected.
       sc = sl_bt_legacy_advertiser_start(advertising_set_handle,
-                                         sl_bt_advertiser_connectable_scannable);
+                                         sl_bt_legacy_advertiser_connectable);
       app_assert_status(sc);
       break;
     case sl_bt_evt_gatt_server_characteristic_status_id:
@@ -166,7 +170,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       }
       break;
     case sl_bt_evt_sm_bonding_failed_id:
-      app_log_error("Bonding failed, reason: 0x%2X\n", evt->data.evt_sm_bonding_failed.reason);
+      app_log_error("Bonding failed, reason: 0x%04X\n", (unsigned int)evt->data.evt_sm_bonding_failed.reason);
       sl_bt_sm_delete_bondings();
       break;
     ///////////////////////////////////////////////////////////////////////////
@@ -188,21 +192,26 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
         sc = sl_bt_gatt_server_send_notification(connection_handle, gattdb_report, len, input_report_data);
 
         app_assert_status(sc);
+        key_report_pending = true;
         app_log_info("Key report was sent: ");
         print_report(input_report_data, len);
       }
-      app_assert_status(sc);
       break;
     // -------------------------------
     // Default event handler.
     default:
-      app_log("0x%08X\n", SL_BT_MSG_ID(evt->header));
+      app_log("0x%08lX\n", (unsigned long)SL_BT_MSG_ID(evt->header));
       break;
   }
 }
 
 void reset_report()
 {
+  // Only release a key that was actually pressed.
+  if (!key_report_pending) {
+    return;
+  }
+  key_report_pending = false;
   if ((notification_enabled == 1) && (connection_handle != 0xff)) {
     memset(input_report_data, 0, sizeof(input_report_data));
     input_report_data[0] = current_report_page;
