@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <!-- Fake Status Bar View -->
+    <View
+        android:id="@+id/fakeStatusBar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/blue_primary" />
+
+    <!-- Toolbar just below fake status bar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/blue_primary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <FrameLayout
+        android:background="@drawable/motion_rounded_bg"
+        android:id="@+id/car_animation"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/space_XS"
+        android:layout_marginBottom="@dimen/space_XS"
+        android:layout_weight="0.6"
+        android:paddingLeft="@dimen/iodemo_margin"
+        android:paddingRight="@dimen/iodemo_margin" />
+
+    <ScrollView
+        android:id="@+id/scrollerViewParent"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:layout_gravity="center"
+        android:layout_weight="0.4"
+        android:fillViewport="true"
+        android:gravity="center">
+
+        <LinearLayout
+            android:id="@+id/llParent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rlParent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/space_L"
+                android:paddingRight="@dimen/space_L">
+
+                <include
+                    android:id="@+id/motionDemoOrientationParent"
+                    layout="@layout/motiondemo_orientation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@id/divider"
+                    android:layout_marginEnd="@dimen/space_M"
+                    android:gravity="end" />
+
+                <View
+                    android:id="@+id/divider"
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/main_background" />
+
+                <include
+                    android:id="@+id/motionDemoAccelerationParent"
+                    layout="@layout/motiondemo_acceleration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@id/divider"
+                    android:layout_marginStart="@dimen/space_M" />
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:orientation="vertical"
+        android:layout_marginBottom="@dimen/space_XS">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/calibrate"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/blue_primary"
+            android:paddingStart="@dimen/space_M"
+            android:paddingTop="@dimen/space_XXS"
+            android:paddingEnd="@dimen/space_M"
+            android:paddingBottom="@dimen/space_XXS"
+            android:text="@string/motion_calibrate"
+            android:textAllCaps="false"
+            style="@style/tb_robo_medium_18dp_white" />
+
+    </LinearLayout>
+
+</LinearLayout>
+

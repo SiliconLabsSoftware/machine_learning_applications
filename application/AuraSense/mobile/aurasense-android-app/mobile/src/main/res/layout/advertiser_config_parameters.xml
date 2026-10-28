@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        style="@style/TitleLarge"
+        android:layout_marginBottom="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/advertiser_title_advertising_parameters" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/TextMedium"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="@string/advertiser_label_primary_phy" />
+
+        <Spinner
+            android:id="@+id/sp_primary_phy"
+            tools:listitem="@layout/spinner_item_layout_medium"
+            style="@style/CustomSpinner"
+            android:layout_width="110dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/TextMedium"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="@string/advertiser_label_secondary_phy" />
+
+        <Spinner
+            android:id="@+id/sp_secondary_phy"
+            style="@style/CustomSpinner"
+            tools:listitem="@layout/spinner_item_layout_medium"
+            android:layout_width="110dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_advertising_interval"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TextMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/advertiser_label_advertising_interval_unit" />
+
+            <TextView
+                style="@style/TextSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/advertiser_label_advertising_interval_range" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/et_advertising_interval"
+            style="@style/EditTextNormalMedium"
+            tools:text="250"
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/et_background"
+            android:inputType="number"
+            android:maxLength="8" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_tx_power"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TextMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/advertiser_label_tx_power_unit" />
+
+            <TextView
+                style="@style/TextSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/advertiser_label_tx_power_range" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/et_tx_power"
+            style="@style/EditTextNormalMedium"
+            tools:text="250"
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/et_background"
+            android:inputType="numberSigned"
+            android:maxLength="4" />
+
+    </LinearLayout>
+
+    <TextView
+        style="@style/TextSmall"
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/advertiser_note_tx_power" />
+
+    <include
+        layout="@layout/horizontal_separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        style="@style/TitleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/advertiser_label_advertising_time_limit" />
+
+    <RadioButton
+        style="@style/radio_button_bg"
+        android:id="@+id/rb_no_limit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:checked="true"
+        android:gravity="center_vertical"
+        android:text="@string/advertiser_label_time_no_limit"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            style="@style/radio_button_bg"
+            android:id="@+id/rb_time_limit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="@string/advertiser_label_time_limit"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/et_time_limit"
+            style="@style/EditTextNormalMedium"
+            tools:text="250"
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:layout_gravity="center_vertical"
+            android:inputType="number"
+            android:maxLength="6" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_event_limit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            style="@style/radio_button_bg"
+            android:id="@+id/rb_event_limit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="@string/advertiser_label_event_limit"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/et_event_limit"
+            style="@style/EditTextNormalMedium"
+            tools:text="250"
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:layout_gravity="center_vertical"
+            android:inputType="number"
+            android:maxLength="3"
+            android:maxLines="1" />
+    </LinearLayout>
+</LinearLayout>

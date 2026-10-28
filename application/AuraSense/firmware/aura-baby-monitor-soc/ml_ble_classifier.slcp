@@ -1,0 +1,197 @@
+# Silicon Labs Project Configuration Tools: slcp, v0, Component selection file.
+project_name: ml_ble_classifier
+label: ml_ble_classifier
+description: |
+  This application uses TensorFlow Lite for Microcontrollers to classify audio data recorded on the microphone in a Micrium OS kernel task. The classification is used to control a LED on the board.
+category: AI/ML Application
+filter:
+- name: Capability
+  value:
+  - Machine Learning
+- name: Device Type
+  value:
+  - SoC
+- name: MCU
+  value:
+  - 32-bit MCU
+- name: Project Difficulty
+  value:
+  - Advanced
+package: aiml
+quality: production
+readme:
+- path: readme.md
+- path: readme.md
+source:
+- path: app.c
+- path: audio_classifier.cc
+- path: recognize_commands.cc
+tag:
+- hardware:component:led:2+
+- hardware:device:flash:130
+- hardware:device:ram:128
+- hardware:component:microphone
+include:
+- path: .
+  file_list:
+  - path: app.h
+  - path: audio_classifier.h
+  - path: recognize_commands.h
+sdk:
+  vendor: silabs
+  id: simplicity_sdk
+  version: 2025.12.1
+toolchain_settings:
+- value: -Wno-unused-parameter
+  option: gcc_compiler_option
+- value: -Wno-missing-field-initializers
+  option: gcc_compiler_option
+component:
+- package: aiml
+  vendor: silabs
+  id: ml_audio_feature_generation
+- package: aiml
+  vendor: silabs
+  id: tensorflow_debug_log_iostream
+- package: aiml
+  vendor: silabs
+  id: tensorflow_lite_micro
+- package: aiml
+  vendor: silabs
+  id: tensorflow_lite_micro_accelerated_kernels
+- package: aiml
+  vendor: silabs
+  id: tensorflow_lite_micro_optimized_kernels
+- package: simplicity_sdk
+  vendor: silabs
+  id: EFR32MG26B510F3200IM68
+- package: simplicity_sdk
+  vendor: silabs
+  id: app_assert
+- package: simplicity_sdk
+  vendor: silabs
+  id: bluetooth_feature_connection
+- package: simplicity_sdk
+  vendor: silabs
+  id: bluetooth_feature_connection_role_peripheral
+- package: simplicity_sdk
+  vendor: silabs
+  id: bluetooth_feature_gatt_server
+- package: simplicity_sdk
+  vendor: silabs
+  id: bluetooth_feature_legacy_advertiser
+- package: simplicity_sdk
+  vendor: silabs
+  id: bluetooth_feature_sm
+- package: simplicity_sdk
+  vendor: silabs
+  id: bluetooth_feature_system
+- package: simplicity_sdk
+  vendor: silabs
+  id: bluetooth_stack
+- package: simplicity_sdk
+  vendor: silabs
+  id: brd2608a
+- package: simplicity_sdk
+  vendor: silabs
+  id: clock_manager
+- package: simplicity_sdk
+  vendor: silabs
+  id: device_init
+- package: simplicity_sdk
+  vendor: silabs
+  id: gatt_configuration
+- package: simplicity_sdk
+  vendor: silabs
+  id: gatt_service_rht
+- package: simplicity_sdk
+  vendor: silabs
+  id: iostream_recommended_stream
+- package: simplicity_sdk
+  vendor: silabs
+  id: iostream_retarget_stdio
+- package: simplicity_sdk
+  vendor: silabs
+  id: memory_manager
+- package: simplicity_sdk
+  vendor: silabs
+  id: micriumos_kernel
+- package: simplicity_sdk
+  vendor: silabs
+  id: mpu
+- package: simplicity_sdk
+  vendor: silabs
+  id: nvm3_default
+- package: simplicity_sdk
+  vendor: silabs
+  id: power_manager
+- package: simplicity_sdk
+  vendor: silabs
+  id: printf
+- package: simplicity_sdk
+  vendor: silabs
+  id: sensor_rht
+- package: simplicity_sdk
+  vendor: silabs
+  id: si70xx_driver
+- package: simplicity_sdk
+  instance:
+  - led0
+  - led1
+  - led2
+  vendor: silabs
+  id: simple_led
+- package: simplicity_sdk
+  vendor: silabs
+  id: sl_main
+- package: simplicity_sdk
+  vendor: silabs
+  id: sleeptimer
+- package: simplicity_sdk
+  vendor: silabs
+  id: status
+define:
+- name: DEBUG_EFM
+- name: TF_LITE_STATIC_MEMORY
+config_file:
+- path: config/audio_classifier_config.h
+- path: config/tflite/baby_cry_unified_int8.tflite
+  directory: tflite
+configuration:
+- name: SL_BOARD_ENABLE_VCOM
+  value: '1'
+- name: SL_BOARD_ENABLE_SENSOR_MICROPHONE
+  value: '1'
+- condition:
+  - iostream_usart
+  name: SL_IOSTREAM_USART_VCOM_CONVERT_BY_DEFAULT_LF_TO_CRLF
+  value: '1'
+- condition:
+  - iostream_uart
+  name: SL_IOSTREAM_UART_VCOM_CONVERT_BY_DEFAULT_LF_TO_CRLF
+  value: '1'
+- name: SL_ML_AUDIO_FEATURE_GENERATION_AUDIO_BUFFER_SIZE
+  value: '4096'
+- name: SL_ML_AUDIO_FEATURE_GENERATION_AUDIO_GAIN
+  value: '2'
+- name: SL_TFLITE_MICRO_ARENA_SIZE
+  value: '360000'
+- name: SL_HEAP_SIZE
+  value: '8192'
+- condition:
+  - brd2204a
+  name: SL_SIMPLE_LED_LED1_PIN
+  value: '14'
+- condition:
+  - tensorflow_lite_micro_accelerated_kernels
+  name: SL_MVP_OPTIMIZE_SPEED
+  value: '1'
+ui_hints:
+  highlight:
+  - path: readme.md
+    focus: true
+sdk_extension:
+- vendor: silabs
+  id: aiml
+  version: 2.2.0
+
